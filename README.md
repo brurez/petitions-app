@@ -3,6 +3,8 @@
 ## Rails app bootstrap
 ` rails new --database=postgresql --skip-hotwire --skip-jbuilder --javascript=webpack --css=sass final-project`
 
+`sudo service postgresql stop`
+`docker-compose up`
 * Ruby version
 
 * System dependencies
