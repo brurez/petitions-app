@@ -4,6 +4,7 @@ export const StoreContext = createContext(null);
 
 const initialState = {
   message: { open: false, text: "", kind: "error" },
+  currentUser: null,
 };
 
 const reducer = (state: any, action: { type: string; payload: any }) => {
@@ -17,6 +18,8 @@ const reducer = (state: any, action: { type: string; payload: any }) => {
       return { ...state, message: { ...state.message, open: false } };
     case "SET_CURRENT_USER":
       return { ...state, currentUser: action.payload };
+    case "CLEAR_CURRENT_USER":
+      return { ...state, currentUser: null }
     default:
       return state;
   }

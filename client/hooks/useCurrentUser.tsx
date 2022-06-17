@@ -9,9 +9,15 @@ export default function useCurrentUser() {
     dispatch({ type: "SET_CURRENT_USER", payload: user });
   }
 
+  function logOut() {
+    localStorage.removeItem("token");
+    dispatch({ type: "CLEAR_CURRENT_USER" });
+  }
+
   return {
     setCurrentUser,
-    currentUser: state.currentUser,
+    logOut,
+    currentUser: state.currentUser || {},
     isLoggedIn: !!state.currentUser,
   };
 }

@@ -18,7 +18,7 @@ const pages = [];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function TopBar() {
-  const { currentUser, isLoggedIn } = useCurrentUser();
+  const { currentUser, isLoggedIn, logOut } = useCurrentUser();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -134,7 +134,12 @@ export default function TopBar() {
 
           <Box>
             {isLoggedIn ? (
-              <Typography> Hi {currentUser.firstName}</Typography>
+              <>
+                <Typography> Hi {currentUser.firstName}</Typography>
+                <Button color="inherit" onClick={logOut}>
+                  Log Out
+                </Button>
+              </>
             ) : (
               <>
                 <Button color="primary" variant="contained" sx={{ mr: 1 }}>
