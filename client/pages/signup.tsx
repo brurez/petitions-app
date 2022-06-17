@@ -14,19 +14,21 @@ import Container from "@mui/material/Container";
 import Head from "next/head";
 import { useUserCreateMutation } from "../generated/graphql";
 import { Form } from "../lib/Form";
-import { FormEvent } from "react";
 import useMessage from "../hooks/useMessage";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 export default function SignUpPage() {
   const [userCreate, { data }] = useUserCreateMutation();
   const { showErrorMessage } = useMessage();
+  const { setCurrentUser } = useCurrentUser()
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const userInput: any = Form.serialize(event.currentTarget);
     userCreate({ variables: { input: { userInput } } })
       .then((response) => {
-        const token = response.data?.userCreate?.token;
-        localStorage.setItem("token", String(token));
+        // @ts-ignore
+        const { token, user } = response.data?.userCreate;
+        setCurrentUser(user, token)
       })
       .catch((err) => showErrorMessage(err.message));
   };
