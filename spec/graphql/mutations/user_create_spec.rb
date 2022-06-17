@@ -10,10 +10,12 @@ describe Mutations::UserCreate, type: :graphql do
             email
             passwordDigest
           }
+          token
         }
       }
     GRAPHQL
   end
+
   context 'when user does not exist' do
     let(:request) do
       ApplicationSchema.execute(
@@ -32,6 +34,7 @@ describe Mutations::UserCreate, type: :graphql do
     end
 
     let(:returned_user) { request["data"]["userCreate"]["user"] }
+    let(:returned_token) { request["data"]["userCreate"]["token"] }
     let(:created_user) do
       email = returned_user["email"]
       User.find(email)
@@ -55,6 +58,10 @@ describe Mutations::UserCreate, type: :graphql do
 
     it 'does not return password digest' do
       expect(returned_user["password_digest"]).to be_nil
+    end
+
+    it 'returns Json Web Token' do
+      expect(returned_token).to_not be_nil
     end
   end
 end

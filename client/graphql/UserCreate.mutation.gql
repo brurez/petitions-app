@@ -3,5 +3,6 @@ mutation UserCreate($input: UserCreateInput!){
         user {
             email
         }
+        token
     }
 }

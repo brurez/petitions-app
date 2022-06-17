@@ -112,6 +112,7 @@ GEM
       reline (>= 0.3.0)
     jsbundling-rails (1.0.2)
       railties (>= 6.0.0)
+    jwt (2.4.1)
     loofah (2.16.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -251,6 +252,7 @@ DEPENDENCIES
   graphiql-rails
   graphql (~> 2.0)
   jsbundling-rails
+  jwt (~> 2.4)
   pg (~> 1.1)
   pry-rails
   puma (~> 5.0)

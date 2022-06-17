@@ -1,0 +1,3 @@
+class GenerateToken
+
+end
