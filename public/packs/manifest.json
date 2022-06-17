@@ -1,0 +1,19 @@
+{
+  "entrypoints": {
+    "home-bundle": {
+      "assets": {
+        "js": [
+          "/packs/js/runtime.js",
+          "/packs/js/vendors-node_modules_mui_icons-material_Adb_js-node_modules_mui_icons-material_LockOutlined_j-a6dc9a.js",
+          "/packs/js/home-bundle.js"
+        ]
+      }
+    }
+  },
+  "home-bundle.js": "/packs/js/home-bundle.js",
+  "js/home-bundle.js.map": "/packs/js/home-bundle.js.map",
+  "js/runtime.js.map": "/packs/js/runtime.js.map",
+  "js/vendors-node_modules_mui_icons-material_Adb_js-node_modules_mui_icons-material_LockOutlined_j-a6dc9a.js": "/packs/js/vendors-node_modules_mui_icons-material_Adb_js-node_modules_mui_icons-material_LockOutlined_j-a6dc9a.js",
+  "js/vendors-node_modules_mui_icons-material_Adb_js-node_modules_mui_icons-material_LockOutlined_j-a6dc9a.js.map": "/packs/js/vendors-node_modules_mui_icons-material_Adb_js-node_modules_mui_icons-material_LockOutlined_j-a6dc9a.js.map",
+  "runtime.js": "/packs/js/runtime.js"
+}
