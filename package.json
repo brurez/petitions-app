@@ -10,8 +10,11 @@
   "scripts": {
     "dev": "concurrently \"bin/rails s -p 5000\" \"cd client && yarn dev\"",
     "graphql:dump": "rails graphql:schema:dump",
-    "graphql:codegen": "cd client && yarn codegen",
+    "graphql:codegen": "cd client && graphql-codegen --config codegen.yml",
     "build": "webpack --config webpack.config.js",
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
   }
 }

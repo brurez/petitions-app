@@ -44,7 +44,7 @@ type Query {
   """
   An example field added by the generator
   """
-  testField: String!
+  user(userId: Int!): User!
 }
 
 type User {

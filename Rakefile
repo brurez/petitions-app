@@ -8,5 +8,7 @@ require_relative "config/application"
 Rails.application.load_tasks
 
 GraphQL::RakeTask.new(
-  schema_name: 'ApplicationSchema', # this needs to be your generated schema class name
-  )
+  schema_name: 'ApplicationSchema',
+  directory: "client/generated",
+  dependencies: [:environment]
+)

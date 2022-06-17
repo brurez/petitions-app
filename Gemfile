@@ -76,3 +76,5 @@ end
 gem "pundit", "~> 2.2"
 
 gem "graphql", "~> 2.0"
+
+gem "rack-cors", "~> 1.1"
