@@ -14,7 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
 import useCurrentUser from "../hooks/useCurrentUser";
 
-const pages = [];
+const pages: any[] = [];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function TopBar() {
