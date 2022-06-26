@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Mutations::UserCreate, type: :graphql do
-
   let(:mutation) do
     <<~GRAPHQL
       mutation($input: UserCreateInput!){
