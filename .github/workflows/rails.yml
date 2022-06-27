@@ -33,6 +33,8 @@ jobs:
       - name: Install dependencies
         run: bundle install
       - name: Create test database
-        run: bin/rails db:create
+        run: bundle exec rails db:create
+      - name: Run migrations
+        run: bundle exec rails db:migrate
       - name: Run tests
         run: bundle exec rspec

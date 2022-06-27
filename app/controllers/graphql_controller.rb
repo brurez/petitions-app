@@ -1,4 +1,8 @@
 class GraphqlController < ApplicationController
+  include Pundit::Authorization
+
+  after_action :verify_authorized
+
   def execute
     variables = prepare_variables(params[:variables])
     query = params[:query]
