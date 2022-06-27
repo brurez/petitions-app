@@ -1,8 +1,10 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import fetch from 'cross-fetch';
 
 const httpLink = createHttpLink({
   uri: "http://localhost:5000/graphql",
+  fetch
 });
 
 const authLink = setContext((_, { headers }) => {
