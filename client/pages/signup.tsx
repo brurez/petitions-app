@@ -17,6 +17,7 @@ import { Form } from "../lib/Form";
 import useMessage from "../hooks/useMessage";
 import useCurrentUser from "../hooks/useCurrentUser";
 
+
 export default function SignUpPage() {
   const [userCreate, { data }] = useUserCreateMutation();
   const { showErrorMessage, showSuccessMessage } = useMessage();
