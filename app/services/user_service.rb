@@ -1,5 +1,13 @@
 class UserService
   class << self
+    def get_user_with_password(email, password)
+      user = User.find(email)
+      is_correct_password = user.authenticate(password)
+      return nil, "The email address and password doesn't match" unless is_correct_password
+
+      [user, "Ok"]
+    end
+
     def get_user_by_token(token)
       return nil if token.nil?
       begin
