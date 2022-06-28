@@ -1,0 +1,35 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: NextJS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up NextJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install Yarn
+        run: npm install -g yarn
+      - name: Install JS dependencies
+        working-directory: ./client
+        run: yarn install --frozen-lockfile
+      - name: Build JS bundle
+        working-directory: ./client
+        run: yarn build
+      - name: Run JS tests
+        working-directory: ./client
+        run: yarn test

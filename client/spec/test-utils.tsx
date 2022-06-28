@@ -3,11 +3,14 @@ import { render, RenderOptions } from "@testing-library/react";
 import gqlClient from "../lib/gqlClient";
 import { ApolloProvider } from "@apollo/client";
 import { StoreProvider } from "../lib/StoreContext";
+import Message from "../components/Message";
 
 const AllTheProviders: FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <StoreProvider>
-      <ApolloProvider client={gqlClient}>{children}</ApolloProvider>
+      <ApolloProvider client={gqlClient}>
+        {children}
+      </ApolloProvider>
     </StoreProvider>
   );
 };

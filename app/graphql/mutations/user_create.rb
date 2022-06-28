@@ -11,7 +11,7 @@ module Mutations
     type Types::UserCreateType
 
     def resolve(user_input:)
-      user = ::User.new(**user_input)
+      user = User.new(**user_input)
       raise GraphQL::ExecutionError.new "Error creating user", extensions: user.errors.to_hash unless user.save
       token = UserService.generate_token(user)
 

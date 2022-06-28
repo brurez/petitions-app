@@ -14,5 +14,10 @@ export default function useMessage() {
     setTimeout(() => dispatch( { type: "HIDE_MESSAGE" }), 6000);
   }
 
-  return { message: state.message, showErrorMessage };
+  function showSuccessMessage(message: string) {
+    dispatch({ type: "SHOW_SUCCESS_MESSAGE", payload: message });
+    setTimeout(() => dispatch( { type: "HIDE_MESSAGE" }), 6000);
+  }
+
+  return { message: state.message, showErrorMessage, showSuccessMessage };
 }

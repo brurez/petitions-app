@@ -14,8 +14,14 @@ const reducer = (state: any, action: { type: string; payload: any }) => {
         ...state,
         message: { open: true, text: action.payload, kind: "error" },
       };
+    case "SHOW_SUCCESS_MESSAGE":
+      return {
+        ...state,
+        message: { open: true, text: action.payload, kind: "success" },
+      };
     case "HIDE_MESSAGE":
       return { ...state, message: { ...state.message, open: false } };
+
     case "SET_CURRENT_USER":
       return { ...state, currentUser: action.payload };
     case "CLEAR_CURRENT_USER":

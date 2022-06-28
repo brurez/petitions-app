@@ -2,8 +2,11 @@ class UserService
   class << self
     def get_user_by_token(token)
       return nil if token.nil?
-
-      payload = JwtService.decode(token)
+      begin
+        payload = JwtService.decode(token)
+      rescue
+        return nil
+      end
       User.find_by!(email: payload["sub"])
     end
 

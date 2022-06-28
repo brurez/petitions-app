@@ -19,7 +19,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 
 export default function SignUpPage() {
   const [userCreate, { data }] = useUserCreateMutation();
-  const { showErrorMessage } = useMessage();
+  const { showErrorMessage, showSuccessMessage } = useMessage();
   const { setCurrentUser } = useCurrentUser()
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -28,7 +28,8 @@ export default function SignUpPage() {
       .then((response) => {
         // @ts-ignore
         const { token, user } = response.data?.userCreate;
-        setCurrentUser(user, token)
+        setCurrentUser(user, token);
+        showSuccessMessage("Account created successfully");
       })
       .catch((err) => showErrorMessage(err.message));
   };
@@ -68,6 +69,7 @@ export default function SignUpPage() {
                   required
                   fullWidth
                   id="firstName"
+                  data-testid="firstName"
                   label="First Name"
                   autoFocus
                 />
@@ -77,6 +79,7 @@ export default function SignUpPage() {
                   required
                   fullWidth
                   id="lastName"
+                  data-testid="lastName"
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
@@ -87,6 +90,7 @@ export default function SignUpPage() {
                   required
                   fullWidth
                   id="email"
+                  data-testid="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
@@ -100,6 +104,7 @@ export default function SignUpPage() {
                   label="Password"
                   type="password"
                   id="password"
+                  data-testid="password"
                   autoComplete="new-password"
                 />
               </Grid>
