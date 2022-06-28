@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Ruby
+name: CI
 
 on:
   push:
@@ -13,9 +13,7 @@ on:
 
 jobs:
   railstest:
-
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:12.1-alpine
@@ -55,9 +53,7 @@ jobs:
         run: yarn test
 
   jstest:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up NextJS
