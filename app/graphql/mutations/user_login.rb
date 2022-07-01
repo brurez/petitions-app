@@ -2,14 +2,13 @@ module Mutations
   class UserLogin < BaseMutation
     description "Login user"
 
-    field :user, Types::UserType, null: false
+    argument :user_login_input, Types::CredentialsInputType, required: true
 
-    argument :email, String, required: true
-    argument :password, String, required: true
+    type Types::UserTokenType
 
-    def resolve(user_input:)
-      user = User.new(**user_input)
-      raise GraphQL::ExecutionError.new "Error creating user", extensions: user.errors.to_hash unless user.save
+    def resolve(user_login_input:)
+      user, status = UserService.get_user_with_password(user_login_input[:email], user_login_input[:password])
+      raise GraphQL::ExecutionError.new "The email address and password doesn't match" if status == :incorrect_password
       token = UserService.generate_token(user)
 
       { user: user, token: token  }

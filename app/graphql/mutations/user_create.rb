@@ -4,11 +4,9 @@ module Mutations
   class UserCreate < BaseMutation
     description "Creates a new user"
 
-    field :user, Types::UserType, null: false
-
     argument :user_input, Types::UserInputType, required: true
 
-    type Types::UserCreateType
+    type Types::UserTokenType
 
     def resolve(user_input:)
       user = User.new(**user_input)
