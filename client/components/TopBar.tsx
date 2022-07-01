@@ -152,7 +152,9 @@ export default function TopBar() {
                     Sign Up
                   </Button>
                 </Link>
-                <Button color="inherit">Log In</Button>
+                <Link href="/login">
+                  <Button color="inherit">Log In</Button>
+                </Link>
               </>
             )}
           </Box>

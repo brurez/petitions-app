@@ -14,11 +14,13 @@ import { Form } from "../lib/Form";
 import useMessage from "../hooks/useMessage";
 import useCurrentUser from "../hooks/useCurrentUser";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function SignUpPage() {
   const [userCreate, { data }] = useUserCreateMutation();
   const { showErrorMessage, showSuccessMessage } = useMessage();
   const { setCurrentUser } = useCurrentUser();
+  const router = useRouter();
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const userInput: any = Form.serialize(event.currentTarget);
@@ -28,8 +30,11 @@ export default function SignUpPage() {
         const { token, user } = response.data?.userCreate;
         setCurrentUser(user, token);
         showSuccessMessage("Account created successfully");
+        router.push("/");
       })
-      .catch((err) => showErrorMessage(err.message));
+      .catch((err) =>
+        showErrorMessage(err.networkError.result.errors[0].message)
+      );
   };
 
   return (

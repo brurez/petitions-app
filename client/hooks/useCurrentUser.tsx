@@ -12,6 +12,7 @@ export default function useCurrentUser() {
   function logOut() {
     localStorage.removeItem("token");
     dispatch({ type: "CLEAR_CURRENT_USER" });
+    dispatch({ type: "SHOW_SUCCESS_MESSAGE", payload: "You are now logged out"})
   }
 
   return {

@@ -8,7 +8,7 @@ module Types
     # They will be entry points for queries on your schema.
 
     field :user, UserType, null: false,
-          description: "An example field added by the generator" do
+          description: "Get user" do
       argument :user_id, Integer, required: true
     end
 
