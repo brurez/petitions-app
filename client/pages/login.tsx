@@ -14,13 +14,13 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { Form } from "../lib/Form";
 import Link from "next/link";
 import useMessage from "../hooks/useMessage";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 export default function LogInPage() {
   const [userLogin] = useUserLoginMutation();
   const { setCurrentUser } = useCurrentUser();
   const { showErrorMessage, showSuccessMessage } = useMessage();
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -31,7 +31,7 @@ export default function LogInPage() {
         const { token, user } = response.data?.userLogin;
         setCurrentUser(user, token);
         showSuccessMessage("You are now logged in");
-        router.push("/")
+        router.push("/");
       })
       .catch((err) =>
         showErrorMessage(err.networkError.result.errors[0].message)
@@ -63,6 +63,7 @@ export default function LogInPage() {
           name="email"
           autoComplete="email"
           autoFocus
+          data-testid="email"
         />
         <TextField
           margin="normal"
@@ -73,6 +74,7 @@ export default function LogInPage() {
           type="password"
           id="password"
           autoComplete="current-password"
+          data-testid="password"
         />
         <Button
           type="submit"
@@ -80,7 +82,7 @@ export default function LogInPage() {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Log in
+          Log In
         </Button>
         <Grid container>
           <Grid>
