@@ -36,7 +36,7 @@ describe Mutations::UserCreate, type: :graphql do
     let(:returned_token) { request["data"]["userCreate"]["token"] }
     let(:created_user) do
       email = returned_user["email"]
-      User.find(email)
+      User.find_by(email: email)
     end
 
     it 'creates an user' do

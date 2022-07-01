@@ -1,7 +1,7 @@
 class UserService
   class << self
     def get_user_with_password(email, password)
-      user = User.find(email)
+      user = User.find_by(email: email)
       is_correct_password = user.authenticate(password)
       return nil, :incorrect_password unless is_correct_password
 

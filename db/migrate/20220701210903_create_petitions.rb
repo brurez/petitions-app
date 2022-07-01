@@ -3,7 +3,7 @@ class CreatePetitions < ActiveRecord::Migration[7.0]
     create_table :petitions do |t|
       t.string :title
       t.text :description
-      t.references :user, null: false, foreign_key: true
+      t.references :user,  null: false, foreign_key: true
       t.references :city, null: false, foreign_key: true
 
       t.timestamps
