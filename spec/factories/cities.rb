@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :city do
-    name { "MyString" }
-    state { "MyString" }
-    country_code { "MyString" }
+    name { "Antonio Carlos" }
+    state { "SC" }
+    country_code { "BR" }
   end
 end
