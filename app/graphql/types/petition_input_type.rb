@@ -5,7 +5,5 @@ module Types
     argument :id, ID, required: false
     argument :title, String, required: true
     argument :description, String, required: true
-    argument :user_id, Integer, required: true
-    argument :city_id, Integer, required: true
   end
 end

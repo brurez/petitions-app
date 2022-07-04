@@ -9,33 +9,44 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { useUserLoginMutation } from "../generated/graphql";
+import {
+  usePetitionCreateMutation,
+  useUserLoginMutation,
+} from "../generated/graphql";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { Form } from "../lib/Form";
 import Link from "next/link";
 import useMessage from "../hooks/useMessage";
 import { useRouter } from "next/router";
+import { PostAdd } from "@mui/icons-material";
+import {useEffect} from "react";
 
-export default function LogInPage() {
-  const [userLogin] = useUserLoginMutation();
-  const { setCurrentUser } = useCurrentUser();
+export default function PetitionCreatePage() {
+  const [petitionCreate] = usePetitionCreateMutation();
+  const { currentUser, isLoggedIn } = useCurrentUser();
   const { showErrorMessage, showSuccessMessage } = useMessage();
   const router = useRouter();
 
+  useEffect(() => {
+    if(!isLoggedIn) {
+      router.push("/login")
+    }
+  })
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const userLoginInput: any = Form.serialize(event.currentTarget);
-    userLogin({ variables: { input: { userLoginInput } } })
+    const petitionInput: any = Form.serialize(event.currentTarget);
+    petitionCreate({ variables: { input: { petitionInput } } })
       .then((response) => {
         // @ts-ignore
-        const { token, user } = response.data?.userLogin;
-        setCurrentUser(user, token);
-        showSuccessMessage("You are now logged in");
+        const { petition } = response.data?.petitionCreate;
+        console.log(petition);
+        showSuccessMessage("Petition created successfully");
         router.push("/");
       })
       .catch((err) => {
-        showErrorMessage(err.message)}
-      );
+        console.log(err);
+        showErrorMessage(err.message);
+      });
   };
 
   return (
@@ -48,33 +59,35 @@ export default function LogInPage() {
       }}
     >
       <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-        <LockOutlinedIcon />
+        <PostAdd />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Log in
+        Create Petition
       </Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
           fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
+          id="title"
+          label="Title"
+          name="title"
+          autoComplete="title"
           autoFocus
-          data-testid="email"
+          data-testid="title"
         />
         <TextField
+          multiline
+          rows={4}
           margin="normal"
           required
           fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          data-testid="password"
+          name="description"
+          label="Description"
+          type="description"
+          id="description"
+          autoComplete="description"
+          data-testid="description"
         />
         <Button
           type="submit"
@@ -82,17 +95,8 @@ export default function LogInPage() {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Log In
+          Publish petition
         </Button>
-        <Grid container>
-          <Grid>
-            <Link href="/signup">
-              <MuiLink href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </MuiLink>
-            </Link>
-          </Grid>
-        </Grid>
       </Box>
     </Box>
   );

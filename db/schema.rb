@@ -14,14 +14,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_211449) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cities", force: :cascade do |t|
-    t.string "name"
-    t.string "state", limit: 2
-    t.string "country_code", limit: 2
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "comments", force: :cascade do |t|
     t.text "comment_text"
     t.bigint "user_id", null: false
@@ -46,10 +38,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_211449) do
     t.string "title"
     t.text "description"
     t.bigint "user_id", null: false
-    t.bigint "city_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["city_id"], name: "index_petitions_on_city_id"
     t.index ["user_id"], name: "index_petitions_on_user_id"
   end
 
@@ -75,7 +65,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_211449) do
   add_foreign_key "comments", "petitions"
   add_foreign_key "comments", "users"
   add_foreign_key "petition_media_files", "petitions"
-  add_foreign_key "petitions", "cities"
   add_foreign_key "petitions", "users"
   add_foreign_key "votes", "petitions"
   add_foreign_key "votes", "users"

@@ -6,6 +6,10 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
+  def show?
+    record.email == user.email
+  end
+
   def update?
     record.email == user.email
   end

@@ -1,18 +1,53 @@
-import { useContext } from "react";
-import { StoreContext } from "../lib/StoreContext";
+import { useContext, useEffect } from "react";
+import { CurrentUserI, StoreContext, StoreStateI } from "../lib/StoreContext";
+import { User, useUserLazyQuery, useUserQuery } from "../generated/graphql";
+import jwtDecode from "jwt-decode";
 
-export default function useCurrentUser() {
-  const [state, dispatch] = useContext<any>(StoreContext);
+interface UserCurrentUserReturnI {
+  setCurrentUser: any;
+  logOut: () => any;
+  currentUser: CurrentUserI | {};
+  isLoggedIn: boolean;
+}
 
-  function setCurrentUser(user: any, token?: string) {
-    localStorage.setItem("token", String(token));
+export default function useCurrentUser(): UserCurrentUserReturnI {
+  const [state, dispatch] = useContext<[StoreStateI, any]>(StoreContext as any);
+
+  const [userQuery] = useUserLazyQuery();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !state.currentUser) {
+      // @ts-ignore
+      let id;
+      try {
+        const payload: any = jwtDecode(token);
+        debugger
+        id = payload.sub
+        userQuery({ variables: { id } }).then((res) => {
+          const user = res?.data?.user;
+          if (!user) return;
+          setCurrentUser(user);
+        });
+      } catch (e) {
+        console.log(e)
+        logOut();
+      }
+    }
+  }, []);
+
+  function setCurrentUser(user: User, token?: string) {
+    localStorage.setItem("token", token || "");
     dispatch({ type: "SET_CURRENT_USER", payload: user });
   }
 
   function logOut() {
     localStorage.removeItem("token");
     dispatch({ type: "CLEAR_CURRENT_USER" });
-    dispatch({ type: "SHOW_SUCCESS_MESSAGE", payload: "You are now logged out"})
+    dispatch({
+      type: "SHOW_SUCCESS_MESSAGE",
+      payload: "You are now logged out",
+    });
   }
 
   return {

@@ -7,7 +7,6 @@ describe Mutations::UserCreate, type: :graphql do
         userCreate(input: $input) {
           user {
             email
-            passwordDigest
           }
           token
         }
@@ -53,10 +52,6 @@ describe Mutations::UserCreate, type: :graphql do
 
     it 'creates a password digest' do
       expect(created_user.password_digest.size).to be(60)
-    end
-
-    it 'does not return password digest' do
-      expect(returned_user["password_digest"]).to be_nil
     end
 
     it 'returns Json Web Token' do

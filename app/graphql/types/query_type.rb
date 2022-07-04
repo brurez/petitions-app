@@ -7,13 +7,6 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    field :user, UserType, null: false,
-          description: "Get user" do
-      argument :user_id, Integer, required: true
-    end
-
-    def user
-      "Hello World!"
-    end
+    include Queries::UserQuery
   end
 end

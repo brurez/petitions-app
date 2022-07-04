@@ -9,6 +9,8 @@
   },
   "scripts": {
     "dev": "concurrently \"bin/rails s -p 5000\" \"cd client && yarn dev\"",
+    "dev:server": "bin/rails s -p 5000",
+    "dev:client": "cd client && yarn dev",
     "graphql:dump": "rails graphql:schema:dump",
     "graphql:codegen": "cd client && yarn graphql:codegen",
     "build": "webpack --config webpack.config.js",

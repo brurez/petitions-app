@@ -9,7 +9,8 @@ module Mutations
     argument :petition_input, Types::PetitionInputType, required: true
 
     def resolve(petition_input:)
-      petition = ::Petition.new(**petition_input)
+      authenticated?
+      petition = ::Petition.new(**petition_input, user: current_user)
       raise GraphQL::ExecutionError.new "Error creating petition", extensions: petition.errors.to_hash unless petition.save
 
       { petition: petition }
