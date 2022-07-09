@@ -11,10 +11,10 @@ class PetitionPolicy < ApplicationPolicy
   end
 
   def update?
-    record.email == user.email
+    record.user_id == user.id
   end
 
   def destroy?
-    record.email == user.email
+    record.user_id == user.id
   end
 end

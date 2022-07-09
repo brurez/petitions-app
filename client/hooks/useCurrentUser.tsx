@@ -36,7 +36,7 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
   }, []);
 
   function setCurrentUser(user: User, token?: string) {
-    localStorage.setItem("token", token || "");
+    if(token) localStorage.setItem("token", token);
     dispatch({ type: "SET_CURRENT_USER", payload: user });
   }
 

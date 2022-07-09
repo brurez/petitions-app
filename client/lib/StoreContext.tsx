@@ -22,6 +22,7 @@ export interface StoreStateI {
 }
 
 const reducer = (state: StoreStateI, action: { type: string; payload: any }) => {
+  console.info("REDUCER CALL", action.type, action.payload)
   switch (action.type) {
     case "SHOW_ERROR_MESSAGE":
       return {

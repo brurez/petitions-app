@@ -1,8 +1,5 @@
 query Petitions{
     petitions {
-        id
-        title
-        description
-        numberOfVotes
+        ...PetitionFields
     }
 }

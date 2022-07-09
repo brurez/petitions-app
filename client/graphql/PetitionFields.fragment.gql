@@ -1,0 +1,9 @@
+fragment PetitionFields on Petition {
+    id
+    title
+    description
+    numberOfVotes
+    createdAt
+    updatedAt
+    userId
+}

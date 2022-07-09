@@ -35,7 +35,7 @@ describe Queries::UserQuery, type: :graphql do
 
     it 'gets the correct user' do
       expect(returned_user).to match(hash_including(
-                                       "id" => user.id.to_s,
+                                       "id" => user.id,
                                        "firstName" => user.first_name,
                                        "lastName" => user.last_name,
                                        "email" => user.email

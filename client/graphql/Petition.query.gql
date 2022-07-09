@@ -1,8 +1,5 @@
 query Petition($id: Int!){
     petition(id: $id) {
-        id
-        title
-        description
-        numberOfVotes
+        ...PetitionFields
     }
 }
