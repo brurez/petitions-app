@@ -12,3 +12,14 @@ user = User.create!(
   last_name: "de Rezende",
   password: "1234"
 )
+
+Petition.create!(
+  title: "Stop cutting trees in my street",
+  description: "This year the city hall started a work on my street. But they are cutting down all the trees.",
+  user: user
+)
+
+Vote.create!(
+  user: user,
+  petition: petition
+)
