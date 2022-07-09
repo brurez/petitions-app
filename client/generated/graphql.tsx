@@ -183,6 +183,13 @@ export type UserUpdatePayload = {
 
 export type CurrentUserFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, createdAt: any, updatedAt: any };
 
+export type PetitionQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type PetitionQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: string, title?: string | null, description?: string | null, numberOfVotes: number } };
+
 export type PetitionCreateMutationVariables = Exact<{
   input: PetitionCreateInput;
 }>;
@@ -226,6 +233,44 @@ export const CurrentUserFragmentDoc = gql`
   updatedAt
 }
     `;
+export const PetitionDocument = gql`
+    query Petition($id: Int!) {
+  petition(id: $id) {
+    id
+    title
+    description
+    numberOfVotes
+  }
+}
+    `;
+
+/**
+ * __usePetitionQuery__
+ *
+ * To run a query within a React component, call `usePetitionQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePetitionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePetitionQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePetitionQuery(baseOptions: Apollo.QueryHookOptions<PetitionQuery, PetitionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PetitionQuery, PetitionQueryVariables>(PetitionDocument, options);
+      }
+export function usePetitionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PetitionQuery, PetitionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PetitionQuery, PetitionQueryVariables>(PetitionDocument, options);
+        }
+export type PetitionQueryHookResult = ReturnType<typeof usePetitionQuery>;
+export type PetitionLazyQueryHookResult = ReturnType<typeof usePetitionLazyQuery>;
+export type PetitionQueryResult = Apollo.QueryResult<PetitionQuery, PetitionQueryVariables>;
 export const PetitionCreateDocument = gql`
     mutation PetitionCreate($input: PetitionCreateInput!) {
   petitionCreate(input: $input) {

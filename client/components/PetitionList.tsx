@@ -4,20 +4,17 @@ import { CardActions, CardContent, Divider, Paper, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import Link from "next/link";
 
-function PetitionItem({ title, description, numberOfVotes }) {
+function PetitionItem({ id, title, description, numberOfVotes }) {
   return (
     <Card>
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={2}>
-            <Box sx={{textAlign: "center"}}>
-              <Typography variant="body1">
-                {numberOfVotes}
-              </Typography>
-              <Typography variant="body2">
-                Votes
-              </Typography>
+            <Box sx={{ textAlign: "center" }}>
+              <Typography variant="body1">{numberOfVotes}</Typography>
+              <Typography variant="body2">Votes</Typography>
             </Box>
           </Grid>
           <Grid item xs={10}>
@@ -30,7 +27,9 @@ function PetitionItem({ title, description, numberOfVotes }) {
         </Grid>
       </CardContent>
       <CardActions sx={{ flexDirection: "row-reverse" }}>
-        <Button size="small">Learn More</Button>
+        <Link href={`petitions/${id}`}>
+          <Button size="small">Learn More</Button>
+        </Link>
       </CardActions>
     </Card>
   );
