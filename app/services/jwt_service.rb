@@ -11,9 +11,9 @@ class JwtService
       HashWithIndifferentAccess.new decoded
     end
 
-    def build_payload(user_email)
+    def build_payload(user_id)
       {
-        sub: user_email,
+        sub: user_id,
         exp:  24.hours.from_now.to_i
       }
     end

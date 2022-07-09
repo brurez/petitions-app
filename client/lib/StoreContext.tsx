@@ -1,13 +1,27 @@
 import React, { createContext, useReducer } from "react";
+import {User} from "../generated/graphql";
 
-export const StoreContext = createContext(null);
-
-const initialState = {
+const initialState: StoreStateI = {
   message: { open: false, text: "", kind: "error" },
   currentUser: null,
 };
 
-const reducer = (state: any, action: { type: string; payload: any }) => {
+export const StoreContext = createContext([initialState]);
+
+export interface CurrentUserI extends User {}
+
+export interface MessageI {
+  open: boolean,
+  text: string,
+  kind: string
+}
+
+export interface StoreStateI {
+  currentUser: CurrentUserI | null,
+  message: MessageI,
+}
+
+const reducer = (state: StoreStateI, action: { type: string; payload: any }) => {
   switch (action.type) {
     case "SHOW_ERROR_MESSAGE":
       return {

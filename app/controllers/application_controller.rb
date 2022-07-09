@@ -1,10 +1,8 @@
 class ApplicationController < ActionController::API
   include Pundit::Authorization
 
-  def context
-    {
-      current_user: UserService.get_user_by_token(token)
-    }
+  def current_user
+    UserService.get_user_by_token(token)
   end
 
   def token

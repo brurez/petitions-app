@@ -1,8 +1,7 @@
 mutation UserLogin($input: UserLoginInput!){
     userLogin(input: $input) {
         user {
-            firstName
-            email
+            ...CurrentUser
         }
         token
     }

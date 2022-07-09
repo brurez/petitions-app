@@ -7,8 +7,7 @@ module Mutations
     type Types::UserTokenType
 
     def resolve(user_login_input:)
-      user, status = UserService.get_user_with_password(user_login_input[:email], user_login_input[:password])
-      raise GraphQL::ExecutionError.new "The email address and password doesn't match" if status == :incorrect_password
+      user = UserService.get_user_with_password(user_login_input[:email], user_login_input[:password])
       token = UserService.generate_token(user)
 
       { user: user, token: token  }
