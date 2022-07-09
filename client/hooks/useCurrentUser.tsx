@@ -22,7 +22,6 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
       let id;
       try {
         const payload: any = jwtDecode(token);
-        debugger
         id = payload.sub
         userQuery({ variables: { id } }).then((res) => {
           const user = res?.data?.user;

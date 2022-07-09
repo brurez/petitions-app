@@ -1,0 +1,8 @@
+query Petitions{
+    petitions {
+        id
+        title
+        description
+        numberOfVotes
+    }
+}

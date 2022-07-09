@@ -66,6 +66,7 @@ export type Petition = {
   createdAt: Scalars['ISO8601DateTime'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  numberOfVotes: Scalars['Int'];
   title?: Maybe<Scalars['String']>;
   updatedAt: Scalars['ISO8601DateTime'];
   userId: Scalars['Int'];
@@ -94,8 +95,17 @@ export type PetitionInput = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Get petition */
+  petition: Petition;
+  /** Get petitions list */
+  petitions: Array<Petition>;
   /** Get user */
   user: User;
+};
+
+
+export type QueryPetitionArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -180,6 +190,11 @@ export type PetitionCreateMutationVariables = Exact<{
 
 export type PetitionCreateMutation = { __typename?: 'Mutation', petitionCreate?: { __typename?: 'PetitionCreatePayload', petition: { __typename?: 'Petition', id: string, title?: string | null, description?: string | null } } | null };
 
+export type PetitionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PetitionsQuery = { __typename?: 'Query', petitions: Array<{ __typename?: 'Petition', id: string, title?: string | null, description?: string | null, numberOfVotes: number }> };
+
 export type UserQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -248,6 +263,43 @@ export function usePetitionCreateMutation(baseOptions?: Apollo.MutationHookOptio
 export type PetitionCreateMutationHookResult = ReturnType<typeof usePetitionCreateMutation>;
 export type PetitionCreateMutationResult = Apollo.MutationResult<PetitionCreateMutation>;
 export type PetitionCreateMutationOptions = Apollo.BaseMutationOptions<PetitionCreateMutation, PetitionCreateMutationVariables>;
+export const PetitionsDocument = gql`
+    query Petitions {
+  petitions {
+    id
+    title
+    description
+    numberOfVotes
+  }
+}
+    `;
+
+/**
+ * __usePetitionsQuery__
+ *
+ * To run a query within a React component, call `usePetitionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePetitionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePetitionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePetitionsQuery(baseOptions?: Apollo.QueryHookOptions<PetitionsQuery, PetitionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PetitionsQuery, PetitionsQueryVariables>(PetitionsDocument, options);
+      }
+export function usePetitionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PetitionsQuery, PetitionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PetitionsQuery, PetitionsQueryVariables>(PetitionsDocument, options);
+        }
+export type PetitionsQueryHookResult = ReturnType<typeof usePetitionsQuery>;
+export type PetitionsLazyQueryHookResult = ReturnType<typeof usePetitionsLazyQuery>;
+export type PetitionsQueryResult = Apollo.QueryResult<PetitionsQuery, PetitionsQueryVariables>;
 export const UserDocument = gql`
     query User($id: Int!) {
   user(id: $id) {

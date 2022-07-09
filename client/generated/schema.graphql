@@ -64,6 +64,7 @@ type Petition {
   createdAt: ISO8601DateTime!
   description: String
   id: ID!
+  numberOfVotes: Int!
   title: String
   updatedAt: ISO8601DateTime!
   userId: Int!
@@ -98,6 +99,16 @@ input PetitionInput {
 }
 
 type Query {
+  """
+  Get petition
+  """
+  petition(id: Int!): Petition!
+
+  """
+  Get petitions list
+  """
+  petitions: [Petition!]!
+
   """
   Get user
   """
