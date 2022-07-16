@@ -6,20 +6,43 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-user = User.create!(
+user1 = User.create!(
   email: "bruno@email.com",
   first_name: "Bruno",
   last_name: "de Rezende",
   password: "1234"
 )
 
-Petition.create!(
-  title: "Stop cutting trees in my street",
-  description: "This year the city hall started a work on my street. But they are cutting down all the trees.",
-  user: user
+user2 = User.create!(
+  email: "another@email.com",
+  first_name: "John",
+  last_name: "Doe",
+  password: "1234"
+)
+
+petitions = Petition.create!(
+  [
+    { title: "Stop cutting trees in my street",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      user: user1 },
+    { title: "Street walks on 1st Avenue are dangerous",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      user: user2 },
+    { title: "Too much noise near the airport",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      user: user2 }
+  ]
 )
 
 Vote.create!(
-  user: user,
-  petition: petition
+  [
+    {
+      user: user1,
+      petition: petitions[1]
+    },
+    {
+      user: user2,
+      petition: petitions[0]
+    }
+  ]
 )
