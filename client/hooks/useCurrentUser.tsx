@@ -7,7 +7,7 @@ import { StoreContext } from "../components/StoreProvider";
 interface UserCurrentUserReturnI {
   setCurrentUser: any;
   logOut: () => any;
-  currentUser: CurrentUserI | {};
+  currentUser?: CurrentUserI;
   isLoggedIn: boolean;
 }
 
@@ -56,7 +56,7 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
   return {
     setCurrentUser,
     logOut,
-    currentUser: state.currentUser || {},
+    currentUser: state.currentUser ? state.currentUser : undefined,
     isLoggedIn: !!state.currentUser,
   };
 }

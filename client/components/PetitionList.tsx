@@ -11,7 +11,7 @@ function PetitionItem({ id, title, description, numberOfVotes }) {
   const { currentUser } = useCurrentUser();
 
   let ownsPetition = false;
-  if ("id" in currentUser) {
+  if (currentUser) {
     ownsPetition = currentUser?.id === id;
   }
 
