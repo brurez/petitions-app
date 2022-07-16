@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { StoreContext } from "../lib/StoreContext";
+import { StoreContext } from "../components/StoreProvider";
 
 export type MessageType = {
   text: string;
@@ -7,16 +7,16 @@ export type MessageType = {
 };
 
 export default function useMessage() {
-  const [state, dispatch]  = useContext<any>(StoreContext);
+  const [state, dispatch] = useContext<any>(StoreContext);
 
   function showErrorMessage(message: string) {
     dispatch({ type: "SHOW_ERROR_MESSAGE", payload: message });
-    setTimeout(() => dispatch( { type: "HIDE_MESSAGE" }), 6000);
+    setTimeout(() => dispatch({ type: "HIDE_MESSAGE" }), 6000);
   }
 
   function showSuccessMessage(message: string) {
     dispatch({ type: "SHOW_SUCCESS_MESSAGE", payload: message });
-    setTimeout(() => dispatch( { type: "HIDE_MESSAGE" }), 6000);
+    setTimeout(() => dispatch({ type: "HIDE_MESSAGE" }), 6000);
   }
 
   return { message: state.message, showErrorMessage, showSuccessMessage };

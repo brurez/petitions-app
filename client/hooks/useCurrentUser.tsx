@@ -1,7 +1,8 @@
 import { useContext, useEffect } from "react";
-import { CurrentUserI, StoreContext, StoreStateI } from "../lib/StoreContext";
-import { User, useUserLazyQuery, useUserQuery } from "../generated/graphql";
+import { User, useUserLazyQuery } from "../generated/graphql";
 import jwtDecode from "jwt-decode";
+import { CurrentUserI, StoreStateI } from "../lib/reducers";
+import { StoreContext } from "../components/StoreProvider";
 
 interface UserCurrentUserReturnI {
   setCurrentUser: any;
