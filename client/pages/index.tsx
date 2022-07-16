@@ -6,6 +6,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { useRouter } from "next/router";
 import PetitionList from "../components/PetitionList";
 import { usePetitionsQuery } from "../generated/graphql";
+import Map from "../components/Map";
 
 const Home: NextPage = () => {
   const { isLoggedIn } = useCurrentUser();
@@ -35,6 +36,9 @@ const Home: NextPage = () => {
           Create new petition
         </Button>
       </Box>
+        <Box mt={2}>
+            <Map />
+        </Box>
       <Box sx={{ mt: 4 }}>
         <Typography variant="h4" align="center" sx={{ mt: 4, mb: 2 }}>
           Petitions
