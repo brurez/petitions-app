@@ -1,21 +1,22 @@
 import type { NextPage } from "next";
-import { Typography } from "@mui/material";
+import {CircularProgress, Typography} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Link from "next/link";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { useRouter } from "next/router";
+import PetitionList from "../components/PetitionList";
+import { usePetitionsQuery } from "../generated/graphql";
 
 const Home: NextPage = () => {
   const { isLoggedIn } = useCurrentUser();
   const router = useRouter();
-
+  const { data, loading } = usePetitionsQuery();
   function handleCreateNewPetitionClick() {
     if (!isLoggedIn) {
       router.push("/signup");
       return;
     }
-    router.push("/petition");
+    router.push("/petitions/create");
   }
 
   return (
@@ -33,6 +34,16 @@ const Home: NextPage = () => {
         >
           Create new petition
         </Button>
+      </Box>
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h4" align="center" sx={{ mt: 4, mb: 2 }}>
+          Petitions
+        </Typography>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <PetitionList petitions={data?.petitions} />
+        )}
       </Box>
     </Box>
   );

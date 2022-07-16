@@ -8,5 +8,6 @@ module Types
     # They will be entry points for queries on your schema.
 
     include Queries::UserQuery
+    include Queries::PetitionQuery
   end
 end

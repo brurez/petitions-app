@@ -1,0 +1,7 @@
+mutation PetitionUpdate($input: PetitionUpdateInput!){
+    petitionUpdate(input: $input) {
+        petition {
+            ...PetitionFields
+        }
+    }
+}

@@ -5,6 +5,7 @@
 
 name: CI
 
+# Events on the Git repository that triggers the steps listed below
 on:
   push:
     branches: [ main ]
@@ -12,8 +13,10 @@ on:
     branches: [ main ]
 
 jobs:
+  # Setup and steps to run RoR Rspec automated tests
   railstest:
     runs-on: ubuntu-latest
+    # Set up a Postgres instance to be used on tests
     services:
       postgres:
         image: postgres:12.1-alpine
@@ -37,6 +40,7 @@ jobs:
       - name: Run test
         run: bundle exec rspec
 
+  # Setup and steps to run JS Jest automated tests
   jstest:
     runs-on: ubuntu-latest
     steps:

@@ -1,9 +1,7 @@
 mutation PetitionCreate($input: PetitionCreateInput!){
     petitionCreate(input: $input) {
         petition {
-            id
-            title
-            description
+            ...PetitionFields
         }
     }
 }

@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :petition do
-    title { "MyString" }
-    description { "MyText" }
-    user { nil }
-    city { nil }
+    title { Faker::Lorem.sentence }
+    description { Faker::Lorem.paragraph }
   end
 end

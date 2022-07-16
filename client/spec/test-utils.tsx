@@ -2,8 +2,8 @@ import React, { FC, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import gqlClient from "../lib/gqlClient";
 import { ApolloProvider } from "@apollo/client";
-import { StoreProvider } from "../lib/StoreContext";
 import {useRouter} from "next/router";
+import {StoreProvider} from "../components/StoreProvider";
 
 jest.mock('next/router');
 

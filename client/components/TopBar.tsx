@@ -140,7 +140,7 @@ export default function TopBar() {
           <Box>
             {isLoggedIn ? (
               <>
-                <Typography> Hi {currentUser.firstName}</Typography>
+                <Typography> Hi {currentUser && currentUser.firstName}</Typography>
                 <Button color="inherit" onClick={logOut}>
                   Log Out
                 </Button>
