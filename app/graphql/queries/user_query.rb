@@ -9,6 +9,7 @@ module Queries::UserQuery
   end
 
   def user(id:)
+    authenticated?
     user = User.find(id)
     authorize user, :show?
     user

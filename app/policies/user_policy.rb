@@ -2,19 +2,19 @@ class UserPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
-       scope.where(email: user.email)
+       scope.where(id: user.id)
     end
   end
 
   def show?
-    record.email == user.email
+    record.id == user.id
   end
 
   def update?
-    record.email == user.email
+    record.id == user.id
   end
 
   def destroy?
-    record.email == user.email
+    record.id == user.id
   end
 end

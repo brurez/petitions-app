@@ -22,21 +22,24 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
       let id;
       try {
         const payload: any = jwtDecode(token);
-        id = payload.sub
+        id = payload.sub;
         userQuery({ variables: { id } }).then((res) => {
           const user = res?.data?.user;
-          if (!user) return;
+          if (!user) {
+            logOut();
+            return;
+          }
           setCurrentUser(user);
         });
       } catch (e) {
-        console.log(e)
+        console.log(e);
         logOut();
       }
     }
   }, []);
 
   function setCurrentUser(user: User, token?: string) {
-    if(token) localStorage.setItem("token", token);
+    if (token) localStorage.setItem("token", token);
     dispatch({ type: "SET_CURRENT_USER", payload: user });
   }
 
