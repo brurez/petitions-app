@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       router.push("/signup");
       return;
     }
-    router.push("/petition");
+    router.push("/petitions/create");
   }
 
   return (
