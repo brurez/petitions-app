@@ -6,5 +6,6 @@ module Types
     field :user_login, mutation: Mutations::UserLogin
     field :petition_create, mutation: Mutations::PetitionCreate
     field :petition_update, mutation: Mutations::PetitionUpdate
+    field :vote_create, mutation: Mutations::VoteCreate
   end
 end
