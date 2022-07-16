@@ -1,22 +1,37 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { usePetitionQuery } from "../../generated/graphql";
+import {
+  usePetitionQuery,
+  useVoteCreateMutation,
+} from "../../generated/graphql";
 import { useRouter } from "next/router";
 import { CircularProgress, Paper } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import { AccountBalance } from "@mui/icons-material";
 import * as React from "react";
 import { PetitionVotes } from "../../components/PetitionVotes";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import useMessage from "../../hooks/useMessage";
 
 export default function PetitionViewPage() {
   const router = useRouter();
-  const { data, loading } = usePetitionQuery({
+  const { data, loading, refetch: refetchPetition } = usePetitionQuery({
     variables: { id: Number(router.query.id) },
   });
+  const [voteCreate] = useVoteCreateMutation();
+  const { showSuccessMessage, showErrorMessage } = useMessage();
 
   if (loading) return <CircularProgress />;
+
+  const handleVoteClick = () => {
+    voteCreate({
+      variables: {
+        input: { voteInput: { petitionId: Number(router.query.id) } },
+      },
+    }).then((res) => {
+      showSuccessMessage("Your vote was saved!");
+      refetchPetition();
+    }).catch( err => showErrorMessage(err.message));
+  };
 
   return (
     <Paper
@@ -39,7 +54,7 @@ export default function PetitionViewPage() {
           <PetitionVotes numberOfVotes={Number(data?.petition.numberOfVotes)} />
         </Grid>
         <Grid xs={6}>
-          <Button>Vote for this petition</Button>
+          <Button onClick={handleVoteClick}>Vote for this petition</Button>
         </Grid>
       </Grid>
     </Paper>
