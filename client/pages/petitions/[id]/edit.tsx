@@ -21,6 +21,7 @@ export default function PetitionEditPage() {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const petitionInput: any = Form.serialize(event.currentTarget);
+    // @ts-ignore
     petitionUpdate({ variables: { input: { id, petitionInput } } })
       .then((response) => {
         // @ts-ignore

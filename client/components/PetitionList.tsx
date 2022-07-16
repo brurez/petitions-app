@@ -1,11 +1,11 @@
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import { CardActions, CardContent, Divider, Paper, Stack } from "@mui/material";
+import { CardActions, CardContent, Divider } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import useCurrentUser from "../hooks/useCurrentUser";
+import { PetitionVotes } from "./PetitionVotes";
 
 function PetitionItem({ id, title, description, numberOfVotes }) {
   const { currentUser } = useCurrentUser();
@@ -20,10 +20,7 @@ function PetitionItem({ id, title, description, numberOfVotes }) {
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={2}>
-            <Box sx={{ textAlign: "center" }}>
-              <Typography variant="body1">{numberOfVotes}</Typography>
-              <Typography variant="body2">Votes</Typography>
-            </Box>
+            <PetitionVotes numberOfVotes={numberOfVotes} />
           </Grid>
           <Grid item xs={10}>
             <Typography variant="h5" component="div">
