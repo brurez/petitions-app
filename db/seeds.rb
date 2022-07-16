@@ -24,13 +24,22 @@ petitions = Petition.create!(
   [
     { title: "Stop cutting trees in my street",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      user: user1 },
+      user: user1,
+      latitude: 3.7,
+      longitude: 38.5
+    },
     { title: "Street walks on 1st Avenue are dangerous",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      user: user2 },
+      user: user2,
+      latitude: 3.6,
+      longitude: 38.6
+    },
     { title: "Too much noise near the airport",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      user: user2 }
+      user: user2,
+      latitude: 3.4,
+      longitude: 38.3
+    }
   ]
 )
 

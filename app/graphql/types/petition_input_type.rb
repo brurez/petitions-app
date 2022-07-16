@@ -5,5 +5,7 @@ module Types
     argument :id, ID, required: false
     argument :title, String, required: true
     argument :description, String, required: true
+    argument :latitude, Float, required: true
+    argument :longitude, Float, required: true
   end
 end
