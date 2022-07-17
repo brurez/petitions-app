@@ -78,11 +78,18 @@ export type MutationVoteCreateArgs = {
 
 export type Petition = {
   __typename?: 'Petition';
+  address: Scalars['String'];
+  city: Scalars['String'];
+  country: Scalars['String'];
   createdAt: Scalars['ISO8601DateTime'];
-  description?: Maybe<Scalars['String']>;
+  description: Scalars['String'];
   id: Scalars['ModelID'];
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
   numberOfVotes: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
+  postalCode: Scalars['Int'];
+  state: Scalars['String'];
+  title: Scalars['String'];
   updatedAt: Scalars['ISO8601DateTime'];
   userId: Scalars['Int'];
 };
@@ -103,8 +110,15 @@ export type PetitionCreatePayload = {
 };
 
 export type PetitionInput = {
+  address: Scalars['String'];
+  city: Scalars['String'];
+  country: Scalars['String'];
   description: Scalars['String'];
   id?: InputMaybe<Scalars['ModelID']>;
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  postalCode: Scalars['Int'];
+  state: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -251,28 +265,28 @@ export type PetitionQueryVariables = Exact<{
 }>;
 
 
-export type PetitionQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: any, title?: string | null, description?: string | null, numberOfVotes: number, createdAt: any, updatedAt: any, userId: number } };
+export type PetitionQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number } };
 
 export type PetitionCreateMutationVariables = Exact<{
   input: PetitionCreateInput;
 }>;
 
 
-export type PetitionCreateMutation = { __typename?: 'Mutation', petitionCreate?: { __typename?: 'PetitionCreatePayload', petition: { __typename?: 'Petition', id: any, title?: string | null, description?: string | null, numberOfVotes: number, createdAt: any, updatedAt: any, userId: number } } | null };
+export type PetitionCreateMutation = { __typename?: 'Mutation', petitionCreate?: { __typename?: 'PetitionCreatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number } } | null };
 
-export type PetitionFieldsFragment = { __typename?: 'Petition', id: any, title?: string | null, description?: string | null, numberOfVotes: number, createdAt: any, updatedAt: any, userId: number };
+export type PetitionFieldsFragment = { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number };
 
 export type PetitionUpdateMutationVariables = Exact<{
   input: PetitionUpdateInput;
 }>;
 
 
-export type PetitionUpdateMutation = { __typename?: 'Mutation', petitionUpdate?: { __typename?: 'PetitionUpdatePayload', petition: { __typename?: 'Petition', id: any, title?: string | null, description?: string | null, numberOfVotes: number, createdAt: any, updatedAt: any, userId: number } } | null };
+export type PetitionUpdateMutation = { __typename?: 'Mutation', petitionUpdate?: { __typename?: 'PetitionUpdatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number } } | null };
 
 export type PetitionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PetitionsQuery = { __typename?: 'Query', petitions: Array<{ __typename?: 'Petition', id: any, title?: string | null, description?: string | null, numberOfVotes: number, createdAt: any, updatedAt: any, userId: number }> };
+export type PetitionsQuery = { __typename?: 'Query', petitions: Array<{ __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number }> };
 
 export type UserQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -318,6 +332,13 @@ export const PetitionFieldsFragmentDoc = gql`
   title
   description
   numberOfVotes
+  latitude
+  longitude
+  address
+  city
+  state
+  country
+  postalCode
   createdAt
   updatedAt
   userId

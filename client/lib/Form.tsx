@@ -1,6 +1,6 @@
 export const Form = {
     serialize(form: HTMLFormElement) {
-        var obj = {};
+        var obj: any = {};
         var formData = new FormData(form);
         // @ts-ignore
         for (var key of formData.keys()) {

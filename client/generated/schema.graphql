@@ -83,11 +83,18 @@ type Mutation {
 }
 
 type Petition {
+  address: String!
+  city: String!
+  country: String!
   createdAt: ISO8601DateTime!
-  description: String
+  description: String!
   id: ModelID!
+  latitude: Float!
+  longitude: Float!
   numberOfVotes: Int!
-  title: String
+  postalCode: Int!
+  state: String!
+  title: String!
   updatedAt: ISO8601DateTime!
   userId: Int!
 }
@@ -115,8 +122,15 @@ type PetitionCreatePayload {
 }
 
 input PetitionInput {
+  address: String!
+  city: String!
+  country: String!
   description: String!
   id: ModelID
+  latitude: Float!
+  longitude: Float!
+  postalCode: Int!
+  state: String!
   title: String!
 }
 

@@ -1,16 +1,19 @@
 import type { NextPage } from "next";
-import {CircularProgress, Typography} from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { useRouter } from "next/router";
 import PetitionList from "../components/PetitionList";
 import { usePetitionsQuery } from "../generated/graphql";
+import AppMap from "../components/AppMap";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   const { isLoggedIn } = useCurrentUser();
   const router = useRouter();
-  const { data, loading } = usePetitionsQuery();
+  const { data, loading } = usePetitionsQuery({ fetchPolicy: "network-only" });
+  const [center, setCenter] = useState<any>(null);
   function handleCreateNewPetitionClick() {
     if (!isLoggedIn) {
       router.push("/signup");
@@ -18,6 +21,13 @@ const Home: NextPage = () => {
     }
     router.push("/petitions/create");
   }
+
+  const handleMarkerClick = (id) => {
+    const petition = data?.petitions.find((p) => p.id === id);
+    if (!petition) return;
+    setCenter({ lat: petition.latitude, lng: petition.longitude });
+    window && window.scrollTo(0, 0);
+  };
 
   return (
     <Box sx={{ mt: 2 }}>
@@ -35,6 +45,17 @@ const Home: NextPage = () => {
           Create new petition
         </Button>
       </Box>
+      <Box mt={2}>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <AppMap
+            defaultCenter={center}
+            petitions={data?.petitions}
+            height={400}
+          />
+        )}
+      </Box>
       <Box sx={{ mt: 4 }}>
         <Typography variant="h4" align="center" sx={{ mt: 4, mb: 2 }}>
           Petitions
@@ -42,7 +63,10 @@ const Home: NextPage = () => {
         {loading ? (
           <CircularProgress />
         ) : (
-          <PetitionList petitions={data?.petitions} />
+          <PetitionList
+            petitions={data?.petitions}
+            onMarkerClick={handleMarkerClick}
+          />
         )}
       </Box>
     </Box>

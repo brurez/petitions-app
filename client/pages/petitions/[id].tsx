@@ -11,10 +11,15 @@ import { PetitionVotes } from "../../components/PetitionVotes";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import useMessage from "../../hooks/useMessage";
+import AppMap from "../../components/AppMap";
 
 export default function PetitionViewPage() {
   const router = useRouter();
-  const { data, loading, refetch: refetchPetition } = usePetitionQuery({
+  const {
+    data,
+    loading,
+    refetch: refetchPetition,
+  } = usePetitionQuery({
     variables: { id: Number(router.query.id) },
   });
   const [voteCreate] = useVoteCreateMutation();
@@ -27,10 +32,12 @@ export default function PetitionViewPage() {
       variables: {
         input: { voteInput: { petitionId: Number(router.query.id) } },
       },
-    }).then((res) => {
-      showSuccessMessage("Your vote was saved!");
-      refetchPetition();
-    }).catch( err => showErrorMessage(err.message));
+    })
+      .then((res) => {
+        showSuccessMessage("Your vote was saved!");
+        refetchPetition();
+      })
+      .catch((err) => showErrorMessage(err.message));
   };
 
   return (
@@ -49,7 +56,16 @@ export default function PetitionViewPage() {
       <Box sx={{ mt: 2, p: 4 }}>
         <Typography>{data?.petition.description}</Typography>
       </Box>
-      <Grid container spacing={2} sx={{ mt: 2 }}>
+      {!loading && (
+        <AppMap petition={data?.petition} height={260} hideSearch closeZoom />
+      )}
+      <Box mt={2}>
+        <Typography variant={"body1"}>
+          {data?.petition.address} - {data?.petition.city} -{" "}
+          {data?.petition.country}
+        </Typography>
+      </Box>
+      <Grid container spacing={2} sx={{ mt: 4 }}>
         <Grid xs={6}>
           <PetitionVotes numberOfVotes={Number(data?.petition.numberOfVotes)} />
         </Grid>
