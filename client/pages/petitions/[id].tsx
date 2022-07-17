@@ -59,7 +59,13 @@ export default function PetitionViewPage() {
       {!loading && (
         <AppMap petition={data?.petition} height={260} hideSearch closeZoom />
       )}
-      <Grid container spacing={2} sx={{ mt: 2 }}>
+      <Box mt={2}>
+        <Typography variant={"body1"}>
+          {data?.petition.address} - {data?.petition.city} -{" "}
+          {data?.petition.country}
+        </Typography>
+      </Box>
+      <Grid container spacing={2} sx={{ mt: 4 }}>
         <Grid xs={6}>
           <PetitionVotes numberOfVotes={Number(data?.petition.numberOfVotes)} />
         </Grid>

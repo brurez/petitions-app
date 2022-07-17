@@ -68,7 +68,7 @@ export function PetitionForm(props: {
       />
       <Box mt={2}>
         <AppMap
-          petitions={props.initialData ? [props.initialData] : []}
+          petition={props.initialData}
           height={260}
           onChange={handleMapChange}
         />

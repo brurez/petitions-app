@@ -11,7 +11,7 @@ import AppMap from "../components/AppMap";
 const Home: NextPage = () => {
   const { isLoggedIn } = useCurrentUser();
   const router = useRouter();
-  const { data, loading } = usePetitionsQuery();
+  const { data, loading } = usePetitionsQuery({ fetchPolicy: "network-only" });
   function handleCreateNewPetitionClick() {
     if (!isLoggedIn) {
       router.push("/signup");
@@ -37,10 +37,14 @@ const Home: NextPage = () => {
         </Button>
       </Box>
       <Box mt={2}>
-        <AppMap
-          petitions={loading || !data?.petitions ? [] : data?.petitions}
-          height={400}
-        />
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <AppMap
+            petitions={data?.petitions}
+            height={400}
+          />
+        )}
       </Box>
       <Box sx={{ mt: 4 }}>
         <Typography variant="h4" align="center" sx={{ mt: 4, mb: 2 }}>

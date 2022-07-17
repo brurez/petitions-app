@@ -6,13 +6,22 @@ import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { PetitionVotes } from "./PetitionVotes";
+import { Room } from "@mui/icons-material";
 
-function PetitionItem({ id, title, description, numberOfVotes }) {
+function PetitionItem({
+  id,
+  title,
+  description,
+  city,
+  country,
+  numberOfVotes,
+  userId,
+}) {
   const { currentUser } = useCurrentUser();
 
   let ownsPetition = false;
   if (currentUser) {
-    ownsPetition = currentUser?.id === id;
+    ownsPetition = currentUser?.id === userId;
   }
 
   return (
@@ -23,11 +32,36 @@ function PetitionItem({ id, title, description, numberOfVotes }) {
             <PetitionVotes numberOfVotes={numberOfVotes} />
           </Grid>
           <Grid item xs={10}>
-            <Typography variant="h5" component="div">
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              }}
+            >
               {title}
             </Typography>
+            <Typography
+              variant="subtitle2"
+              color={"text.secondary"}
+              gutterBottom
+              component="div"
+            >
+              {city} - {country} <Room sx={{ verticalAlign: "bottom" }} />
+            </Typography>
             <Divider sx={{ my: 1 }} />
-            <Typography variant="body2">{description}</Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {description}
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>

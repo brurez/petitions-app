@@ -199,7 +199,6 @@ function PetitionMarker({
       position={{ lat: petition.latitude, lng: petition.longitude }}
       title={String(petition.title)}
       onClick={onMarkClick}
-      onLoad={console.info}
     />
   );
 }

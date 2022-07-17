@@ -33,7 +33,6 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
           setCurrentUser(user);
         });
       } catch (e) {
-        console.log(e);
         logOut();
       }
     }
