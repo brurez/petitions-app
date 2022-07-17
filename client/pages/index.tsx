@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import {CircularProgress, Typography} from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { useRouter } from "next/router";
 import PetitionList from "../components/PetitionList";
 import { usePetitionsQuery } from "../generated/graphql";
-import Map from "../components/Map";
+import AppMap from "../components/AppMap";
 
 const Home: NextPage = () => {
   const { isLoggedIn } = useCurrentUser();
@@ -36,9 +36,12 @@ const Home: NextPage = () => {
           Create new petition
         </Button>
       </Box>
-        <Box mt={2}>
-            <Map petitions={loading ? [] : data?.petitions}/>
-        </Box>
+      <Box mt={2}>
+        <AppMap
+          petitions={loading || !data?.petitions ? [] : data?.petitions}
+          height={400}
+        />
+      </Box>
       <Box sx={{ mt: 4 }}>
         <Typography variant="h4" align="center" sx={{ mt: 4, mb: 2 }}>
           Petitions

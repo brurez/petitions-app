@@ -13,7 +13,7 @@ import { PetitionForm } from "../../components/PetitionForm";
 
 export default function PetitionCreatePage() {
     const [petitionCreate] = usePetitionCreateMutation();
-    const { currentUser, isLoggedIn } = useCurrentUser();
+    const { isLoggedIn } = useCurrentUser();
     const { showErrorMessage, showSuccessMessage } = useMessage();
     const router = useRouter();
 

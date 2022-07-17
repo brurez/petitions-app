@@ -4,16 +4,22 @@ import Layout from "../components/Layout";
 import gqlClient from "../lib/gqlClient";
 import { ApolloProvider } from "@apollo/client";
 import Message from "../components/Message";
-import {StoreProvider} from "../components/StoreProvider";
+import { StoreProvider } from "../components/StoreProvider";
+import { LoadScript } from "@react-google-maps/api";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <StoreProvider>
       <ApolloProvider client={gqlClient}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        <Message />
+        <LoadScript
+          googleMapsApiKey={"AIzaSyARUiX-IeeyFYhrnaV_lz0H7bT-nYWr32Q"}
+          libraries={["places"]}
+        >
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          <Message />
+        </LoadScript>
       </ApolloProvider>
     </StoreProvider>
   );

@@ -57,6 +57,6 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
     setCurrentUser,
     logOut,
     currentUser: state.currentUser ? state.currentUser : undefined,
-    isLoggedIn: !!state.currentUser,
+    isLoggedIn: !!localStorage.getItem("token"),
   };
 }
