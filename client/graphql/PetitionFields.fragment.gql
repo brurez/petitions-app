@@ -5,6 +5,11 @@ fragment PetitionFields on Petition {
     numberOfVotes
     latitude
     longitude
+    address
+    city
+    state
+    country
+    postalCode
     createdAt
     updatedAt
     userId
