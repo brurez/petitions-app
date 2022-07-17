@@ -3,6 +3,8 @@ fragment PetitionFields on Petition {
     title
     description
     numberOfVotes
+    latitude
+    longitude
     createdAt
     updatedAt
     userId

@@ -37,7 +37,7 @@ const Home: NextPage = () => {
         </Button>
       </Box>
         <Box mt={2}>
-            <Map />
+            <Map petitions={loading ? [] : data?.petitions}/>
         </Box>
       <Box sx={{ mt: 4 }}>
         <Typography variant="h4" align="center" sx={{ mt: 4, mb: 2 }}>
