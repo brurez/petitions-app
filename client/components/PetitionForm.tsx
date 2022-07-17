@@ -68,39 +68,18 @@ export function PetitionForm(props: {
       />
       <Box mt={2}>
         <AppMap
-          petition={props.initialData}
+          petition={{ ...props?.initialData, ...position }}
           height={260}
           onChange={handleMapChange}
         />
       </Box>
-      <ReadOnlyField
-        value={position?.address}
-        name="address"
-      />
-      <ReadOnlyField
-        value={position?.city}
-        name="city"
-      />
-      <ReadOnlyField
-        value={position?.state}
-        name="state"
-      />
-      <ReadOnlyField
-        value={position?.country}
-        name="country"
-      />
-      <ReadOnlyField
-        value={position?.postalCode}
-        name="postalCode"
-      />
-      <ReadOnlyField
-          value={position?.latitude}
-          name="latitude"
-      />
-      <ReadOnlyField
-          value={position?.longitude}
-          name="longitude"
-      />
+      <ReadOnlyField value={position?.address} name="address" />
+      <ReadOnlyField value={position?.city} name="city" />
+      <ReadOnlyField value={position?.state} name="state" />
+      <ReadOnlyField value={position?.country} name="country" />
+      <ReadOnlyField value={position?.postalCode} name="postalCode" />
+      <ReadOnlyField value={position?.latitude} name="latitude" />
+      <ReadOnlyField value={position?.longitude} name="longitude" />
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
         {props.action}
       </Button>
