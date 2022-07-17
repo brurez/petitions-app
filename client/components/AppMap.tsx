@@ -61,6 +61,7 @@ export default function AppMap({
   onChange = () => {},
   hideSearch = false,
   closeZoom = false,
+    defaultCenter,
 }: {
   petitions?: Petition[];
   petition?: Petition;
@@ -68,6 +69,7 @@ export default function AppMap({
   onChange?: (p: Position) => void;
   hideSearch?: boolean;
   closeZoom?: boolean;
+  defaultCenter?: { lat: number, lng: number}
 }) {
   const router = useRouter();
 
@@ -82,6 +84,10 @@ export default function AppMap({
   );
 
   useEffect(() => {
+    if(defaultCenter) {
+      setCenter(defaultCenter)
+      return;
+    }
     // Try HTML5 geolocation.
     if (!petition && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -94,7 +100,7 @@ export default function AppMap({
         }
       );
     }
-  }, [map]);
+  }, [map, defaultCenter]);
 
   useEffect(() => {
     petition && setCenter({ lat: petition.latitude, lng: petition.longitude });
