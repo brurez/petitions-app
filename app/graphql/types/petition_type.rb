@@ -9,11 +9,12 @@ module Types
     field :number_of_votes, Integer, null: false
     field :latitude, Float, null: false
     field :longitude, Float, null: false
-    field :address, String, null: false
+    field :address, String, null: true
     field :city, String, null: false
     field :state, String, null: false
     field :country, String, null: false
-    field :postal_code, Int, null: false
+    field :postal_code, String, null: true
+    field :media_files, [Types::Petition::MediaFileType], null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   end

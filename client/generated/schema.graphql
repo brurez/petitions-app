@@ -8,6 +8,14 @@ An ISO 8601-encoded datetime
 """
 scalar ISO8601DateTime
 
+type MediaFile {
+  createdAt: ISO8601DateTime!
+  id: ModelID!
+  petitionId: Int
+  updatedAt: ISO8601DateTime!
+  url: String
+}
+
 scalar ModelID
 
 type Mutation {
@@ -83,7 +91,7 @@ type Mutation {
 }
 
 type Petition {
-  address: String!
+  address: String
   city: String!
   country: String!
   createdAt: ISO8601DateTime!
@@ -91,8 +99,9 @@ type Petition {
   id: ModelID!
   latitude: Float!
   longitude: Float!
+  mediaFiles: [MediaFile!]!
   numberOfVotes: Int!
-  postalCode: Int!
+  postalCode: String
   state: String!
   title: String!
   updatedAt: ISO8601DateTime!
@@ -122,14 +131,15 @@ type PetitionCreatePayload {
 }
 
 input PetitionInput {
-  address: String!
+  address: String
   city: String!
   country: String!
   description: String!
   id: ModelID
   latitude: Float!
   longitude: Float!
-  postalCode: Int!
+  mediaFileIds: [ModelID!]
+  postalCode: String
   state: String!
   title: String!
 }
@@ -162,6 +172,11 @@ type Query {
   Get petition
   """
   petition(id: Int!): Petition!
+
+  """
+  Get petition media file
+  """
+  petitionMediaFile(id: Int!): MediaFile!
 
   """
   Get petitions list

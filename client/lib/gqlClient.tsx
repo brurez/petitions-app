@@ -3,7 +3,7 @@ import { setContext } from "@apollo/client/link/context";
 import fetch from 'cross-fetch';
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:5000/graphql",
+  uri: process.env.NEXT_PUBLIC_SERVER_DOMAIN + "/graphql",
   fetch
 });
 

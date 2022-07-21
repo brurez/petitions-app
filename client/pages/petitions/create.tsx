@@ -9,7 +9,10 @@ import { Form } from "../../lib/Form";
 import useMessage from "../../hooks/useMessage";
 import { useRouter } from "next/router";
 import { PostAdd } from "@mui/icons-material";
-import { PetitionForm } from "../../components/PetitionForm";
+import {
+  PetitionForm,
+  validatePetitionForm,
+} from "../../components/PetitionForm";
 
 export default function PetitionCreatePage() {
   const [petitionCreate] = usePetitionCreateMutation();
@@ -24,10 +27,23 @@ export default function PetitionCreatePage() {
   });
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    const petitionInput: Petition = Form.serialize(event.currentTarget);
-    petitionInput.postalCode = Number(petitionInput.postalCode);
+    const { mediaFile, mediaFileIds, ...fields } = Form.serialize(
+      event.currentTarget
+    );
+    const petitionInput: Petition = fields;
     petitionInput.latitude = Number(petitionInput.latitude);
     petitionInput.longitude = Number(petitionInput.longitude);
+    // @ts-ignore
+    petitionInput.mediaFileIds = mediaFileIds
+      .split(",")
+      .map((id) => Number(id));
+
+    const errorMessage = validatePetitionForm(petitionInput);
+    if (errorMessage) {
+      showErrorMessage(errorMessage);
+      return;
+    }
+
     petitionCreate({ variables: { input: { petitionInput } } })
       .then(() => {
         showSuccessMessage("Petition created successfully");

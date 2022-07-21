@@ -45,7 +45,7 @@ const Home: NextPage = () => {
           Create new petition
         </Button>
       </Box>
-      <Box mt={2}>
+      <Box mt={4} textAlign={"center"}>
         {loading ? (
           <CircularProgress />
         ) : (
@@ -56,7 +56,7 @@ const Home: NextPage = () => {
           />
         )}
       </Box>
-      <Box sx={{ mt: 4 }}>
+      <Box sx={{ mt: 4 }} textAlign={"center"}>
         <Typography variant="h4" align="center" sx={{ mt: 4, mb: 2 }}>
           Petitions
         </Typography>
@@ -64,7 +64,7 @@ const Home: NextPage = () => {
           <CircularProgress />
         ) : (
           <PetitionList
-            petitions={data?.petitions}
+            petitions={data?.petitions || []}
             onMarkerClick={handleMarkerClick}
           />
         )}
