@@ -53,9 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_003327) do
   end
 
   create_table "petition_media_files", force: :cascade do |t|
-    t.string "url"
-    t.string "filename"
-    t.string "content_type"
+    t.string "title"
     t.bigint "petition_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -72,9 +70,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_003327) do
     t.float "longitude", null: false
     t.string "address"
     t.string "city", null: false
-    t.string "state", limit: 2
-    t.string "country", limit: 2, null: false
-    t.integer "postal_code"
+    t.string "state"
+    t.string "country", null: false
+    t.string "postal_code"
     t.index ["user_id"], name: "index_petitions_on_user_id"
   end
 
