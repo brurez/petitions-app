@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import { Petition } from "../generated/graphql";
+import { MediaFile, Petition } from "../generated/graphql";
 import AppMap from "./AppMap";
 import ReadOnlyField from "./ReadOnlyField";
 import { useEffect, useState } from "react";
@@ -47,6 +47,9 @@ export function PetitionForm(props: {
       country: props.initialData?.country,
       postalCode: props.initialData?.postalCode,
     });
+    setMediaFileIds(
+      props.initialData?.mediaFiles?.map((mf: MediaFile) => mf.id) || []
+    );
   }, [props.initialData]);
 
   return (

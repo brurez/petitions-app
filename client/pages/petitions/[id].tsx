@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { CircularProgress, Paper } from "@mui/material";
 import * as React from "react";
 import { PetitionVotes } from "../../components/PetitionVotes";
-import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import useMessage from "../../hooks/useMessage";
 import AppMap from "../../components/AppMap";
