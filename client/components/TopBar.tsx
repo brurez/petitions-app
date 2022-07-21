@@ -8,6 +8,8 @@ import Button from "@mui/material/Button";
 
 import useCurrentUser from "../hooks/useCurrentUser";
 import Link from "next/link";
+import { Stack } from "@mui/material";
+import {FaceRetouchingNatural} from "@mui/icons-material";
 
 export default function TopBar() {
   const { currentUser, isLoggedIn, logOut } = useCurrentUser();
@@ -15,7 +17,10 @@ export default function TopBar() {
   return (
     <AppBar position="static" color="default">
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Toolbar
+          disableGutters
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
           <Link href="/">
             <Typography
               variant="h6"
@@ -32,15 +37,14 @@ export default function TopBar() {
 
           <Box>
             {isLoggedIn ? (
-              <>
-                <Typography>
-                  {" "}
-                  Hi {currentUser && currentUser.firstName}
+              <Stack direction="row">
+                <Typography variant={"body2"} sx={{ lineHeight: "3rem" }}>
+                  Hi {currentUser && currentUser.firstName} |
                 </Typography>
-                <Button color="inherit" onClick={logOut}>
+                <Button onClick={logOut}>
                   Log Out
                 </Button>
-              </>
+              </Stack>
             ) : (
               <>
                 <Link href="/signup">
