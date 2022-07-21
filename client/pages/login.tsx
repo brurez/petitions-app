@@ -13,6 +13,7 @@ import { Form } from "../lib/Form";
 import Link from "next/link";
 import useMessage from "../hooks/useMessage";
 import { useRouter } from "next/router";
+import Paper from "@mui/material/Paper";
 
 export default function LogInPage() {
   const [userLogin] = useUserLoginMutation();
@@ -32,8 +33,8 @@ export default function LogInPage() {
         router.push("/");
       })
       .catch((err) => {
-        showErrorMessage(err.message)}
-      );
+        showErrorMessage(err.message);
+      });
   };
 
   return (
@@ -45,53 +46,57 @@ export default function LogInPage() {
         alignItems: "center",
       }}
     >
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-        <LockOutlinedIcon />
-      </Avatar>
-      <Typography component="h1" variant="h5">
-        Log in
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          autoFocus
-          data-testid="email"
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          data-testid="password"
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Log In
-        </Button>
-        <Grid container>
-          <Grid>
-            <Link href="/signup">
-              <MuiLink href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </MuiLink>
-            </Link>
+      <Paper sx={{ p: 4, mt: 2 }}>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main", textAlign: "center" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Log in
+          </Typography>
+        </Box>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            data-testid="email"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            data-testid="password"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Log In
+          </Button>
+          <Grid container>
+            <Grid>
+              <Link href="/signup">
+                <MuiLink href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </MuiLink>
+              </Link>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </Paper>
     </Box>
   );
 }

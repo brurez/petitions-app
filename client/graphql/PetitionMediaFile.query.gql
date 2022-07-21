@@ -1,0 +1,5 @@
+query PetitionMediaFile($id: Int!){
+    petitionMediaFile(id: $id) {
+        ...MediaFileFields
+    }
+}

@@ -9,5 +9,6 @@ module Types
 
     include Queries::UserQuery
     include Queries::PetitionQuery
+    include Queries::Petition::MediaFileQuery
   end
 end

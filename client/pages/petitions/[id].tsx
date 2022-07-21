@@ -8,10 +8,10 @@ import { useRouter } from "next/router";
 import { CircularProgress, Paper } from "@mui/material";
 import * as React from "react";
 import { PetitionVotes } from "../../components/PetitionVotes";
-import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import useMessage from "../../hooks/useMessage";
 import AppMap from "../../components/AppMap";
+import { MediaFileList } from "../../components/MediaFileList";
 
 export default function PetitionViewPage() {
   const router = useRouter();
@@ -41,38 +41,58 @@ export default function PetitionViewPage() {
   };
 
   return (
-    <Paper
+    <Box
       sx={{
-        marginTop: 8,
+        mt: 0,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        p: 2,
+        px: 2,
+        py: 4,
       }}
     >
-      <Typography variant="h5" component="h1">
+      <Typography variant="h4" component="h1" textAlign={"center"}>
         {data?.petition.title}
       </Typography>
-      <Box sx={{ mt: 2, p: 4 }}>
+      <Paper sx={{ mt: 2, p: 2 }}>
         <Typography>{data?.petition.description}</Typography>
-      </Box>
-      {!loading && (
-        <AppMap petition={data?.petition} height={260} hideSearch closeZoom />
-      )}
-      <Box mt={2}>
-        <Typography variant={"body1"}>
-          {data?.petition.address} - {data?.petition.city} -{" "}
-          {data?.petition.country}
+      </Paper>
+      <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
+        {!loading && (
+          <>
+            <AppMap
+              petition={data?.petition}
+              height={260}
+              hideSearch
+              closeZoom
+            />
+            <Box mt={2}>
+              <Typography variant={"body1"} textAlign={"center"}>
+                {data?.petition.address} - {data?.petition.city} -{" "}
+                {data?.petition.country}
+              </Typography>
+            </Box>
+          </>
+        )}
+      </Paper>
+      <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
+        <Typography variant={"h5"} component={"h2"} textAlign={"center"}>
+          Images
         </Typography>
-      </Box>
-      <Grid container spacing={2} sx={{ mt: 4 }}>
-        <Grid xs={6}>
-          <PetitionVotes numberOfVotes={Number(data?.petition.numberOfVotes)} />
-        </Grid>
-        <Grid xs={6}>
-          <Button onClick={handleVoteClick}>Vote for this petition</Button>
-        </Grid>
-      </Grid>
-    </Paper>
+        <MediaFileList mediaFiles={data?.petition?.mediaFiles || []} />
+      </Paper>
+      <Paper
+        sx={{
+          mt: 2,
+          p: 2,
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-around",
+        }}
+      >
+        <PetitionVotes numberOfVotes={Number(data?.petition.numberOfVotes)} />
+        <Button onClick={handleVoteClick}>Vote for this petition</Button>
+      </Paper>
+    </Box>
   );
 }

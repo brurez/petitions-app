@@ -31,7 +31,7 @@ const Home: NextPage = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Typography variant="h3" align="center" sx={{ mt: 4 }}>
+      <Typography variant="h3" align="center" sx={{ mt: 4, fontWeight: "bold" }}>
         Municipal Petitions for Everyone
       </Typography>
       <Box sx={{ textAlign: "center" }}>
@@ -45,7 +45,7 @@ const Home: NextPage = () => {
           Create new petition
         </Button>
       </Box>
-      <Box mt={2}>
+      <Box mt={4} textAlign={"center"}>
         {loading ? (
           <CircularProgress />
         ) : (
@@ -61,10 +61,10 @@ const Home: NextPage = () => {
           Petitions
         </Typography>
         {loading ? (
-          <CircularProgress />
+            <Box textAlign={"center"}> <CircularProgress /> </Box>
         ) : (
           <PetitionList
-            petitions={data?.petitions}
+            petitions={data?.petitions || []}
             onMarkerClick={handleMarkerClick}
           />
         )}

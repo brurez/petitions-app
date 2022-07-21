@@ -13,4 +13,7 @@ fragment PetitionFields on Petition {
     createdAt
     updatedAt
     userId
+    mediaFiles {
+        ...MediaFileFields
+    }
 }

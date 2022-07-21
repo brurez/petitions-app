@@ -33,7 +33,7 @@ function SearchField() {
   return (
     <input
       type="text"
-      placeholder="Search for a place"
+      placeholder="Search for a place..."
       style={{
         boxSizing: `border-box`,
         border: `1px solid transparent`,
@@ -137,7 +137,7 @@ export default function AppMap({
         )?.short_name,
         postalCode: place.address_components
           .find((ac) => ac.types.includes("postal_code"))
-          ?.short_name.replace(/-/g, ""),
+          ?.short_name,
         latitude: lat,
         longitude: lng,
       };

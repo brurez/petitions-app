@@ -23,6 +23,15 @@ export type CredentialsInput = {
   password: Scalars['String'];
 };
 
+export type MediaFile = {
+  __typename?: 'MediaFile';
+  createdAt: Scalars['ISO8601DateTime'];
+  id: Scalars['ModelID'];
+  petitionId?: Maybe<Scalars['Int']>;
+  updatedAt: Scalars['ISO8601DateTime'];
+  url?: Maybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a new petition */
@@ -78,7 +87,7 @@ export type MutationVoteCreateArgs = {
 
 export type Petition = {
   __typename?: 'Petition';
-  address: Scalars['String'];
+  address?: Maybe<Scalars['String']>;
   city: Scalars['String'];
   country: Scalars['String'];
   createdAt: Scalars['ISO8601DateTime'];
@@ -86,8 +95,9 @@ export type Petition = {
   id: Scalars['ModelID'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
+  mediaFiles: Array<MediaFile>;
   numberOfVotes: Scalars['Int'];
-  postalCode: Scalars['Int'];
+  postalCode?: Maybe<Scalars['String']>;
   state: Scalars['String'];
   title: Scalars['String'];
   updatedAt: Scalars['ISO8601DateTime'];
@@ -110,14 +120,15 @@ export type PetitionCreatePayload = {
 };
 
 export type PetitionInput = {
-  address: Scalars['String'];
+  address?: InputMaybe<Scalars['String']>;
   city: Scalars['String'];
   country: Scalars['String'];
   description: Scalars['String'];
   id?: InputMaybe<Scalars['ModelID']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
-  postalCode: Scalars['Int'];
+  mediaFileIds?: InputMaybe<Array<Scalars['ModelID']>>;
+  postalCode?: InputMaybe<Scalars['String']>;
   state: Scalars['String'];
   title: Scalars['String'];
 };
@@ -142,6 +153,8 @@ export type Query = {
   __typename?: 'Query';
   /** Get petition */
   petition: Petition;
+  /** Get petition media file */
+  petitionMediaFile: MediaFile;
   /** Get petitions list */
   petitions: Array<Petition>;
   /** Get user */
@@ -150,6 +163,11 @@ export type Query = {
 
 
 export type QueryPetitionArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryPetitionMediaFileArgs = {
   id: Scalars['Int'];
 };
 
@@ -260,33 +278,42 @@ export type VoteInput = {
 
 export type CurrentUserFragment = { __typename?: 'User', id: any, firstName: string, lastName: string, email: string, createdAt: any, updatedAt: any };
 
+export type MediaFileFieldsFragment = { __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null };
+
 export type PetitionQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PetitionQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number } };
+export type PetitionQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } };
 
 export type PetitionCreateMutationVariables = Exact<{
   input: PetitionCreateInput;
 }>;
 
 
-export type PetitionCreateMutation = { __typename?: 'Mutation', petitionCreate?: { __typename?: 'PetitionCreatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number } } | null };
+export type PetitionCreateMutation = { __typename?: 'Mutation', petitionCreate?: { __typename?: 'PetitionCreatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } } | null };
 
-export type PetitionFieldsFragment = { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number };
+export type PetitionFieldsFragment = { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> };
+
+export type PetitionMediaFileQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type PetitionMediaFileQuery = { __typename?: 'Query', petitionMediaFile: { __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null } };
 
 export type PetitionUpdateMutationVariables = Exact<{
   input: PetitionUpdateInput;
 }>;
 
 
-export type PetitionUpdateMutation = { __typename?: 'Mutation', petitionUpdate?: { __typename?: 'PetitionUpdatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number } } | null };
+export type PetitionUpdateMutation = { __typename?: 'Mutation', petitionUpdate?: { __typename?: 'PetitionUpdatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } } | null };
 
 export type PetitionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PetitionsQuery = { __typename?: 'Query', petitions: Array<{ __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address: string, city: string, state: string, country: string, postalCode: number, createdAt: any, updatedAt: any, userId: number }> };
+export type PetitionsQuery = { __typename?: 'Query', petitions: Array<{ __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> }> };
 
 export type UserQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -326,6 +353,15 @@ export const CurrentUserFragmentDoc = gql`
   updatedAt
 }
     `;
+export const MediaFileFieldsFragmentDoc = gql`
+    fragment MediaFileFields on MediaFile {
+  createdAt
+  id
+  petitionId
+  updatedAt
+  url
+}
+    `;
 export const PetitionFieldsFragmentDoc = gql`
     fragment PetitionFields on Petition {
   id
@@ -342,8 +378,11 @@ export const PetitionFieldsFragmentDoc = gql`
   createdAt
   updatedAt
   userId
+  mediaFiles {
+    ...MediaFileFields
+  }
 }
-    `;
+    ${MediaFileFieldsFragmentDoc}`;
 export const PetitionDocument = gql`
     query Petition($id: Int!) {
   petition(id: $id) {
@@ -414,6 +453,41 @@ export function usePetitionCreateMutation(baseOptions?: Apollo.MutationHookOptio
 export type PetitionCreateMutationHookResult = ReturnType<typeof usePetitionCreateMutation>;
 export type PetitionCreateMutationResult = Apollo.MutationResult<PetitionCreateMutation>;
 export type PetitionCreateMutationOptions = Apollo.BaseMutationOptions<PetitionCreateMutation, PetitionCreateMutationVariables>;
+export const PetitionMediaFileDocument = gql`
+    query PetitionMediaFile($id: Int!) {
+  petitionMediaFile(id: $id) {
+    ...MediaFileFields
+  }
+}
+    ${MediaFileFieldsFragmentDoc}`;
+
+/**
+ * __usePetitionMediaFileQuery__
+ *
+ * To run a query within a React component, call `usePetitionMediaFileQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePetitionMediaFileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePetitionMediaFileQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePetitionMediaFileQuery(baseOptions: Apollo.QueryHookOptions<PetitionMediaFileQuery, PetitionMediaFileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PetitionMediaFileQuery, PetitionMediaFileQueryVariables>(PetitionMediaFileDocument, options);
+      }
+export function usePetitionMediaFileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PetitionMediaFileQuery, PetitionMediaFileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PetitionMediaFileQuery, PetitionMediaFileQueryVariables>(PetitionMediaFileDocument, options);
+        }
+export type PetitionMediaFileQueryHookResult = ReturnType<typeof usePetitionMediaFileQuery>;
+export type PetitionMediaFileLazyQueryHookResult = ReturnType<typeof usePetitionMediaFileLazyQuery>;
+export type PetitionMediaFileQueryResult = Apollo.QueryResult<PetitionMediaFileQuery, PetitionMediaFileQueryVariables>;
 export const PetitionUpdateDocument = gql`
     mutation PetitionUpdate($input: PetitionUpdateInput!) {
   petitionUpdate(input: $input) {

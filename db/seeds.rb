@@ -31,7 +31,7 @@ petitions = Petition.create!(
       city: "City name",
       state: "SC",
       country: "BR",
-      postal_code: 88000888
+      postal_code: "88000-888"
     },
     { title: "Street walks on 1st Avenue are dangerous",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -42,7 +42,7 @@ petitions = Petition.create!(
       city: "City name",
       state: "SC",
       country: "BR",
-      postal_code: 88000888
+      postal_code: "88000-888"
     },
     { title: "Too much noise near the airport",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -53,7 +53,7 @@ petitions = Petition.create!(
       city: "City name",
       state: "SC",
       country: "BR",
-      postal_code: 88000888
+      postal_code: "88000-888"
     }
   ]
 )

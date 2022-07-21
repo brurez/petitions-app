@@ -1,0 +1,8 @@
+
+fragment MediaFileFields on MediaFile {
+    createdAt
+    id
+    petitionId
+    updatedAt
+    url
+}
