@@ -15,6 +15,7 @@ module Types
     field :country, String, null: false
     field :postal_code, String, null: true
     field :media_files, [Types::Petition::MediaFileType], null: false
+    field :media_file_ids, [ID], null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   end

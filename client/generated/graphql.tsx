@@ -95,6 +95,7 @@ export type Petition = {
   id: Scalars['ModelID'];
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
+  mediaFileIds: Array<Scalars['ModelID']>;
   mediaFiles: Array<MediaFile>;
   numberOfVotes: Scalars['Int'];
   postalCode?: Maybe<Scalars['String']>;

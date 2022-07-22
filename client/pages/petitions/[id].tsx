@@ -54,10 +54,10 @@ export default function PetitionViewPage() {
       <Typography variant="h4" component="h1" textAlign={"center"}>
         {data?.petition.title}
       </Typography>
-      <Paper sx={{ mt: 2, p: 2 }}>
+      <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
         <Typography>{data?.petition.description}</Typography>
       </Paper>
-      <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
+      <Paper sx={{ mt: 2, width: "100%" }}>
         {!loading && (
           <>
             <AppMap
@@ -66,9 +66,9 @@ export default function PetitionViewPage() {
               hideSearch
               closeZoom
             />
-            <Box mt={2}>
-              <Typography variant={"body1"} textAlign={"center"}>
-                {data?.petition.address} - {data?.petition.city} -{" "}
+            <Box m={1}>
+              <Typography variant={"body2"} textAlign={"center"}>
+                {data?.petition.address}, {data?.petition.city} -{" "}
                 {data?.petition.country}
               </Typography>
             </Box>

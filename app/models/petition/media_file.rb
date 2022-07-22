@@ -4,6 +4,6 @@ class Petition::MediaFile < ApplicationRecord
   has_one_attached :file
 
   def url
-    file_attachment.url
+    file_attachment.url if file
   end
 end

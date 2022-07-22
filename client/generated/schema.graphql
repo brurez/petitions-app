@@ -99,6 +99,7 @@ type Petition {
   id: ModelID!
   latitude: Float!
   longitude: Float!
+  mediaFileIds: [ModelID!]!
   mediaFiles: [MediaFile!]!
   numberOfVotes: Int!
   postalCode: String

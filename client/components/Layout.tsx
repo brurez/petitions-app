@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import TopBar from "./TopBar";
 import Container from "@mui/material/Container";
-import {createTheme, ThemeProvider, useMediaQuery} from "@mui/material";
+import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
 import { CssBaseline } from "@mui/material";
 import Head from "next/head";
+import { useIsMobile } from "../hooks/useIsMobile";
+import Box from "@mui/material/Box";
 
 const theme = createTheme();
 
 function Layout({ children }: { children: React.ReactNode }) {
-    const matches = useMediaQuery(theme.breakpoints.down('sm'));
+  const { isMobile } = useIsMobile();
   return (
     <ThemeProvider theme={theme}>
-      <Container sx={{ backgroundColor: "#edf0f4", px: matches ? 0 : 1 }}>
+      <Container sx={{ backgroundColor: "#edf0f4", px: isMobile ? 0 : 1 }}>
         <CssBaseline />
         <TopBar />
-        {children}
+        <Box mx={isMobile ? 0.5 : 0}>{children}</Box>
       </Container>
     </ThemeProvider>
   );
