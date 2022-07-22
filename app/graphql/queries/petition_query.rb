@@ -13,13 +13,13 @@ module Queries::PetitionQuery
   end
 
   def petition(id:)
-    petition = Petition.includes(:media_files).find(id)
+    petition = Petition.includes(:media_files, :comments, :user).find(id)
     authorize petition, :show?
     petition
   end
 
   def petitions
-    petitions = Petition.includes(:media_files).all.order(updated_at: :desc)
+    petitions = Petition.includes(:media_files, :user).all.order(updated_at: :desc)
     authorize petitions, :show?
     petitions
   end

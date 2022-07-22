@@ -1,0 +1,5 @@
+query PetitionDetails($id: Int!){
+    petition(id: $id) {
+        ...PetitionDetailFields
+    }
+}
