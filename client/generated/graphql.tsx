@@ -145,7 +145,7 @@ export type Petition = {
   state: Scalars['String'];
   title: Scalars['String'];
   updatedAt: Scalars['ISO8601DateTime'];
-  user?: Maybe<Array<User>>;
+  user?: Maybe<User>;
   userId: Scalars['Int'];
 };
 
@@ -321,6 +321,13 @@ export type VoteInput = {
   userId?: InputMaybe<Scalars['Int']>;
 };
 
+export type CommentCreateMutationVariables = Exact<{
+  input: CommentCreateInput;
+}>;
+
+
+export type CommentCreateMutation = { __typename?: 'Mutation', commentCreate?: { __typename?: 'CommentCreatePayload', comment: { __typename?: 'Comment', id: any } } | null };
+
 export type CurrentUserFragment = { __typename?: 'User', id: any, firstName: string, lastName: string, email: string, createdAt: any, updatedAt: any };
 
 export type MediaFileFieldsFragment = { __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null };
@@ -339,14 +346,14 @@ export type PetitionCreateMutationVariables = Exact<{
 
 export type PetitionCreateMutation = { __typename?: 'Mutation', petitionCreate?: { __typename?: 'PetitionCreatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } } | null };
 
-export type PetitionDetailFieldsFragment = { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }>, comments: Array<{ __typename?: 'Comment', commentText?: string | null, createdAt: any, user?: { __typename?: 'User', firstName: string, lastName: string } | null }> };
+export type PetitionDetailFieldsFragment = { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }>, user?: { __typename?: 'User', firstName: string, lastName: string } | null, comments: Array<{ __typename?: 'Comment', commentText?: string | null, createdAt: any, user?: { __typename?: 'User', firstName: string, lastName: string } | null }> };
 
 export type PetitionDetailsQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PetitionDetailsQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }>, comments: Array<{ __typename?: 'Comment', commentText?: string | null, createdAt: any, user?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
+export type PetitionDetailsQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }>, user?: { __typename?: 'User', firstName: string, lastName: string } | null, comments: Array<{ __typename?: 'Comment', commentText?: string | null, createdAt: any, user?: { __typename?: 'User', firstName: string, lastName: string } | null }> } };
 
 export type PetitionFieldsFragment = { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> };
 
@@ -435,6 +442,10 @@ export const PetitionDetailFieldsFragmentDoc = gql`
   mediaFiles {
     ...MediaFileFields
   }
+  user {
+    firstName
+    lastName
+  }
   mediaFileIds
   comments {
     commentText
@@ -468,6 +479,41 @@ export const PetitionFieldsFragmentDoc = gql`
   mediaFileIds
 }
     ${MediaFileFieldsFragmentDoc}`;
+export const CommentCreateDocument = gql`
+    mutation CommentCreate($input: CommentCreateInput!) {
+  commentCreate(input: $input) {
+    comment {
+      id
+    }
+  }
+}
+    `;
+export type CommentCreateMutationFn = Apollo.MutationFunction<CommentCreateMutation, CommentCreateMutationVariables>;
+
+/**
+ * __useCommentCreateMutation__
+ *
+ * To run a mutation, you first call `useCommentCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCommentCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [commentCreateMutation, { data, loading, error }] = useCommentCreateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCommentCreateMutation(baseOptions?: Apollo.MutationHookOptions<CommentCreateMutation, CommentCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CommentCreateMutation, CommentCreateMutationVariables>(CommentCreateDocument, options);
+      }
+export type CommentCreateMutationHookResult = ReturnType<typeof useCommentCreateMutation>;
+export type CommentCreateMutationResult = Apollo.MutationResult<CommentCreateMutation>;
+export type CommentCreateMutationOptions = Apollo.BaseMutationOptions<CommentCreateMutation, CommentCreateMutationVariables>;
 export const PetitionDocument = gql`
     query Petition($id: Int!) {
   petition(id: $id) {

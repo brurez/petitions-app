@@ -158,7 +158,7 @@ type Petition {
   state: String!
   title: String!
   updatedAt: ISO8601DateTime!
-  user: [User!]
+  user: User
   userId: Int!
 }
 

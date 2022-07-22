@@ -7,7 +7,7 @@ import Link from "next/link";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { PetitionVotes } from "./PetitionVotes";
 import { Room } from "@mui/icons-material";
-import { Petition } from "../generated/graphql";
+import {Petition, PetitionFieldsFragment} from "../generated/graphql";
 
 function PetitionItem({
   id,
@@ -90,7 +90,7 @@ export default function PetitionList({
   petitions,
   onMarkerClick,
 }: {
-  petitions: Petition[];
+  petitions: PetitionFieldsFragment[];
   onMarkerClick: (a: number) => void;
 }) {
   return (

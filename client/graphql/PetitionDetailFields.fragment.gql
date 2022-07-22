@@ -16,6 +16,10 @@ fragment PetitionDetailFields on Petition {
     mediaFiles {
         ...MediaFileFields
     }
+    user {
+        firstName
+        lastName
+    }
     mediaFileIds
     comments {
         commentText

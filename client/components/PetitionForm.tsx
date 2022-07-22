@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import { MediaFile, Petition } from "../generated/graphql";
+import {MediaFile, Petition, PetitionFieldsFragment} from "../generated/graphql";
 import AppMap from "./AppMap";
 import ReadOnlyField from "./ReadOnlyField";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ export function validatePetitionForm(fields: Petition): string | null {
 export function PetitionForm(props: {
   onSubmit: (event: any) => void;
   action: string;
-  initialData?: Petition;
+  initialData?: PetitionFieldsFragment;
 }) {
   const [position, setPosition] = useState<any>(null);
   const [mediaFileIds, setMediaFileIds] = useState<number[]>([]);
