@@ -2,17 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   Autocomplete,
   GoogleMap,
-  InfoBox,
   InfoWindow,
-  LoadScript,
   Marker,
-  useJsApiLoader,
 } from "@react-google-maps/api";
-import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import { CardContent } from "@mui/material";
 import { Petition } from "../generated/graphql";
-import useMessage from "../hooks/useMessage";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";

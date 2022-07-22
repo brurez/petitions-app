@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <StoreProvider>
       <ApolloProvider client={gqlClient}>
         <LoadScript
-          googleMapsApiKey={"AIzaSyARUiX-IeeyFYhrnaV_lz0H7bT-nYWr32Q"}
+          googleMapsApiKey={String(process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY)}
           libraries={["places"]}
         >
           <Layout>
