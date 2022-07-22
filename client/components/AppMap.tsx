@@ -156,7 +156,7 @@ export default function AppMap({
             <SearchField />
           </Autocomplete>
         )}
-        {_petitions.map((_petition) => (
+        {_petitions.length > 0 && _petitions.map((_petition) => (
           <PetitionMarker
             isSelected={selected === _petition.id}
             petition={_petition}

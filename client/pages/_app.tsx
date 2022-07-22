@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <LoadScript
           googleMapsApiKey={String(process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY)}
           libraries={["places"]}
+          language={"en"}
         >
           <Layout>
             <Component {...pageProps} />

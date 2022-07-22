@@ -34,9 +34,9 @@ export default function PetitionCreatePage() {
     petitionInput.latitude = Number(petitionInput.latitude);
     petitionInput.longitude = Number(petitionInput.longitude);
     // @ts-ignore
-    petitionInput.mediaFileIds = mediaFileIds
+    petitionInput.mediaFileIds = mediaFileIds ? mediaFileIds
       .split(",")
-      .map((id) => Number(id));
+      .map((id) => Number(id)) : undefined;
 
     const errorMessage = validatePetitionForm(petitionInput);
     if (errorMessage) {
