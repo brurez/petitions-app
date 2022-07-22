@@ -38,6 +38,11 @@ describe Mutations::PetitionUpdate, type: :graphql do
               petitionInput: {
                 title: "My Title",
                 description: "My description...",
+                latitude: 1,
+                longitude: 2,
+                city: "London",
+                state: "London",
+                country: "United Kingdom"
               }
             }
         },
@@ -75,6 +80,11 @@ describe Mutations::PetitionUpdate, type: :graphql do
               petitionInput: {
                 title: "My Title",
                 description: "My description...",
+                latitude: 1,
+                longitude: 2,
+                city: "London",
+                state: "London",
+                country: "United Kingdom"
               }
             }
         },
