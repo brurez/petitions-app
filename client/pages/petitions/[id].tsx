@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {
+  usePetitionDetailsQuery,
   usePetitionQuery,
   useVoteCreateMutation,
 } from "../../generated/graphql";
@@ -12,6 +13,10 @@ import Button from "@mui/material/Button";
 import useMessage from "../../hooks/useMessage";
 import AppMap from "../../components/AppMap";
 import { MediaFileList } from "../../components/MediaFileList";
+import CommentSection from "../../components/CommentSection";
+import { DateTime } from "luxon";
+import { Check } from "@mui/icons-material";
+import Grid from "@mui/material/Grid";
 
 export default function PetitionViewPage() {
   const router = useRouter();
@@ -19,7 +24,7 @@ export default function PetitionViewPage() {
     data,
     loading,
     refetch: refetchPetition,
-  } = usePetitionQuery({
+  } = usePetitionDetailsQuery({
     variables: { id: Number(router.query.id) },
   });
   const [voteCreate] = useVoteCreateMutation();
@@ -40,6 +45,15 @@ export default function PetitionViewPage() {
       .catch((err) => showErrorMessage(err.message));
   };
 
+  const petition = data?.petition;
+
+  if (!petition)
+    return (
+      <Box textAlign={"center"}>
+        <CircularProgress />
+      </Box>
+    );
+
   return (
     <Box
       sx={{
@@ -52,24 +66,33 @@ export default function PetitionViewPage() {
       }}
     >
       <Typography variant="h4" component="h1" textAlign={"center"}>
-        {data?.petition.title}
+        {petition.title}
       </Typography>
+      <Box
+        sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
+      >
+        <Typography mt={2} ml={1} variant={"body2"}>
+          <strong>Created by: </strong> {petition?.user?.firstName}{" "}
+          {petition?.user?.lastName}
+        </Typography>
+        <Typography mt={2} mr={1} variant={"body2"}>
+          <strong>Date: </strong>{" "}
+          {DateTime.fromISO(petition?.createdAt).toLocaleString()}
+        </Typography>
+      </Box>
       <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
-        <Typography>{data?.petition.description}</Typography>
+        <Typography variant={"h5"} component={"h2"} textAlign={"center"}>
+          About the petition
+        </Typography>
+        <Typography>{petition.description}</Typography>
       </Paper>
       <Paper sx={{ mt: 2, width: "100%" }}>
         {!loading && (
           <>
-            <AppMap
-              petition={data?.petition}
-              height={260}
-              hideSearch
-              closeZoom
-            />
+            <AppMap petition={petition} height={260} hideSearch closeZoom />
             <Box m={1}>
               <Typography variant={"body2"} textAlign={"center"}>
-                {data?.petition.address}, {data?.petition.city} -{" "}
-                {data?.petition.country}
+                {petition.address}, {petition.city} - {petition.country}
               </Typography>
             </Box>
           </>
@@ -79,19 +102,46 @@ export default function PetitionViewPage() {
         <Typography variant={"h5"} component={"h2"} textAlign={"center"}>
           Images
         </Typography>
-        <MediaFileList mediaFiles={data?.petition?.mediaFiles || []} />
+        <MediaFileList mediaFiles={petition?.mediaFiles || []} />
       </Paper>
       <Paper
         sx={{
           mt: 2,
           p: 2,
           width: "100%",
-          display: "flex",
-          justifyContent: "space-around",
         }}
       >
-        <PetitionVotes numberOfVotes={Number(data?.petition.numberOfVotes)} />
-        <Button onClick={handleVoteClick}>Vote for this petition</Button>
+        <Grid
+          container
+          justifyContent={"space-around"}
+          alignItems={"center"}
+          spacing={2}
+        >
+          <Grid item sm={6}>
+            <PetitionVotes numberOfVotes={Number(petition.numberOfVotes)} />
+          </Grid>
+          <Grid item sm={6} textAlign={"center"}>
+            <Button
+              endIcon={<Check />}
+              variant={"contained"}
+              color={"success"}
+              onClick={handleVoteClick}
+              size={"large"}
+            >
+              Vote for this petition
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
+        <Typography variant={"h5"} component={"h2"} textAlign={"center"}>
+          Comments
+        </Typography>
+        <CommentSection
+          comments={petition.comments}
+          petitionId={petition.id}
+          onCommentCreate={refetchPetition}
+        />
       </Paper>
     </Box>
   );

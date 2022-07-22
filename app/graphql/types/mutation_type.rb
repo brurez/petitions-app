@@ -7,5 +7,6 @@ module Types
     field :petition_create, mutation: Mutations::PetitionCreate
     field :petition_update, mutation: Mutations::PetitionUpdate
     field :vote_create, mutation: Mutations::VoteCreate
+    field :comment_create, mutation: Mutations::CommentCreate
   end
 end

@@ -1,0 +1,32 @@
+fragment PetitionDetailFields on Petition {
+    id
+    title
+    description
+    numberOfVotes
+    latitude
+    longitude
+    address
+    city
+    state
+    country
+    postalCode
+    createdAt
+    updatedAt
+    userId
+    mediaFiles {
+        ...MediaFileFields
+    }
+    user {
+        firstName
+        lastName
+    }
+    mediaFileIds
+    comments {
+        commentText
+        createdAt
+        user {
+            firstName
+            lastName
+        }
+    }
+}

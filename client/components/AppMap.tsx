@@ -6,7 +6,7 @@ import {
   Marker,
 } from "@react-google-maps/api";
 import Typography from "@mui/material/Typography";
-import { Petition } from "../generated/graphql";
+import {Petition, PetitionDetailFieldsFragment, PetitionFieldsFragment} from "../generated/graphql";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
@@ -57,8 +57,8 @@ export default function AppMap({
   closeZoom = false,
     defaultCenter,
 }: {
-  petitions?: Petition[];
-  petition?: Petition;
+  petitions?: PetitionFieldsFragment[];
+  petition?: PetitionDetailFieldsFragment;
   height?: number;
   onChange?: (p: Position) => void;
   hideSearch?: boolean;
