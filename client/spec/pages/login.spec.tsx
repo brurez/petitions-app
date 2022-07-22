@@ -11,9 +11,10 @@ const mockedUserLogin = jest.fn(() =>
 
 jest.mock("../../generated/graphql", () => ({
   useUserLoginMutation: () => [mockedUserLogin, { data: {} }],
+  useUserLazyQuery: () => [() => {}, { data: {} }],
 }));
 
-xdescribe("LoginPage", () => {
+describe("LoginPage", () => {
   describe("when filling the form and submitting", () => {
     beforeEach(async () => {
       render(

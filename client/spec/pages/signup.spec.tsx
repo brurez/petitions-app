@@ -11,9 +11,10 @@ const mockedUserCreate = jest.fn(() =>
 
 jest.mock("../../generated/graphql", () => ({
   useUserCreateMutation: () => [mockedUserCreate, { data: {} }],
+  useUserLazyQuery: () => [() => {}, { data: {} }],
 }));
 
-xdescribe("SignupPage", () => {
+describe("SignupPage", () => {
   beforeEach(async () => {
     render(<><SignUpPage /><Message /></>);
     await act(async () => {
