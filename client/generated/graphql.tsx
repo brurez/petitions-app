@@ -286,16 +286,16 @@ export type PetitionQueryVariables = Exact<{
 }>;
 
 
-export type PetitionQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } };
+export type PetitionQuery = { __typename?: 'Query', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } };
 
 export type PetitionCreateMutationVariables = Exact<{
   input: PetitionCreateInput;
 }>;
 
 
-export type PetitionCreateMutation = { __typename?: 'Mutation', petitionCreate?: { __typename?: 'PetitionCreatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } } | null };
+export type PetitionCreateMutation = { __typename?: 'Mutation', petitionCreate?: { __typename?: 'PetitionCreatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } } | null };
 
-export type PetitionFieldsFragment = { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> };
+export type PetitionFieldsFragment = { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> };
 
 export type PetitionMediaFileQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -309,12 +309,12 @@ export type PetitionUpdateMutationVariables = Exact<{
 }>;
 
 
-export type PetitionUpdateMutation = { __typename?: 'Mutation', petitionUpdate?: { __typename?: 'PetitionUpdatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } } | null };
+export type PetitionUpdateMutation = { __typename?: 'Mutation', petitionUpdate?: { __typename?: 'PetitionUpdatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } } | null };
 
 export type PetitionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PetitionsQuery = { __typename?: 'Query', petitions: Array<{ __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> }> };
+export type PetitionsQuery = { __typename?: 'Query', petitions: Array<{ __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> }> };
 
 export type UserQueryVariables = Exact<{
   id: Scalars['Int'];
@@ -382,6 +382,7 @@ export const PetitionFieldsFragmentDoc = gql`
   mediaFiles {
     ...MediaFileFields
   }
+  mediaFileIds
 }
     ${MediaFileFieldsFragmentDoc}`;
 export const PetitionDocument = gql`

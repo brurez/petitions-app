@@ -51,7 +51,7 @@ const Home: NextPage = () => {
         ) : (
           <AppMap
             defaultCenter={center}
-            petitions={data?.petitions}
+            petitions={data?.petitions || []}
             height={400}
           />
         )}

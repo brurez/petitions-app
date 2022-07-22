@@ -94,7 +94,7 @@ export default function AppMap({
         }
       );
     }
-  }, [map, defaultCenter]);
+  }, [map, defaultCenter, petition]);
 
   useEffect(() => {
     petition && setCenter({ lat: petition.latitude, lng: petition.longitude });

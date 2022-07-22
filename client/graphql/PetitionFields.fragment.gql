@@ -16,4 +16,5 @@ fragment PetitionFields on Petition {
     mediaFiles {
         ...MediaFileFields
     }
+    mediaFileIds
 }
