@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Queries::PetitionQuery, type: :graphql do
   let(:user) { FactoryBot.create(:user) }
   let(:petition) { FactoryBot.create(:petition, user: user) }
-  let(:media_file) { FactoryBot.create(:petition_media_file, petition: petition)}
+  let(:media_file) { FactoryBot.create(:petition_media_file, petition: petition) }
   let(:vote) { FactoryBot.create(:vote, user: user, petition: petition) }
   let(:query) do
     <<~GRAPHQL
@@ -13,7 +13,9 @@ describe Queries::PetitionQuery, type: :graphql do
           title
           description
           numberOfVotes
-          mediaFiles
+          mediaFiles {
+            id
+          }
         }
       }
     GRAPHQL
@@ -23,6 +25,7 @@ describe Queries::PetitionQuery, type: :graphql do
     user
     petition
     vote
+    media_file
   end
 
   context "getting petitions" do
@@ -45,9 +48,8 @@ describe Queries::PetitionQuery, type: :graphql do
     end
 
     it "has media file" do
-      binding.pry
-      expect(returned_petitions[0].media_files[0]).to match(hash_including({
-
+      expect(returned_petitions[0]["mediaFiles"][0]).to match(hash_including({
+                                                                               "id" => media_file.id
                                                                            }))
     end
   end

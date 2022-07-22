@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import { ButtonGroup } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
+import Typography from "@mui/material/Typography";
 
 export function validatePetitionForm(fields: Petition): string | null {
   if (!fields.city)
@@ -89,6 +90,9 @@ export function PetitionForm(props: {
         />
       </Paper>
       <Paper sx={{ p: 2, mt: 2 }}>
+        <Typography align={"center"} variant={"h5"} component={"h2"}>
+          Image upload
+        </Typography>
         <PetitionMedia
           onChange={(ids) => setMediaFileIds(ids)}
           initialData={props.initialData?.mediaFiles || []}

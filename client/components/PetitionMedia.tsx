@@ -85,9 +85,6 @@ export default function PetitionMedia({
       >
         Upload File
       </LoadingButton>
-      <Typography m={2} align={"center"} variant={"h5"}>
-        Images
-      </Typography>
       {loading ? (
         <CircularProgress />
       ) : (
