@@ -38,6 +38,7 @@ const Home: NextPage = () => {
       <Typography
         variant="h3"
         align="center"
+        component={"h2"}
         sx={{ mt: 4, fontWeight: "bold" }}
       >
         Municipal Petitions for Everyone
@@ -61,7 +62,7 @@ const Home: NextPage = () => {
         />
       </Paper>
       <Box sx={{ mt: 2 }}>
-        <Typography variant="h4" align="center" sx={{ mb: 2 }}>
+        <Typography variant="h4" align="center" component={"h2"} sx={{ mb: 2 }}>
           Petitions
         </Typography>
 

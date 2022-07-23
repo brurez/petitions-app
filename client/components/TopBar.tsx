@@ -24,8 +24,7 @@ export default function TopBar() {
             <Typography
               variant="h6"
               noWrap
-              component="a"
-              href="/"
+              component="h1"
               sx={{
                 fontWeight: 700,
               }}

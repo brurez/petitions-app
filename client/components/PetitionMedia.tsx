@@ -1,13 +1,15 @@
 import TextField from "@mui/material/TextField";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Divider } from "@mui/material";
 import { MediaFile, usePetitionMediaFileLazyQuery } from "../generated/graphql";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Typography from "@mui/material/Typography";
 import { Upload } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import { MediaFileList } from "./MediaFileList";
+import { FileUpload } from "./FileUpload";
+import useMessage from "../hooks/useMessage";
 
 export default function PetitionMedia({
   onChange,
@@ -16,12 +18,12 @@ export default function PetitionMedia({
   onChange: (a: number[]) => void;
   initialData: MediaFile[];
 }) {
-  const [currentFile, setCurrentFile] = useState("");
   const [mediaFileIds, setMediaFileIds] = useState<number[]>([]);
   const [mediaFiles, setMediaFiles] = useState<any[]>([]);
   const [uploading, setUploading] = useState<boolean>(false);
   const [petitionMediaFileQuery] = usePetitionMediaFileLazyQuery();
   const [loading, setLoading] = useState<boolean>(false);
+  const { showErrorMessage, showSuccessMessage } = useMessage();
 
   useEffect(() => {
     setMediaFiles(initialData);
@@ -37,7 +39,7 @@ export default function PetitionMedia({
     setMediaFiles(newMediaFiles);
   };
 
-  const handleUpload = () => {
+  const handleUpload = (currentFile) => {
     setUploading(true);
     const formData = new FormData();
     formData.append("file", currentFile);
@@ -47,6 +49,8 @@ export default function PetitionMedia({
     })
       .then((res) => res.json())
       .then((data) => {
+        if(!data.error) showSuccessMessage("Image uploaded successfully")
+        else showErrorMessage("Problem trying to upload the image")
         setUploading(false);
         const ids = [...mediaFileIds, data.media_file_id];
         setMediaFileIds(ids);
@@ -54,41 +58,44 @@ export default function PetitionMedia({
         setLoading(true);
         getImages(ids)
           .then(() => setLoading(false))
-          .catch(() => setLoading(false));
-      });
+          .catch((err) => {
+            showErrorMessage(err.message)
+            setLoading(false)
+          });
+      }).catch(err => showErrorMessage(err.message));
   };
 
-  const handleChange = (e) => {
-    if (e.target.files[0]) setCurrentFile(e.target.files[0]);
+  const handleChange = (event) => {
+    if (event.target.files !== null && event.target?.files?.length > 0) {
+      handleUpload(event.target.files[0]);
+    }
+  };
+
+  const handleDrop = (event) => {
+    handleUpload(event.dataTransfer.files[0]);
   };
 
   return (
-    <Box>
-      <TextField
-        hidden
-        margin="normal"
-        fullWidth
-        name="mediaFile"
-        type="file"
-        id="mediaFile"
-        autoComplete="mediaFile"
-        data-testid="mediaFile"
-        onChange={handleChange}
-      />
-      <LoadingButton
-        variant={"outlined"}
-        fullWidth
-        onClick={handleUpload}
-        sx={{ minWidth: 120 }}
-        loading={uploading}
-        endIcon={<Upload />}
-      >
-        Upload File
-      </LoadingButton>
-      {loading ? (
-        <CircularProgress />
+    <Box textAlign={"center"} sx={{ minHeight: 150 }}>
+      {uploading ? (
+          <Box m={2}><CircularProgress /></Box>
       ) : (
-        <MediaFileList mediaFiles={mediaFiles} />
+        <FileUpload
+          onDrop={handleDrop}
+          onChange={handleChange}
+          accept={"image/*"}
+        />
+      )}
+      <Divider sx={{ mb: 2}}/>
+      <Typography variant={"h6"} component={"h4"}>
+        Current images
+      </Typography>
+      {loading ? (
+          <Box m={2}><CircularProgress /></Box>
+      ) : (
+        <Box mt={2}>
+          <MediaFileList mediaFiles={mediaFiles} />{" "}
+        </Box>
       )}
     </Box>
   );
