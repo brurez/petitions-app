@@ -14,6 +14,7 @@ import Link from "next/link";
 import useMessage from "../hooks/useMessage";
 import { useRouter } from "next/router";
 import Paper from "@mui/material/Paper";
+import {Section} from "../components/Section";
 
 export default function LogInPage() {
   const [userLogin] = useUserLoginMutation();
@@ -46,7 +47,7 @@ export default function LogInPage() {
         alignItems: "center",
       }}
     >
-      <Paper sx={{ p: 4, mt: 2 }}>
+      <Section sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
           <Avatar sx={{ m: 1, bgcolor: "secondary.main", textAlign: "center" }}>
             <LockOutlinedIcon />
@@ -96,7 +97,7 @@ export default function LogInPage() {
             </Grid>
           </Grid>
         </Box>
-      </Paper>
+      </Section>
     </Box>
   );
 }

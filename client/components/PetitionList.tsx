@@ -7,7 +7,7 @@ import Link from "next/link";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { PetitionVotes } from "./PetitionVotes";
 import { Room } from "@mui/icons-material";
-import {Petition, PetitionFieldsFragment} from "../generated/graphql";
+import { PetitionFieldsFragment } from "../generated/graphql";
 
 function PetitionItem({
   id,
@@ -96,7 +96,13 @@ export default function PetitionList({
   return (
     <Grid container spacing={2}>
       {petitions.map((petition) => (
-        <Grid item xs={12} md={6} key={petition.id} id={`petition-${petition.id}`}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          key={petition.id}
+          id={`petition-${petition.id}`}
+        >
           <PetitionItem
             {...petition}
             onMarkerClick={() => onMarkerClick(petition.id)}

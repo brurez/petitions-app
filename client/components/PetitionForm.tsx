@@ -12,11 +12,10 @@ import ReadOnlyField from "./ReadOnlyField";
 import { useEffect, useState } from "react";
 import PetitionMedia from "./PetitionMedia";
 import Paper from "@mui/material/Paper";
-import { ButtonGroup } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 import Typography from "@mui/material/Typography";
 import { Form } from "../lib/Form";
+import {Section} from "./Section";
 
 export function validatePetitionForm(fields: Petition): string | null {
   if (!fields.city)
@@ -88,9 +87,9 @@ export function PetitionForm(props: {
       onSubmit={props.onSubmit}
       noValidate
       onKeyDown={handleKeyDown}
-      sx={{ mt: 1 }}
+      sx={{ mt: 1, width: "100%", maxWidth: 800 }}
     >
-      <Paper sx={{ p: 2 }}>
+      <Section>
         <TextField
           defaultValue={props?.initialData?.title}
           margin="normal"
@@ -117,8 +116,8 @@ export function PetitionForm(props: {
           autoComplete="description"
           data-testid="description"
         />
-      </Paper>
-      <Paper sx={{ p: 2, mt: 2 }}>
+      </Section>
+      <Section sx={{ mt: 2 }}>
         <Typography align={"center"} variant={"h5"} component={"h3"}>
           Petition media
         </Typography>
@@ -126,8 +125,8 @@ export function PetitionForm(props: {
           onChange={(ids) => setMediaFileIds(ids)}
           initialData={props.initialData?.mediaFiles || []}
         />
-      </Paper>
-      <Paper sx={{ pt: 2, mt: 2 }}>
+      </Section>
+      <Section sx={{ pt: 2, mt: 2 }}>
         <Box mb={2}>
           <Typography align={"center"} variant={"h5"} component={"h3"} mb={2}>
             Issue location
@@ -138,7 +137,7 @@ export function PetitionForm(props: {
           height={260}
           onChange={handleMapChange}
         />
-      </Paper>
+      </Section>
       <ReadOnlyField value={mediaFileIds} name="mediaFileIds" />
       <ReadOnlyField value={position?.address} name="address" />
       <ReadOnlyField value={position?.city} name="city" />

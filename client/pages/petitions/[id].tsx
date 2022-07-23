@@ -18,6 +18,7 @@ import { DateTime } from "luxon";
 import { Check } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
 import { addApolloState, createApolloClient } from "../../lib/apolloClient";
+import { Section } from "../../components/Section";
 
 export default function PetitionViewPage() {
   const router = useRouter();
@@ -70,7 +71,7 @@ export default function PetitionViewPage() {
         {petition.title}
       </Typography>
       <Box
-        sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
+        sx={{ width: "100%", maxWidth: 800, display: "flex", justifyContent: "space-between" }}
       >
         <Typography mt={2} ml={1} variant={"body2"}>
           <strong>Created by: </strong> {petition?.user?.firstName}{" "}
@@ -81,35 +82,32 @@ export default function PetitionViewPage() {
           {DateTime.fromISO(petition?.createdAt).toLocaleString()}
         </Typography>
       </Box>
-      <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
+      <Section sx={{ mt: 2 }}>
         <Typography variant={"h5"} component={"h2"} textAlign={"center"}>
           About the petition
         </Typography>
         <Typography>{petition.description}</Typography>
-      </Paper>
-      <Paper sx={{ mt: 2, width: "100%" }}>
-        {!loading && (
-          <>
-            <AppMap petition={petition} height={260} hideSearch closeZoom />
-            <Box m={1}>
-              <Typography variant={"body2"} textAlign={"center"}>
-                {petition.address}, {petition.city} - {petition.country}
-              </Typography>
-            </Box>
-          </>
-        )}
-      </Paper>
-      <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
+      </Section>
+      <Section sx={{ mt: 2 }}>
+        <Typography variant={"h5"} component={"h2"} textAlign={"center"} mb={2}>
+          Issue location
+        </Typography>
+        <AppMap petition={petition} height={260} hideSearch closeZoom />
+        <Box mt={2}>
+          <Typography variant={"subtitle2"} textAlign={"center"}>
+            {petition.address}, {petition.city} - {petition.country}
+          </Typography>
+        </Box>
+      </Section>
+      <Section sx={{ mt: 2 }}>
         <Typography variant={"h5"} component={"h2"} textAlign={"center"}>
           Images
         </Typography>
         <MediaFileList mediaFiles={petition?.mediaFiles || []} />
-      </Paper>
-      <Paper
+      </Section>
+      <Section
         sx={{
           mt: 2,
-          p: 2,
-          width: "100%",
         }}
       >
         <Grid
@@ -133,8 +131,8 @@ export default function PetitionViewPage() {
             </Button>
           </Grid>
         </Grid>
-      </Paper>
-      <Paper sx={{ mt: 2, p: 2, width: "100%" }}>
+      </Section>
+      <Section sx={{ mt: 2 }}>
         <Typography variant={"h5"} component={"h2"} textAlign={"center"}>
           Comments
         </Typography>
@@ -143,7 +141,7 @@ export default function PetitionViewPage() {
           petitionId={petition.id}
           onCommentCreate={refetchPetition}
         />
-      </Paper>
+      </Section>
     </Box>
   );
 }

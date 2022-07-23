@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { CircularProgress, Paper, Typography } from "@mui/material";
+import {CircularProgress, Grow, Paper, Typography} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import useCurrentUser from "../hooks/useCurrentUser";
@@ -35,6 +35,7 @@ const Home: NextPage = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
+      <Grow in={true}>
       <Typography
         variant="h3"
         align="center"
@@ -43,6 +44,7 @@ const Home: NextPage = () => {
       >
         Municipal Petitions for Everyone
       </Typography>
+      </Grow>
       <Box sx={{ textAlign: "center" }}>
         <Button
           color="primary"

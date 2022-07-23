@@ -115,8 +115,6 @@ export default function AppMap({
     setMap(null);
   }, []);
 
-  console.log(center);
-
   const handlePlaceChanged = () => {
     if (!autocomplete) return;
     const place = autocomplete.getPlace();
