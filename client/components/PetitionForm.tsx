@@ -12,6 +12,7 @@ import { ButtonGroup } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 import Typography from "@mui/material/Typography";
+import {Form} from "../lib/Form";
 
 export function validatePetitionForm(fields: Petition): string | null {
   if (!fields.city)
@@ -20,6 +21,27 @@ export function validatePetitionForm(fields: Petition): string | null {
   if (!fields.description) return "The description cannot be blank";
 
   return null;
+}
+
+export function buildPetitionFormValues(event): { errorMessage?: string, input?: Petition } {
+  event.preventDefault();
+  const { mediaFile, mediaFileIds, ...fields } = Form.serialize(
+      event.currentTarget
+  );
+  const petitionInput: Petition = fields;
+  petitionInput.latitude = Number(petitionInput.latitude);
+  petitionInput.longitude = Number(petitionInput.longitude);
+  // @ts-ignore
+  petitionInput.mediaFileIds = mediaFileIds ? mediaFileIds
+      .split(",")
+      .map((id) => Number(id)) : undefined;
+
+  const errorMessage = validatePetitionForm(petitionInput);
+  if (errorMessage) {
+    return { errorMessage }
+  }
+
+  return { input: petitionInput }
 }
 
 export function PetitionForm(props: {

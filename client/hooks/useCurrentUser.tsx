@@ -1,9 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { User, useUserLazyQuery } from "../generated/graphql";
 import jwtDecode from "jwt-decode";
 import { CurrentUserI, StoreStateI } from "../lib/reducers";
 import { StoreContext } from "../components/StoreProvider";
-import {isServer} from "../lib/isServer";
+import { isServer } from "../lib/isServer";
 
 interface UserCurrentUserReturnI {
   setCurrentUser: any;
@@ -14,8 +14,13 @@ interface UserCurrentUserReturnI {
 
 export default function useCurrentUser(): UserCurrentUserReturnI {
   const [state, dispatch] = useContext<[StoreStateI, any]>(StoreContext as any);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [userQuery] = useUserLazyQuery();
+
+  useEffect(() => {
+    setIsLoggedIn(isServer() ? false : !!localStorage.getItem("token"));
+  }, [state.currentUser]);
 
   useEffect(() => {
     const token = !isServer() && localStorage.getItem("token");
@@ -45,7 +50,7 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
   }
 
   function logOut() {
-    process.browser && localStorage.removeItem("token");
+    !isServer() && localStorage.removeItem("token");
     dispatch({ type: "CLEAR_CURRENT_USER" });
     dispatch({
       type: "SHOW_SUCCESS_MESSAGE",
@@ -57,6 +62,6 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
     setCurrentUser,
     logOut,
     currentUser: state.currentUser ? state.currentUser : undefined,
-    isLoggedIn: process.browser ? !!localStorage.getItem("token") : false,
+    isLoggedIn,
   };
 }

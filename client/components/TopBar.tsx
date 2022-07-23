@@ -40,9 +40,7 @@ export default function TopBar() {
                 <Typography variant={"body2"} sx={{ lineHeight: "3rem" }}>
                   Hi {currentUser && currentUser.firstName} |
                 </Typography>
-                <Button onClick={logOut}>
-                  Log Out
-                </Button>
+                <Button onClick={logOut}>Log Out</Button>
               </Stack>
             ) : (
               <>
