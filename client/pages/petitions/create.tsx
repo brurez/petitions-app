@@ -10,6 +10,7 @@ import useMessage from "../../hooks/useMessage";
 import { useRouter } from "next/router";
 import { PostAdd } from "@mui/icons-material";
 import {
+  buildPetitionFormValues,
   PetitionForm,
   validatePetitionForm,
 } from "../../components/PetitionForm";
@@ -26,25 +27,14 @@ export default function PetitionCreatePage() {
     }
   });
   const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const { mediaFile, mediaFileIds, ...fields } = Form.serialize(
-      event.currentTarget
-    );
-    const petitionInput: Petition = fields;
-    petitionInput.latitude = Number(petitionInput.latitude);
-    petitionInput.longitude = Number(petitionInput.longitude);
-    // @ts-ignore
-    petitionInput.mediaFileIds = mediaFileIds ? mediaFileIds
-      .split(",")
-      .map((id) => Number(id)) : undefined;
-
-    const errorMessage = validatePetitionForm(petitionInput);
+    const { errorMessage, input } = buildPetitionFormValues(event);
     if (errorMessage) {
       showErrorMessage(errorMessage);
       return;
     }
+    if(!input) return;
 
-    petitionCreate({ variables: { input: { petitionInput } } })
+    petitionCreate({ variables: { input: { petitionInput: input } } })
       .then(() => {
         showSuccessMessage("Petition created successfully");
         router.push("/");

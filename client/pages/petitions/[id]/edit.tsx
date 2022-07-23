@@ -6,6 +6,7 @@ import {
 } from "../../../generated/graphql";
 import { CircularProgress } from "@mui/material";
 import {
+  buildPetitionFormValues,
   PetitionForm,
   validatePetitionForm,
 } from "../../../components/PetitionForm";
@@ -25,25 +26,16 @@ export default function PetitionEditPage() {
   const [petitionUpdate] = usePetitionUpdateMutation();
 
   const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const { mediaFile, mediaFileIds, ...fields } = Form.serialize(
-      event.currentTarget
-    );
-    const petitionInput: Petition = fields;
-    petitionInput.latitude = Number(petitionInput.latitude);
-    petitionInput.longitude = Number(petitionInput.longitude);
-    // @ts-ignore
-    petitionInput.mediaFileIds = mediaFileIds
-        .split(",")
-        .map((id) => Number(id));
-
-    const errorMessage = validatePetitionForm(petitionInput);
+    const { errorMessage, input } = buildPetitionFormValues(event);
     if (errorMessage) {
       showErrorMessage(errorMessage);
       return;
     }
+    if (!input) return;
 
-    petitionUpdate({ variables: { input: { id: String(id), petitionInput } } })
+    petitionUpdate({
+      variables: { input: { id: String(id), petitionInput: input } },
+    })
       .then(() => {
         showSuccessMessage("Petition updated successfully");
         router.push("/");

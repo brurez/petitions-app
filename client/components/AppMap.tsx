@@ -122,19 +122,20 @@ export default function AppMap({
       const lng = place.geometry.location.lng();
       setCenter({ lat, lng });
       setZoom(18);
+
       const position = {
         address: place.address_components.find((ac) =>
           ac.types.includes("route")
         )?.short_name,
         city: place.address_components.find((ac) =>
           ac.types.includes("administrative_area_level_2")
-        )?.short_name,
+        )?.long_name,
         state: place.address_components.find((ac) =>
           ac.types.includes("administrative_area_level_1")
-        )?.short_name,
+        )?.long_name,
         country: place.address_components.find((ac) =>
           ac.types.includes("country")
-        )?.short_name,
+        )?.long_name,
         postalCode: place.address_components.find((ac) =>
           ac.types.includes("postal_code")
         )?.short_name,
