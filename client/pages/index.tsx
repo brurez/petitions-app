@@ -8,7 +8,7 @@ import PetitionList from "../components/PetitionList";
 import { PetitionsDocument, usePetitionsQuery } from "../generated/graphql";
 import AppMap from "../components/AppMap";
 import { useState } from "react";
-import {addApolloState, createApolloClient} from "../lib/apolloClient";
+import { addApolloState, createApolloClient } from "../lib/apolloClient";
 import { isServer } from "../lib/isServer";
 
 const Home: NextPage = () => {
@@ -77,17 +77,10 @@ const Home: NextPage = () => {
 
 export default Home;
 
-/*export async function getServerSideProps(context) {
-    try {
-        const apolloClient = createApolloClient()
-        await apolloClient.query({query: PetitionsDocument});
-        return addApolloState(apolloClient, {
-            props: {}, // will be passed to the page component as props
-        });
-    } catch {
-        return {
-            props: {}
-        }
-    }
-
-}*/
+export async function getServerSideProps(context) {
+  const apolloClient = createApolloClient();
+  await apolloClient.query({ query: PetitionsDocument });
+  return addApolloState(apolloClient, {
+    props: {}, // will be passed to the page component as props
+  });
+}
