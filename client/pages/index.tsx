@@ -14,7 +14,7 @@ import { isServer } from "../lib/isServer";
 const Home: NextPage = () => {
   const { isLoggedIn } = useCurrentUser();
   const router = useRouter();
-  const { data, loading } = usePetitionsQuery({
+  const { data } = usePetitionsQuery({
     notifyOnNetworkStatusChange: true,
   });
   const [center, setCenter] = useState<any>(null);
@@ -77,11 +77,17 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export async function getServerSideProps(context) {
-  const apolloClient = createApolloClient()
-  await apolloClient.query({ query: PetitionsDocument });
+/*export async function getServerSideProps(context) {
+    try {
+        const apolloClient = createApolloClient()
+        await apolloClient.query({query: PetitionsDocument});
+        return addApolloState(apolloClient, {
+            props: {}, // will be passed to the page component as props
+        });
+    } catch {
+        return {
+            props: {}
+        }
+    }
 
-  return addApolloState(apolloClient, {
-    props: {}, // will be passed to the page component as props
-  });
-}
+}*/

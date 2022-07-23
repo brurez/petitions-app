@@ -13,7 +13,7 @@ let apolloClient;
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_SERVER_DOMAIN + "/graphql",
   fetch,
-  credentials: "headers",
+  credentials: "headers"
 });
 
 const authLink = setContext((_, { headers }) => {
