@@ -36,7 +36,7 @@ function PetitionItem({
           <Grid item xs={10}>
             <Typography
               variant="h6"
-              component="div"
+              component="h3"
               sx={{
                 textOverflow: "ellipsis",
                 overflow: "hidden",

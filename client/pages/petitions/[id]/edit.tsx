@@ -61,9 +61,11 @@ export default function PetitionEditPage() {
         alignItems: "center",
       }}
     >
-      <Typography variant={"h3"} m={2}>
-        Edit your Petition
-      </Typography>
+      <Box m={2}>
+        <Typography variant={"h4"} component={"h2"}>
+          Edit your Petition
+        </Typography>
+      </Box>
       <PetitionForm
         initialData={data?.petition}
         onSubmit={handleSubmit}

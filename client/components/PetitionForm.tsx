@@ -2,7 +2,11 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import {MediaFile, Petition, PetitionFieldsFragment} from "../generated/graphql";
+import {
+  MediaFile,
+  Petition,
+  PetitionFieldsFragment,
+} from "../generated/graphql";
 import AppMap from "./AppMap";
 import ReadOnlyField from "./ReadOnlyField";
 import { useEffect, useState } from "react";
@@ -12,7 +16,7 @@ import { ButtonGroup } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 import Typography from "@mui/material/Typography";
-import {Form} from "../lib/Form";
+import { Form } from "../lib/Form";
 
 export function validatePetitionForm(fields: Petition): string | null {
   if (!fields.city)
@@ -23,25 +27,28 @@ export function validatePetitionForm(fields: Petition): string | null {
   return null;
 }
 
-export function buildPetitionFormValues(event): { errorMessage?: string, input?: Petition } {
+export function buildPetitionFormValues(event): {
+  errorMessage?: string;
+  input?: Petition;
+} {
   event.preventDefault();
   const { mediaFile, mediaFileIds, ...fields } = Form.serialize(
-      event.currentTarget
+    event.currentTarget
   );
   const petitionInput: Petition = fields;
   petitionInput.latitude = Number(petitionInput.latitude);
   petitionInput.longitude = Number(petitionInput.longitude);
   // @ts-ignore
-  petitionInput.mediaFileIds = mediaFileIds ? mediaFileIds
-      .split(",")
-      .map((id) => Number(id)) : undefined;
+  petitionInput.mediaFileIds = mediaFileIds
+    ? mediaFileIds.split(",").map((id) => Number(id))
+    : undefined;
 
   const errorMessage = validatePetitionForm(petitionInput);
   if (errorMessage) {
-    return { errorMessage }
+    return { errorMessage };
   }
 
-  return { input: petitionInput }
+  return { input: petitionInput };
 }
 
 export function PetitionForm(props: {
@@ -112,15 +119,20 @@ export function PetitionForm(props: {
         />
       </Paper>
       <Paper sx={{ p: 2, mt: 2 }}>
-        <Typography align={"center"} variant={"h5"} component={"h2"}>
-          Image upload
+        <Typography align={"center"} variant={"h5"} component={"h3"}>
+          Petition media
         </Typography>
         <PetitionMedia
           onChange={(ids) => setMediaFileIds(ids)}
           initialData={props.initialData?.mediaFiles || []}
         />
       </Paper>
-      <Paper sx={{ p: 2, mt: 2 }}>
+      <Paper sx={{ pt: 2, mt: 2 }}>
+        <Box mb={2}>
+          <Typography align={"center"} variant={"h5"} component={"h3"} mb={2}>
+            Issue location
+          </Typography>
+        </Box>
         <AppMap
           petition={{ ...props?.initialData, ...position }}
           height={260}
