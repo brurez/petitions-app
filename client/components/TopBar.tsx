@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 import useCurrentUser from "../hooks/useCurrentUser";
 import Link from "next/link";
 import { Stack } from "@mui/material";
-import {FaceRetouchingNatural} from "@mui/icons-material";
 
 export default function TopBar() {
   const { currentUser, isLoggedIn, logOut } = useCurrentUser();

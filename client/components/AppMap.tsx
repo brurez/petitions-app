@@ -3,10 +3,14 @@ import {
   Autocomplete,
   GoogleMap,
   InfoWindow,
+  LoadScript,
   Marker,
 } from "@react-google-maps/api";
 import Typography from "@mui/material/Typography";
-import {Petition, PetitionDetailFieldsFragment, PetitionFieldsFragment} from "../generated/graphql";
+import {
+  PetitionDetailFieldsFragment,
+  PetitionFieldsFragment,
+} from "../generated/graphql";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
@@ -22,6 +26,8 @@ export interface Position {
 }
 
 let autocomplete: any = null;
+
+const libraries: any = ["places"];
 
 function SearchField() {
   return (
@@ -55,7 +61,7 @@ export default function AppMap({
   onChange = () => {},
   hideSearch = false,
   closeZoom = false,
-    defaultCenter,
+  defaultCenter,
 }: {
   petitions?: PetitionFieldsFragment[];
   petition?: PetitionDetailFieldsFragment;
@@ -63,7 +69,7 @@ export default function AppMap({
   onChange?: (p: Position) => void;
   hideSearch?: boolean;
   closeZoom?: boolean;
-  defaultCenter?: { lat: number, lng: number}
+  defaultCenter?: { lat: number; lng: number };
 }) {
   const router = useRouter();
 
@@ -78,8 +84,8 @@ export default function AppMap({
   );
 
   useEffect(() => {
-    if(defaultCenter) {
-      setCenter(defaultCenter)
+    if (defaultCenter) {
+      setCenter(defaultCenter);
       return;
     }
     // Try HTML5 geolocation.
@@ -129,9 +135,9 @@ export default function AppMap({
         country: place.address_components.find((ac) =>
           ac.types.includes("country")
         )?.short_name,
-        postalCode: place.address_components
-          .find((ac) => ac.types.includes("postal_code"))
-          ?.short_name,
+        postalCode: place.address_components.find((ac) =>
+          ac.types.includes("postal_code")
+        )?.short_name,
         latitude: lat,
         longitude: lng,
       };
@@ -140,34 +146,41 @@ export default function AppMap({
   };
 
   return (
-    <GoogleMap
-      mapContainerStyle={{ width: "100%", height: `${height}px` }}
-      center={center}
-      zoom={zoom}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
+    <LoadScript
+      googleMapsApiKey={String(process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY)}
+      libraries={libraries}
+      language={"en"}
     >
-      <>
-        {!hideSearch && (
-          <Autocomplete
-            onLoad={(ac) => (autocomplete = ac)}
-            onPlaceChanged={handlePlaceChanged}
-          >
-            <SearchField />
-          </Autocomplete>
-        )}
-        {_petitions.length > 0 && _petitions.map((_petition) => (
-          <PetitionMarker
-            isSelected={selected === _petition.id}
-            petition={_petition}
-            onCloseClick={() => setSelected(0)}
-            onMarkClick={() => setSelected(_petition.id)}
-            onButtonClick={() => router.push(`petitions/${_petition.id}`)}
-            key={_petition.id}
-          />
-        ))}
-      </>
-    </GoogleMap>
+      <GoogleMap
+        mapContainerStyle={{ width: "100%", height: `${height}px` }}
+        center={center}
+        zoom={zoom}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        <>
+          {!hideSearch && (
+            <Autocomplete
+              onLoad={(ac) => (autocomplete = ac)}
+              onPlaceChanged={handlePlaceChanged}
+            >
+              <SearchField />
+            </Autocomplete>
+          )}
+          {_petitions.length > 0 &&
+            _petitions.map((_petition) => (
+              <PetitionMarker
+                isSelected={selected === _petition.id}
+                petition={_petition}
+                onCloseClick={() => setSelected(0)}
+                onMarkClick={() => setSelected(_petition.id)}
+                onButtonClick={() => router.push(`petitions/${_petition.id}`)}
+                key={_petition.id}
+              />
+            ))}
+        </>
+      </GoogleMap>
+    </LoadScript>
   );
 }
 

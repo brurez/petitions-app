@@ -1,9 +1,9 @@
 import React, { FC, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
-import gqlClient from "../lib/gqlClient";
 import { ApolloProvider } from "@apollo/client";
 import {useRouter} from "next/router";
 import {StoreProvider} from "../components/StoreProvider";
+import {createApolloClient} from "../lib/apolloClient";
 
 jest.mock('next/router');
 
@@ -30,7 +30,7 @@ useRouter.mockImplementation(() => {
 const AllTheProviders: FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <StoreProvider>
-      <ApolloProvider client={gqlClient}>
+      <ApolloProvider client={createApolloClient()}>
         {children}
       </ApolloProvider>
     </StoreProvider>
