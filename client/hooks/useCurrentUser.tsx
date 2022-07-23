@@ -3,6 +3,7 @@ import { User, useUserLazyQuery } from "../generated/graphql";
 import jwtDecode from "jwt-decode";
 import { CurrentUserI, StoreStateI } from "../lib/reducers";
 import { StoreContext } from "../components/StoreProvider";
+import {isServer} from "../lib/isServer";
 
 interface UserCurrentUserReturnI {
   setCurrentUser: any;
@@ -17,7 +18,7 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
   const [userQuery] = useUserLazyQuery();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = !isServer() && localStorage.getItem("token");
     if (token && !state.currentUser) {
       // @ts-ignore
       let id;
@@ -44,7 +45,7 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
   }
 
   function logOut() {
-    localStorage.removeItem("token");
+    process.browser && localStorage.removeItem("token");
     dispatch({ type: "CLEAR_CURRENT_USER" });
     dispatch({
       type: "SHOW_SUCCESS_MESSAGE",
@@ -56,6 +57,6 @@ export default function useCurrentUser(): UserCurrentUserReturnI {
     setCurrentUser,
     logOut,
     currentUser: state.currentUser ? state.currentUser : undefined,
-    isLoggedIn: !!localStorage.getItem("token"),
+    isLoggedIn: process.browser ? !!localStorage.getItem("token") : false,
   };
 }
