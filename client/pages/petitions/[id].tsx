@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {
+  PetitionDetailsDocument,
   usePetitionDetailsQuery,
-  usePetitionQuery,
   useVoteCreateMutation,
 } from "../../generated/graphql";
 import { useRouter } from "next/router";
@@ -17,6 +17,7 @@ import CommentSection from "../../components/CommentSection";
 import { DateTime } from "luxon";
 import { Check } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
+import { addApolloState, createApolloClient } from "../../lib/apolloClient";
 
 export default function PetitionViewPage() {
   const router = useRouter();
@@ -145,4 +146,16 @@ export default function PetitionViewPage() {
       </Paper>
     </Box>
   );
+}
+
+export async function getServerSideProps(context) {
+  const apolloClient = createApolloClient();
+  await apolloClient.query({
+    query: PetitionDetailsDocument,
+    variables: { id: Number(context.query.id) },
+  });
+
+  return addApolloState(apolloClient, {
+    props: {}, // will be passed to the page component as props
+  });
 }
