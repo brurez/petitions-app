@@ -17,6 +17,8 @@ gem "puma", "~> 5.0"
 
 gem 'dotenv-rails', groups: [:development, :test]
 
+gem "rack-cors", "~> 1.1"
+
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
 
@@ -82,7 +84,5 @@ end
 gem "pundit", "~> 2.2"
 
 gem "graphql", "~> 2.0"
-
-gem "rack-cors", "~> 1.1"
 
 gem "jwt", "~> 2.4"
