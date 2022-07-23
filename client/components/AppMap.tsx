@@ -89,7 +89,7 @@ export default function AppMap({
       return;
     }
     // Try HTML5 geolocation.
-    if (!petition && navigator.geolocation) {
+    if (!petition?.city && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
           const pos = {
@@ -103,7 +103,8 @@ export default function AppMap({
   }, [map, defaultCenter, petition]);
 
   useEffect(() => {
-    petition && setCenter({ lat: petition.latitude, lng: petition.longitude });
+    petition?.city &&
+      setCenter({ lat: petition.latitude, lng: petition.longitude });
   }, [petition]);
 
   const onLoad = React.useCallback(function callback(map) {
@@ -113,6 +114,8 @@ export default function AppMap({
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
+
+  console.log(center);
 
   const handlePlaceChanged = () => {
     if (!autocomplete) return;
@@ -154,7 +157,7 @@ export default function AppMap({
     >
       <GoogleMap
         mapContainerStyle={{ width: "100%", height: `${height}px` }}
-        center={center}
+        center={center.lat && center.lng ? center : undefined}
         zoom={zoom}
         onLoad={onLoad}
         onUnmount={onUnmount}

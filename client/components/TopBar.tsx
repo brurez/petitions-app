@@ -27,6 +27,7 @@ export default function TopBar() {
               component="h1"
               sx={{
                 fontWeight: 700,
+                cursor: "pointer",
               }}
             >
               Petition App
@@ -36,9 +37,11 @@ export default function TopBar() {
           <Box>
             {isLoggedIn ? (
               <Stack direction="row">
-                <Typography variant={"body2"} sx={{ lineHeight: "3rem" }}>
+                  <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                <Typography variant={"body2"} >
                   Hi {currentUser && currentUser.firstName} |
                 </Typography>
+                  </Box>
                 <Button onClick={logOut}>Log Out</Button>
               </Stack>
             ) : (

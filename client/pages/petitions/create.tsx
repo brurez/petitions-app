@@ -12,7 +12,6 @@ import { PostAdd } from "@mui/icons-material";
 import {
   buildPetitionFormValues,
   PetitionForm,
-  validatePetitionForm,
 } from "../../components/PetitionForm";
 
 export default function PetitionCreatePage() {
@@ -22,7 +21,7 @@ export default function PetitionCreatePage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (isLoggedIn === false) {
       router.push("/login");
     }
   });

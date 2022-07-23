@@ -9,12 +9,12 @@ interface UserCurrentUserReturnI {
   setCurrentUser: any;
   logOut: () => any;
   currentUser?: CurrentUserI;
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
 }
 
 export default function useCurrentUser(): UserCurrentUserReturnI {
   const [state, dispatch] = useContext<[StoreStateI, any]>(StoreContext as any);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
 
   const [userQuery] = useUserLazyQuery();
 

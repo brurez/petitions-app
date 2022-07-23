@@ -2,7 +2,6 @@ import React from "react";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { CloudUpload } from "@mui/icons-material";
-import Image from "next/image";
 
 export type FileUploadProps = {
   imageButton?: boolean;
@@ -26,7 +25,7 @@ export type FileUploadProps = {
 const useStyle = makeStyles({
   root: {
     cursor: "pointer",
-    textAlign: "center",
+    justifyContent: "center",
     display: "flex",
     "&:hover p,&:hover svg,& img": {
       opacity: 1,
@@ -66,7 +65,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   imageButton = false,
   hoverLabel = "Click or drag to upload file",
   dropLabel = "Drop file here",
-  width = "600px",
+  width = "260px",
   height = "100px",
   backgroundColor = "#fff",
   image: {
@@ -147,12 +146,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           bgcolor={backgroundColor}
           className={classes.noMouseEvent}
         >
-          {imageButton && (
-            <Box position="absolute" height={height} width={width}>
-              <Image alt="file upload" src={imageUrl} style={imageStyle} />
-            </Box>
-          )}
-
           {(!imageButton || isDragOver || isMouseOver) && (
             <>
               <Box height={height} width={width} className={classes.iconText}>

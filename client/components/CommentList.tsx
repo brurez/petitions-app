@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { CardContent, Paper, Stack } from "@mui/material";
+import { CardContent, Divider, Paper, Stack } from "@mui/material";
 import { Comment } from "../generated/graphql";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -22,7 +22,7 @@ export default function CommentList({
   return (
     <Stack spacing={1} {...props}>
       {comments.map((comment: Comment) => (
-        <Paper variant={"outlined"} sx={{ px: 2, py: 1}} key={comment.id}>
+        <Box key={comment.id}>
           <Typography gutterBottom variant={"body1"}>
             {" "}
             {comment.commentText}
@@ -35,7 +35,8 @@ export default function CommentList({
               {DateTime.fromISO(comment?.createdAt).toLocaleString()}
             </Typography>
           </Box>
-        </Paper>
+          <Divider sx={{ my: 1 }} />
+        </Box>
       ))}
     </Stack>
   );

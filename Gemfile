@@ -79,6 +79,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 5.1.2'
   gem 'pry-rails'
+  gem 'pry-nav'
 end
 
 gem "pundit", "~> 2.2"

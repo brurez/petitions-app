@@ -27,7 +27,8 @@ export default function PetitionMedia({
 
   useEffect(() => {
     setMediaFiles(initialData);
-  }, [initialData]);
+    setMediaFileIds(initialData.map((mediaFile) => mediaFile.id));
+  }, []);
 
   const getImages = async (ids) => {
     const newMediaFiles: MediaFile[] = [];
@@ -49,20 +50,26 @@ export default function PetitionMedia({
     })
       .then((res) => res.json())
       .then((data) => {
-        if(!data.error) showSuccessMessage("Image uploaded successfully")
-        else showErrorMessage("Problem trying to upload the image")
+        if (!data.error) showSuccessMessage("Image uploaded successfully");
+        else {
+          showErrorMessage("Problem trying to upload the image");
+          return;
+        }
         setUploading(false);
         const ids = [...mediaFileIds, data.media_file_id];
         setMediaFileIds(ids);
         onChange(ids);
         setLoading(true);
         getImages(ids)
-          .then(() => setLoading(false))
           .catch((err) => {
-            showErrorMessage(err.message)
-            setLoading(false)
+            showErrorMessage(err.message);
           });
-      }).catch(err => showErrorMessage(err.message));
+      })
+      .catch((err) => showErrorMessage(err.message))
+      .finally(() => {
+        setUploading(false);
+        setLoading(false);
+      });
   };
 
   const handleChange = (event) => {
@@ -78,7 +85,9 @@ export default function PetitionMedia({
   return (
     <Box textAlign={"center"} sx={{ minHeight: 150 }}>
       {uploading ? (
-          <Box m={2}><CircularProgress /></Box>
+        <Box m={2}>
+          <CircularProgress />
+        </Box>
       ) : (
         <FileUpload
           onDrop={handleDrop}
@@ -86,15 +95,17 @@ export default function PetitionMedia({
           accept={"image/*"}
         />
       )}
-      <Divider sx={{ mb: 2}}/>
+      <Divider sx={{ mb: 2 }} />
       <Typography variant={"h6"} component={"h4"}>
         Current images
       </Typography>
       {loading ? (
-          <Box m={2}><CircularProgress /></Box>
+        <Box m={2}>
+          <CircularProgress />
+        </Box>
       ) : (
         <Box mt={2}>
-          <MediaFileList mediaFiles={mediaFiles} />{" "}
+          <MediaFileList mediaFiles={mediaFiles} />
         </Box>
       )}
     </Box>
