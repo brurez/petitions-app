@@ -19,7 +19,7 @@ import { Paper } from "@mui/material";
 import { Section } from "../components/Section";
 
 export default function SignUpPage() {
-  const [userCreate, { data }] = useUserCreateMutation();
+  const [userCreate] = useUserCreateMutation();
   const { showErrorMessage, showSuccessMessage } = useMessage();
   const { setCurrentUser } = useCurrentUser();
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function SignUpPage() {
         router.push("/");
       })
       .catch((err) =>
-        showErrorMessage(err.networkError.result.errors[0].message)
+        showErrorMessage(err.message)
       );
   };
 
