@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import {
-  Petition,
   usePetitionQuery,
   usePetitionUpdateMutation,
 } from "../../../generated/graphql";
@@ -8,13 +7,12 @@ import { CircularProgress } from "@mui/material";
 import {
   buildPetitionFormValues,
   PetitionForm,
-  validatePetitionForm,
 } from "../../../components/PetitionForm";
-import { Form } from "../../../lib/Form";
 import useMessage from "../../../hooks/useMessage";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
+// page to edit a petition
 export default function PetitionEditPage() {
   const router = useRouter();
   const id = Number(router.query.id);

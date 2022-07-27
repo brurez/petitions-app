@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from "react";
 import { reducers, StoreStateI } from "../lib/reducers";
 
-// Initial Store state
+// Initial Store state used by the Reducers
 const initialState: StoreStateI = {
   message: { open: false, text: "", kind: "error" },
   currentUser: null,

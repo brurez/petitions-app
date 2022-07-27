@@ -1,11 +1,7 @@
 import { useContext } from "react";
 import { StoreContext } from "../components/StoreProvider";
 
-export type MessageType = {
-  text: string;
-  kind: "error";
-};
-
+// React hook responsible to show messages to the user at the bottom of the screen
 export default function useMessage() {
   const [state, dispatch] = useContext<any>(StoreContext);
 

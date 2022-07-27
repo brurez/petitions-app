@@ -1,4 +1,5 @@
 export const Form = {
+    // creates an object from the form fields
     serialize(form: HTMLFormElement) {
         var obj: any = {};
         var formData = new FormData(form);

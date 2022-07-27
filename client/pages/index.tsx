@@ -22,15 +22,28 @@ import { Done, Face, PlaceOutlined, Search } from "@mui/icons-material";
 import { NoSsr } from "@mui/base";
 import { Section } from "../components/Section";
 
+type CenterType = {
+  lat: number,
+  lng: number,
+}
+
+// Application home page
 const Home: NextPage = () => {
   const { isLoggedIn, currentUser } = useCurrentUser();
-  const [center, setCenter] = useState<any>(null);
+  // center of the map position state
+  const [center, setCenter] = useState<CenterType | null>(null);
+  // petition's search string state
   const [search, setSearch] = useState<string>("");
+  // how many petitions are loaded
   const limit = 10;
+  // petition's offset used for pagination
   const [offset, setOffset] = useState<number>(0);
+  // state for the search filter that only show petitions present on the map
   const [onlyPetitionsOnMap, setOnlyPetitionsOnMap] = useState<boolean>(false);
+  // state for the search filter to display only the petitions created by the current user
   const [onlyCurrentUserPetitions, setOnlyCurrentUserPetitions] =
     useState<boolean>(false);
+  // half of the distance in km covered by the bounderies of the map
   const [radius, setRadius] = useState<number>(20);
 
   const router = useRouter();
@@ -52,6 +65,7 @@ const Home: NextPage = () => {
 
   const petitions = data?.petitions || previousData?.petitions || [];
 
+  // executed when the button to create a new petition is clicked
   function handleCreateNewPetitionClick() {
     if (!isLoggedIn) {
       router.push("/signup");
@@ -60,6 +74,7 @@ const Home: NextPage = () => {
     router.push("/petitions/create");
   }
 
+  // executed when a marker in the map is clicked
   const handleMarkerClick = (id) => {
     const petition = petitions.find((p) => p.id === id);
     if (!petition) return;
@@ -67,6 +82,7 @@ const Home: NextPage = () => {
     !isServer() && window.scrollTo(0, 0);
   };
 
+  // executed when the "Load more" button is clicked
   const handleLoadMoreClick = () => {
     const _offset = offset + limit;
     setOffset(_offset);
@@ -99,7 +115,7 @@ const Home: NextPage = () => {
       <NoSsr>
         <Paper sx={{ mt: 4, textAlign: "center" }}>
           <AppMap
-            defaultCenter={center}
+            defaultCenter={center ? center : undefined}
             petitions={petitions}
             height={400}
             onChange={(p, r) => {
@@ -158,6 +174,8 @@ const Home: NextPage = () => {
 
 export default Home;
 
+// This function is only executed in the backend to preload the petition's cache
+// and render the HTML full of petitions on the server before sending it to the browser
 export async function getServerSideProps(context) {
   const apolloClient = createApolloClient();
   // loads query data into the Apollo cache

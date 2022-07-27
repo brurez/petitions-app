@@ -13,7 +13,6 @@ import { Form } from "../lib/Form";
 import Link from "next/link";
 import useMessage from "../hooks/useMessage";
 import { useRouter } from "next/router";
-import Paper from "@mui/material/Paper";
 import {Section} from "../components/Section";
 
 export default function LogInPage() {
@@ -22,9 +21,11 @@ export default function LogInPage() {
   const { showErrorMessage, showSuccessMessage } = useMessage();
   const router = useRouter();
 
+  // executed when the button is clicked
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const userLoginInput: any = Form.serialize(event.currentTarget);
+    // calls the server to check if the user credentials are correct
     userLogin({ variables: { input: { userLoginInput } } })
       .then((response) => {
         // @ts-ignore

@@ -7,9 +7,11 @@ import Message from "../components/Message";
 import { StoreProvider } from "../components/StoreProvider";
 import { Settings } from "luxon";
 
+// Sets the default localization to display time
 Settings.defaultLocale = "en";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // gets the Apollo GraphQL client and set it into React Context
   const apolloClient = useApollo(pageProps);
   return (
     <>

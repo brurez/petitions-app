@@ -29,6 +29,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// Creates a client used to communicate with the server using GraphQL
 export function createApolloClient() {
   return new ApolloClient({
     ssrMode: isServer(),

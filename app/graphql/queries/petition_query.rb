@@ -17,13 +17,18 @@ module Queries::PetitionQuery
     end
   end
 
+
+  # returns a single petition
   def petition(id:)
     petition = Petition.includes(:media_files, :comments, :user).find(id)
     authorize petition, :show?
     petition
   end
 
+  # returns many petitions
   def petitions(search: nil, limit: 4, offset: 0, region: nil, user_id: nil)
+    # returns petitions that satisfy the query conditions
+    # if there is no conditions, all petitions are returned
     petitions = PetitionService.search(search_text: search,
                                        latitude: region&.latitude,
                                        longitude: region&.longitude,

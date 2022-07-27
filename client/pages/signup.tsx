@@ -26,6 +26,7 @@ export default function SignUpPage() {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const userInput: any = Form.serialize(event.currentTarget);
+    // calls the server to create a new user
     userCreate({ variables: { input: { userInput } } })
       .then((response) => {
         // @ts-ignore

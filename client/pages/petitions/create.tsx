@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Petition, usePetitionCreateMutation } from "../../generated/graphql";
 import useCurrentUser from "../../hooks/useCurrentUser";
-import { Form } from "../../lib/Form";
 import useMessage from "../../hooks/useMessage";
 import { useRouter } from "next/router";
 import { PostAdd } from "@mui/icons-material";
@@ -14,6 +13,7 @@ import {
   PetitionForm,
 } from "../../components/PetitionForm";
 
+// page to create a new petition
 export default function PetitionCreatePage() {
   const [petitionCreate] = usePetitionCreateMutation();
   const { isLoggedIn } = useCurrentUser();
@@ -25,14 +25,18 @@ export default function PetitionCreatePage() {
       router.push("/login");
     }
   });
+
+  // executed when the user clicks the button to create a new petition
   const handleSubmit = (event: any) => {
     const { errorMessage, input } = buildPetitionFormValues(event);
+    // shows an error message and stops execution if the form validation fails
     if (errorMessage) {
       showErrorMessage(errorMessage);
       return;
     }
     if(!input) return;
 
+    // calls the server to create the petition
     petitionCreate({ variables: { input: { petitionInput: input } } })
       .then(() => {
         showSuccessMessage("Petition created successfully");

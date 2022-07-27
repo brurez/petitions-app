@@ -6,7 +6,7 @@ import {
   useVoteCreateMutation,
 } from "../../generated/graphql";
 import { useRouter } from "next/router";
-import { CircularProgress, Paper } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import * as React from "react";
 import { PetitionVotes } from "../../components/PetitionVotes";
 import Button from "@mui/material/Button";
@@ -20,6 +20,7 @@ import Grid from "@mui/material/Grid";
 import { addApolloState, createApolloClient } from "../../lib/apolloClient";
 import { Section } from "../../components/Section";
 
+// page to display a single petition
 export default function PetitionViewPage() {
   const router = useRouter();
   const {
@@ -34,7 +35,9 @@ export default function PetitionViewPage() {
 
   if (loading) return <CircularProgress />;
 
+  // executed when the user click the button to vote
   const handleVoteClick = () => {
+    // creates a vote on the server
     voteCreate({
       variables: {
         input: { voteInput: { petitionId: Number(router.query.id) } },
@@ -42,6 +45,7 @@ export default function PetitionViewPage() {
     })
       .then((res) => {
         showSuccessMessage("Your vote was saved!");
+        // reload the petition to show the change on vote count
         refetchPetition();
       })
       .catch((err) => showErrorMessage(err.message));
@@ -49,6 +53,7 @@ export default function PetitionViewPage() {
 
   const petition = data?.petition;
 
+  // shows a loading spinner if the petition was not loaded yet
   if (!petition)
     return (
       <Box textAlign={"center"}>
@@ -146,6 +151,8 @@ export default function PetitionViewPage() {
   );
 }
 
+// this function is only executed on the server to preload the petition into the cache
+// to allow the server-side rendering of the petition with all information necessary for search engines
 export async function getServerSideProps(context) {
   const apolloClient = createApolloClient();
   await apolloClient.query({

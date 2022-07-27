@@ -1,6 +1,7 @@
 import useMessage from "../hooks/useMessage";
 import { Alert, Snackbar } from "@mui/material";
 
+// component to show a success or error message at the bottom of the screen
 export default function Message() {
   const { message } = useMessage();
 

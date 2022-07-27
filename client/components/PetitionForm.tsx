@@ -11,12 +11,12 @@ import AppMap from "./AppMap";
 import ReadOnlyField from "./ReadOnlyField";
 import { useEffect, useState } from "react";
 import PetitionMedia from "./PetitionMedia";
-import Paper from "@mui/material/Paper";
 import { useRouter } from "next/router";
 import Typography from "@mui/material/Typography";
 import { Form } from "../lib/Form";
 import {Section} from "./Section";
 
+// returns an error message if any field is invalid
 export function validatePetitionForm(fields: Petition): string | null {
   if (!fields.city)
     return "You need to add a location by typing the address on the map.";
@@ -26,6 +26,7 @@ export function validatePetitionForm(fields: Petition): string | null {
   return null;
 }
 
+// process the form input elements and created a PetitionInput object
 export function buildPetitionFormValues(event): {
   errorMessage?: string;
   input?: Petition;
@@ -50,6 +51,7 @@ export function buildPetitionFormValues(event): {
   return { input: petitionInput };
 }
 
+// component that show the form fields necessary to create and update petitions
 export function PetitionForm(props: {
   onSubmit: (event: any) => void;
   action: string;
@@ -68,6 +70,7 @@ export function PetitionForm(props: {
     setPosition(position);
   };
 
+  // executed on initialData changes to set the position and mediaFileIds state
   useEffect(() => {
     setPosition({
       address: props.initialData?.address,
@@ -138,7 +141,9 @@ export function PetitionForm(props: {
           onChange={handleMapChange}
         />
       </Section>
+
       <ReadOnlyField value={mediaFileIds} name="mediaFileIds" />
+      {/* The fields bellow are not display to the user, they are changed by Google Map  */}
       <ReadOnlyField value={position?.address} name="address" />
       <ReadOnlyField value={position?.city} name="city" />
       <ReadOnlyField value={position?.state} name="state" />
