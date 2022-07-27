@@ -217,8 +217,23 @@ export type QueryPetitionMediaFileArgs = {
 };
 
 
+export type QueryPetitionsArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  region?: InputMaybe<RegionInput>;
+  search?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['ModelID']>;
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['Int'];
+};
+
+export type RegionInput = {
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+  radius: Scalars['Float'];
 };
 
 export type User = {
@@ -371,7 +386,13 @@ export type PetitionUpdateMutationVariables = Exact<{
 
 export type PetitionUpdateMutation = { __typename?: 'Mutation', petitionUpdate?: { __typename?: 'PetitionUpdatePayload', petition: { __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> } } | null };
 
-export type PetitionsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PetitionsQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']>;
+  region?: InputMaybe<RegionInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  userId?: InputMaybe<Scalars['ModelID']>;
+}>;
 
 
 export type PetitionsQuery = { __typename?: 'Query', petitions: Array<{ __typename?: 'Petition', id: any, title: string, description: string, numberOfVotes: number, latitude: number, longitude: number, address?: string | null, city: string, state: string, country: string, postalCode?: string | null, createdAt: any, updatedAt: any, userId: number, mediaFileIds: Array<any>, mediaFiles: Array<{ __typename?: 'MediaFile', createdAt: any, id: any, petitionId?: number | null, updatedAt: any, url?: string | null }> }> };
@@ -690,8 +711,14 @@ export type PetitionUpdateMutationHookResult = ReturnType<typeof usePetitionUpda
 export type PetitionUpdateMutationResult = Apollo.MutationResult<PetitionUpdateMutation>;
 export type PetitionUpdateMutationOptions = Apollo.BaseMutationOptions<PetitionUpdateMutation, PetitionUpdateMutationVariables>;
 export const PetitionsDocument = gql`
-    query Petitions {
-  petitions {
+    query Petitions($search: String, $region: RegionInput, $limit: Int, $offset: Int, $userId: ModelID) {
+  petitions(
+    search: $search
+    region: $region
+    limit: $limit
+    offset: $offset
+    userId: $userId
+  ) {
     ...PetitionFields
   }
 }
@@ -709,6 +736,11 @@ export const PetitionsDocument = gql`
  * @example
  * const { data, loading, error } = usePetitionsQuery({
  *   variables: {
+ *      search: // value for 'search'
+ *      region: // value for 'region'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *      userId: // value for 'userId'
  *   },
  * });
  */

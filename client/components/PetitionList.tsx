@@ -1,13 +1,14 @@
 import Card from "@mui/material/Card";
-import { CardActions, CardContent, Divider } from "@mui/material";
+import { CardActions, CardContent, Divider, IconButton } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { PetitionVotes } from "./PetitionVotes";
-import { Room } from "@mui/icons-material";
+import { PushPin, Room } from "@mui/icons-material";
 import { PetitionFieldsFragment } from "../generated/graphql";
+import Box from "@material-ui/core/Box";
 
 function PetitionItem({
   id,
@@ -27,7 +28,7 @@ function PetitionItem({
   }
 
   return (
-    <Card>
+    <Card variant={"outlined"}>
       <CardContent>
         <Grid container spacing={3}>
           <Grid item xs={2}>

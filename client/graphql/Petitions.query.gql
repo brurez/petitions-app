@@ -1,5 +1,5 @@
-query Petitions{
-    petitions {
+query Petitions($search: String, $region: RegionInput, $limit: Int, $offset: Int, $userId: ModelID) {
+    petitions(search: $search, region: $region, limit: $limit, offset: $offset, userId: $userId) {
         ...PetitionFields
     }
 }
