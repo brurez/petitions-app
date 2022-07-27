@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Autocomplete,
   GoogleMap,
@@ -14,6 +14,7 @@ import {
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
+import debounce from "lodash/debounce";
 
 export interface Position {
   address: string;
@@ -62,14 +63,16 @@ export default function AppMap({
   hideSearch = false,
   closeZoom = false,
   defaultCenter,
+  onBoundsChange = () => {},
 }: {
   petitions?: PetitionFieldsFragment[];
   petition?: PetitionDetailFieldsFragment;
   height?: number;
-  onChange?: (p: Position) => void;
+  onChange?: (p: Position, radius: number) => void;
   hideSearch?: boolean;
   closeZoom?: boolean;
   defaultCenter?: { lat: number; lng: number };
+  onBoundsChange?: (c: { lat: number; lng: number }, z: number) => void;
 }) {
   const router = useRouter();
 
@@ -143,9 +146,31 @@ export default function AppMap({
         latitude: lat,
         longitude: lng,
       };
-      onChange(position);
+      const mapRadiusInKilometers = 40000 / Math.pow(2, zoom);
+      onChange(position, mapRadiusInKilometers);
     }
   };
+
+  const _handleMapPositionChange = useCallback(() => {
+    console.log("handle")
+    if (!map) return;
+    const mapCenter = map.getCenter();
+    if (!mapCenter) return;
+    const _center = { lat: mapCenter.lat(), lng: mapCenter.lng() };
+    const _zoom = map.getZoom();
+    const isCenterDifferent =
+      _center.lat !== center.lat && _center.lng !== center.lng;
+    if (isCenterDifferent && _zoom) {
+      setCenter(_center);
+      setZoom(_zoom);
+      onBoundsChange(_center, 40000 / Math.pow(2, _zoom));
+    }
+  }, [center, map]);
+
+  const handleMapPositionChange = useMemo(
+    () => debounce(_handleMapPositionChange, 100),
+    [_handleMapPositionChange]
+  );
 
   return (
     <LoadScript
@@ -159,6 +184,7 @@ export default function AppMap({
         zoom={zoom}
         onLoad={onLoad}
         onUnmount={onUnmount}
+        onBoundsChanged={handleMapPositionChange}
       >
         <>
           {!hideSearch && (

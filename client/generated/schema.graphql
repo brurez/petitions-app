@@ -235,12 +235,18 @@ type Query {
   """
   Get petitions list
   """
-  petitions: [Petition!]!
+  petitions(limit: Int = 4, offset: Int = 0, region: RegionInput, search: String, userId: ModelID): [Petition!]!
 
   """
   Get user
   """
   user(id: Int!): User!
+}
+
+input RegionInput {
+  latitude: Float!
+  longitude: Float!
+  radius: Float!
 }
 
 type User {

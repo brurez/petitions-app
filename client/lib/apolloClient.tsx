@@ -5,6 +5,7 @@ import { isServer } from "./isServer";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
 import { useMemo } from "react";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
@@ -13,7 +14,7 @@ let apolloClient;
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_SERVER_DOMAIN + "/graphql",
   fetch,
-  credentials: "headers"
+  credentials: "headers",
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -32,7 +33,15 @@ export function createApolloClient() {
   return new ApolloClient({
     ssrMode: isServer(),
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            petitions: offsetLimitPagination(["search", "region", "userId"]),
+          },
+        },
+      },
+    }),
   });
 }
 
