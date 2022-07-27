@@ -73,8 +73,6 @@ const Home: NextPage = () => {
     fetchMore({ variables: { offset: _offset } });
   };
 
-  console.log(radius);
-
   return (
     <Box sx={{ mt: 2 }}>
       <Grow in={true}>

@@ -152,7 +152,6 @@ export default function AppMap({
   };
 
   const _handleMapPositionChange = useCallback(() => {
-    console.log("handle")
     if (!map) return;
     const mapCenter = map.getCenter();
     if (!mapCenter) return;
