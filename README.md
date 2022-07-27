@@ -1,26 +1,32 @@
-# README
+# Municipal Petition App
 
-## Rails app bootstrap
-` rails new --database=postgresql --skip-hotwire --skip-jbuilder --javascript=webpack --css=sass final-project`
+## Live application
+**https://final-project-two-opal.vercel.app/**
 
-`sudo service postgresql stop`
-`docker-compose up`
+## Stack
+- Ruby on Rails: GraphQL, Pundit
+- NextJS: MUI, Google Maps, Apollo
+- Postgres
 
-`rails graphql:schema:dump` to generate a graphql and json representation of your schema, schema.graphql and schema.json in the root of you rails project by default
-* Ruby version
+## How to execute locally
+This application was configured to run locally using the host machine for the
+Ruby on Rails and Next JS server but use Docker to run the Postgres database.
+To be able to upload fields you need to setup the `GOOGLE_APPLICATION_CREDENTIALS` environment
+variable as described on "Steps".
 
-* System dependencies
+### Steps
+1. Stop host Postgres if any to release port 5432
+2. Execute `docker-compose up`
+3. Install RoR dependencies: `bundle install`
+4. Install JS dependencies: `cd client` and `yarn install`
+5. Set up database: `bin/rails db:create`, `bin/rails db:migrate`
+6. Create an `.env` file at the root of the project and add `GOOGLE_APPLICATION_CREDENTIALS` variable.
+7. Run the RoR and Next JS servers: `yarn dev`
 
-* Configuration
+## How to run tests
 
-* Database creation
+### Back end
+`bundle exec rspec`
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Front end
+`yarn test`
