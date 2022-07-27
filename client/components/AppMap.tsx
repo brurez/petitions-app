@@ -168,7 +168,7 @@ export default function AppMap({
   }, [center, map]);
 
   const handleMapPositionChange = useMemo(
-    () => debounce(_handleMapPositionChange, 100),
+    () => debounce(_handleMapPositionChange, 300),
     [_handleMapPositionChange]
   );
 
