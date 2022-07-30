@@ -1,0 +1,7 @@
+mutation PetitionDelete($input: PetitionDeleteInput!) {
+  petitionDelete(input: $input) {
+    petition {
+      id
+    }
+  }
+}

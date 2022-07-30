@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {
   PetitionDetailsDocument,
+  usePetitionDeleteMutation,
   usePetitionDetailsQuery,
   useVoteCreateMutation,
 } from "../../generated/graphql";
@@ -15,14 +16,43 @@ import AppMap from "../../components/AppMap";
 import { MediaFileList } from "../../components/MediaFileList";
 import CommentSection from "../../components/CommentSection";
 import { DateTime } from "luxon";
-import { Check } from "@mui/icons-material";
+import { Check, Delete, Edit } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
 import { addApolloState, createApolloClient } from "../../lib/apolloClient";
 import { Section } from "../../components/Section";
+import useCurrentUser from "../../hooks/useCurrentUser";
+
+function PetitionTopBarActions(props: {
+  onEditClick: () => Promise<boolean>;
+  onDeleteClick: () => void;
+}) {
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 800,
+        display: "flex",
+        justifyContent: "end",
+      }}
+    >
+      <Button endIcon={<Edit />} onClick={props.onEditClick}>
+        Edit
+      </Button>
+      <Button
+        color={"error"}
+        endIcon={<Delete />}
+        onClick={props.onDeleteClick}
+      >
+        Delete
+      </Button>
+    </Box>
+  );
+}
 
 // page to display a single petition
 export default function PetitionViewPage() {
   const router = useRouter();
+  const { currentUser } = useCurrentUser();
   const {
     data,
     loading,
@@ -30,6 +60,9 @@ export default function PetitionViewPage() {
   } = usePetitionDetailsQuery({
     variables: { id: Number(router.query.id) },
   });
+
+  const [petitionDelete] = usePetitionDeleteMutation();
+
   const [voteCreate] = useVoteCreateMutation();
   const { showSuccessMessage, showErrorMessage } = useMessage();
 
@@ -47,6 +80,19 @@ export default function PetitionViewPage() {
         showSuccessMessage("Your vote was saved!");
         // reload the petition to show the change on vote count
         refetchPetition();
+      })
+      .catch((err) => showErrorMessage(err.message));
+  };
+
+  const handleDeleteClick = () => {
+    petitionDelete({
+      variables: {
+        input: { id: String(router.query.id) },
+      },
+    })
+      .then((res) => {
+        showSuccessMessage("Petition deleted!");
+        router.push("/");
       })
       .catch((err) => showErrorMessage(err.message));
   };
@@ -75,8 +121,19 @@ export default function PetitionViewPage() {
       <Typography variant="h4" component="h1" textAlign={"center"}>
         {petition.title}
       </Typography>
+      {petition.id && petition.userId === currentUser?.id && (
+        <PetitionTopBarActions
+          onEditClick={() => router.push(`/petitions/${router.query.id}/edit`)}
+          onDeleteClick={handleDeleteClick}
+        />
+      )}
       <Box
-        sx={{ width: "100%", maxWidth: 800, display: "flex", justifyContent: "space-between" }}
+        sx={{
+          width: "100%",
+          maxWidth: 800,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
         <Typography mt={2} ml={1} variant={"body2"}>
           <strong>Created by: </strong> {petition?.user?.firstName}{" "}

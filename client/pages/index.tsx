@@ -13,7 +13,11 @@ import Button from "@mui/material/Button";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { useRouter } from "next/router";
 import PetitionList from "../components/PetitionList";
-import { PetitionsDocument, usePetitionsQuery } from "../generated/graphql";
+import {
+  PetitionsDocument,
+  usePetitionDeleteMutation,
+  usePetitionsQuery,
+} from "../generated/graphql";
 import AppMap from "../components/AppMap";
 import { useEffect, useState } from "react";
 import { addApolloState, createApolloClient } from "../lib/apolloClient";
@@ -21,6 +25,7 @@ import { isServer } from "../lib/isServer";
 import { Done, Face, PlaceOutlined, Search } from "@mui/icons-material";
 import { NoSsr } from "@mui/base";
 import { Section } from "../components/Section";
+import useMessage from "../hooks/useMessage";
 
 type CenterType = {
   lat: number;
@@ -58,10 +63,12 @@ const Home: NextPage = () => {
   });
 
   const router = useRouter();
+  const { showSuccessMessage } = useMessage();
   const { data, previousData, fetchMore, refetch } = usePetitionsQuery({
     notifyOnNetworkStatusChange: true,
     variables: buildVariables(),
   });
+  const [deletePetition] = usePetitionDeleteMutation();
 
   // Refetch the petitions when some state that variables depends change
   useEffect(() => {
@@ -69,7 +76,6 @@ const Home: NextPage = () => {
   }, [center, onlyPetitionsOnMap, onlyCurrentUserPetitions, radius]);
 
   const petitions = data?.petitions || previousData?.petitions || [];
-
   // executed when the button to create a new petition is clicked
   function handleCreateNewPetitionClick() {
     if (!isLoggedIn) {
@@ -78,13 +84,21 @@ const Home: NextPage = () => {
     }
     router.push("/petitions/create");
   }
-
   // executed when a marker in the map is clicked
   const handleMarkerClick = (id) => {
     const petition = petitions.find((p) => p.id === id);
     if (!petition) return;
     setCenter({ lat: petition.latitude, lng: petition.longitude });
     !isServer() && window.scrollTo(0, 0);
+  };
+
+  const handleDeleteClick = (id) => {
+    deletePetition({
+      variables: { input: { id } },
+    }).then(() => {
+      refetch(buildVariables());
+      showSuccessMessage("Petition deleted");
+    });
   };
 
   // executed when the "Load more" button is clicked
@@ -170,7 +184,7 @@ const Home: NextPage = () => {
           />
         </Box>
 
-        <PetitionList petitions={petitions} onMarkerClick={handleMarkerClick} />
+        <PetitionList petitions={petitions} onMarkerClick={handleMarkerClick} onDeleteClick={handleDeleteClick} />
         <Box justifyContent={"center"} display={"flex"} pt={2}>
           <Button onClick={handleLoadMoreClick}>Load more petitions...</Button>
         </Box>

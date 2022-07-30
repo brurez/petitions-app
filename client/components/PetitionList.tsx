@@ -6,9 +6,12 @@ import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { PetitionVotes } from "./PetitionVotes";
-import { PushPin, Room } from "@mui/icons-material";
-import { PetitionFieldsFragment } from "../generated/graphql";
-import Box from "@material-ui/core/Box";
+import { Delete, Edit, Room } from "@mui/icons-material";
+import {
+  PetitionFieldsFragment,
+  usePetitionDeleteMutation,
+} from "../generated/graphql";
+import useMessage from "../hooks/useMessage";
 
 function PetitionItem({
   id,
@@ -19,6 +22,7 @@ function PetitionItem({
   numberOfVotes,
   userId,
   onMarkerClick,
+  onDeleteClick,
 }) {
   const { currentUser } = useCurrentUser();
 
@@ -78,9 +82,22 @@ function PetitionItem({
           <Button size="small">Learn More</Button>
         </Link>
         {ownsPetition && (
-          <Link href={`petitions/${id}/edit`}>
-            <Button size="small">Edit</Button>
-          </Link>
+          <>
+            <Button
+              sx={{ mr: 1 }}
+              color={"error"}
+              size={"small"}
+              endIcon={<Delete />}
+              onClick={onDeleteClick}
+            >
+              Delete
+            </Button>
+            <Link href={`petitions/${id}/edit`}>
+              <Button size="small" endIcon={<Edit />}>
+                Edit
+              </Button>
+            </Link>
+          </>
         )}
       </CardActions>
     </Card>
@@ -90,9 +107,11 @@ function PetitionItem({
 export default function PetitionList({
   petitions,
   onMarkerClick,
+  onDeleteClick,
 }: {
   petitions: PetitionFieldsFragment[];
   onMarkerClick: (a: number) => void;
+  onDeleteClick: (a: number) => void;
 }) {
   return (
     <Grid container spacing={2}>
@@ -106,6 +125,7 @@ export default function PetitionList({
         >
           <PetitionItem
             {...petition}
+            onDeleteClick={() => onDeleteClick(petition.id)}
             onMarkerClick={() => onMarkerClick(petition.id)}
           />
         </Grid>
