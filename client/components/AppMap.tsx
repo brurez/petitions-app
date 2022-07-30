@@ -16,15 +16,13 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import debounce from "lodash/debounce";
 
-export interface Position {
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  postalCode?: number;
-  latitude: number;
-  longitude: number;
-}
+export type CenterType = { lat: number; lng: number };
+
+export interface PositionI
+  extends Pick<
+    PetitionDetailFieldsFragment,
+    "latitude" | "longitude" | "address" | "state" | "postalCode" | "country" | "city"
+  > {}
 
 let autocomplete: any = null;
 
@@ -59,20 +57,22 @@ export default function AppMap({
   petitions = [],
   petition,
   height = 400,
-  onChange = () => {},
+  onPositionChange = () => {},
+  onRadiusChange = () => {},
+  onCenterChange = () => {},
   hideSearch = false,
   closeZoom = false,
   defaultCenter,
-  onBoundsChange = () => {},
 }: {
   petitions?: PetitionFieldsFragment[];
   petition?: PetitionDetailFieldsFragment;
   height?: number;
-  onChange?: (p: Position, radius: number) => void;
+  onPositionChange?: (p: PositionI) => void;
+  onRadiusChange?: (r: number) => void;
+  onCenterChange?: (c: CenterType) => void;
   hideSearch?: boolean;
   closeZoom?: boolean;
-  defaultCenter?: { lat: number; lng: number };
-  onBoundsChange?: (c: { lat: number; lng: number }, z: number) => void;
+  defaultCenter?: CenterType;
 }) {
   const router = useRouter();
 
@@ -80,11 +80,26 @@ export default function AppMap({
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
   const [zoom, setZoom] = useState<number>(closeZoom ? 18 : 11);
   const [selected, setSelected] = useState<number>(0);
+  const [position, setPosition] = useState<PositionI | null>(null);
 
   const _petitions = useMemo(
     () => (petition ? [petition] : petitions),
     [petition, petitions]
   );
+
+  // Calls onChangeSomething callbacks when state changes
+  useEffect(() => {
+    if (position) onPositionChange(position);
+  }, [position]);
+
+  useEffect(() => {
+    onCenterChange(center);
+  }, [center]);
+
+  useEffect(() => {
+    const mapRadiusInKilometers = 40000 / Math.pow(2, zoom);
+    onRadiusChange(mapRadiusInKilometers);
+  }, [zoom]);
 
   useEffect(() => {
     if (defaultCenter) {
@@ -118,15 +133,20 @@ export default function AppMap({
     setMap(null);
   }, []);
 
+  const isCenterDifferent = useCallback(
+    (_center) => _center.lat !== center.lat && _center.lng !== center.lng,
+    [center]
+  );
+
   const handlePlaceChanged = () => {
     if (!autocomplete) return;
     const place = autocomplete.getPlace();
     if (place?.geometry) {
       const lat = place.geometry.location.lat();
       const lng = place.geometry.location.lng();
-      setCenter({ lat, lng });
+      const _center = { lat, lng };
+      if (isCenterDifferent(_center)) setCenter(_center);
       setZoom(18);
-
       const position = {
         address: place.address_components.find((ac) =>
           ac.types.includes("route")
@@ -146,8 +166,7 @@ export default function AppMap({
         latitude: lat,
         longitude: lng,
       };
-      const mapRadiusInKilometers = 40000 / Math.pow(2, zoom);
-      onChange(position, mapRadiusInKilometers);
+      setPosition(position);
     }
   };
 
@@ -157,12 +176,9 @@ export default function AppMap({
     if (!mapCenter) return;
     const _center = { lat: mapCenter.lat(), lng: mapCenter.lng() };
     const _zoom = map.getZoom();
-    const isCenterDifferent =
-      _center.lat !== center.lat && _center.lng !== center.lng;
-    if (isCenterDifferent && _zoom) {
+    if (isCenterDifferent(_center) && _zoom) {
       setCenter(_center);
       setZoom(_zoom);
-      onBoundsChange(_center, 40000 / Math.pow(2, _zoom));
     }
   }, [center, map]);
 

@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import PetitionList from "../components/PetitionList";
 import { PetitionsDocument, usePetitionsQuery } from "../generated/graphql";
 import AppMap from "../components/AppMap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addApolloState, createApolloClient } from "../lib/apolloClient";
 import { isServer } from "../lib/isServer";
 import { Done, Face, PlaceOutlined, Search } from "@mui/icons-material";
@@ -23,9 +23,9 @@ import { NoSsr } from "@mui/base";
 import { Section } from "../components/Section";
 
 type CenterType = {
-  lat: number,
-  lng: number,
-}
+  lat: number;
+  lng: number;
+};
 
 // Application home page
 const Home: NextPage = () => {
@@ -46,22 +46,27 @@ const Home: NextPage = () => {
   // half of the distance in km covered by the bounderies of the map
   const [radius, setRadius] = useState<number>(20);
 
-  const router = useRouter();
-  const { data, previousData, fetchMore } = usePetitionsQuery({
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      search,
-      limit,
-      userId:
-        onlyCurrentUserPetitions && currentUser?.id
-          ? currentUser?.id
-          : undefined,
-      region:
-        center && onlyPetitionsOnMap
-          ? { latitude: center.lat, longitude: center.lng, radius }
-          : null,
-    },
+  const buildVariables = () => ({
+    search,
+    limit,
+    userId:
+      onlyCurrentUserPetitions && currentUser?.id ? currentUser?.id : undefined,
+    region:
+      center && onlyPetitionsOnMap
+        ? { latitude: center.lat, longitude: center.lng, radius }
+        : null,
   });
+
+  const router = useRouter();
+  const { data, previousData, fetchMore, refetch } = usePetitionsQuery({
+    notifyOnNetworkStatusChange: true,
+    variables: buildVariables(),
+  });
+
+  // Refetch the petitions when some state that variables depends change
+  useEffect(() => {
+    refetch(buildVariables());
+  }, [center, onlyPetitionsOnMap, onlyCurrentUserPetitions, radius]);
 
   const petitions = data?.petitions || previousData?.petitions || [];
 
@@ -118,12 +123,10 @@ const Home: NextPage = () => {
             defaultCenter={center ? center : undefined}
             petitions={petitions}
             height={400}
-            onChange={(p, r) => {
-              setCenter({ lat: p.latitude, lng: p.longitude });
-              setRadius(r);
+            onCenterChange={(center) => {
+              setCenter(center);
             }}
-            onBoundsChange={(c, r) => {
-              setCenter(c);
+            onRadiusChange={(r) => {
               setRadius(r);
             }}
           />
@@ -151,7 +154,10 @@ const Home: NextPage = () => {
             color={onlyPetitionsOnMap ? "primary" : "default"}
             label={"Only petitions on the map"}
             icon={onlyPetitionsOnMap ? <Done /> : <PlaceOutlined />}
-            onClick={() => setOnlyPetitionsOnMap(!onlyPetitionsOnMap)}
+            onClick={() => {
+              setOnlyPetitionsOnMap(!onlyPetitionsOnMap);
+              refetch();
+            }}
           />
           <Chip
             color={onlyCurrentUserPetitions ? "primary" : "default"}
@@ -160,6 +166,7 @@ const Home: NextPage = () => {
             onClick={() =>
               setOnlyCurrentUserPetitions(!onlyCurrentUserPetitions)
             }
+            disabled={!isLoggedIn}
           />
         </Box>
 

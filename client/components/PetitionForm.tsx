@@ -5,16 +5,16 @@ import * as React from "react";
 import {
   MediaFile,
   Petition,
-  PetitionFieldsFragment,
+  PetitionDetailFieldsFragment,
 } from "../generated/graphql";
-import AppMap from "./AppMap";
+import AppMap, { PositionI } from "./AppMap";
 import ReadOnlyField from "./ReadOnlyField";
 import { useEffect, useState } from "react";
 import PetitionMedia from "./PetitionMedia";
 import { useRouter } from "next/router";
 import Typography from "@mui/material/Typography";
 import { Form } from "../lib/Form";
-import {Section} from "./Section";
+import { Section } from "./Section";
 
 // returns an error message if any field is invalid
 export function validatePetitionForm(fields: Petition): string | null {
@@ -55,9 +55,9 @@ export function buildPetitionFormValues(event): {
 export function PetitionForm(props: {
   onSubmit: (event: any) => void;
   action: string;
-  initialData?: PetitionFieldsFragment;
+  initialData?: PetitionDetailFieldsFragment;
 }) {
-  const [position, setPosition] = useState<any>(null);
+  const [position, setPosition] = useState<PositionI | null>(null);
   const [mediaFileIds, setMediaFileIds] = useState<number[]>([]);
 
   const router = useRouter();
@@ -72,13 +72,16 @@ export function PetitionForm(props: {
 
   // executed on initialData changes to set the position and mediaFileIds state
   useEffect(() => {
-    setPosition({
-      address: props.initialData?.address,
-      city: props.initialData?.city,
-      state: props.initialData?.state,
-      country: props.initialData?.country,
-      postalCode: props.initialData?.postalCode,
-    });
+    if (props.initialData)
+      setPosition({
+        latitude: props.initialData.latitude,
+        longitude: props.initialData.longitude,
+        address: props.initialData.address,
+        city: props.initialData.city,
+        state: props.initialData.state,
+        country: props.initialData.country,
+        postalCode: props.initialData.postalCode,
+      });
     setMediaFileIds(
       props.initialData?.mediaFiles?.map((mf: MediaFile) => mf.id) || []
     );
@@ -136,9 +139,13 @@ export function PetitionForm(props: {
           </Typography>
         </Box>
         <AppMap
-          petition={{ ...props?.initialData, ...position }}
+          petition={
+            props?.initialData
+              ? { ...props.initialData, ...position }
+              : undefined
+          }
           height={260}
-          onChange={handleMapChange}
+          onPositionChange={handleMapChange}
         />
       </Section>
 
