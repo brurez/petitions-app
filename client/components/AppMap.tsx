@@ -21,7 +21,13 @@ export type CenterType = { lat: number; lng: number };
 export interface PositionI
   extends Pick<
     PetitionDetailFieldsFragment,
-    "latitude" | "longitude" | "address" | "state" | "postalCode" | "country" | "city"
+    | "latitude"
+    | "longitude"
+    | "address"
+    | "state"
+    | "postalCode"
+    | "country"
+    | "city"
   > {}
 
 let autocomplete: any = null;
@@ -87,6 +93,13 @@ export default function AppMap({
     [petition, petitions]
   );
 
+  const isCenterDifferent = useCallback(
+    (_center) =>
+      Math.abs(_center.lat - center.lat) > 0.01 ||
+      Math.abs(_center.lng - center.lng) > 0.01,
+    [center]
+  );
+
   // Calls onChangeSomething callbacks when state changes
   useEffect(() => {
     if (position) onPositionChange(position);
@@ -102,7 +115,7 @@ export default function AppMap({
   }, [zoom]);
 
   useEffect(() => {
-    if (defaultCenter) {
+    if (defaultCenter && isCenterDifferent(defaultCenter)) {
       setCenter(defaultCenter);
       return;
     }
@@ -110,18 +123,18 @@ export default function AppMap({
     if (!petition?.city && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
-          const pos = {
+          const _center = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-          setCenter(pos);
+          if (isCenterDifferent(_center)) setCenter(_center);
         }
       );
     }
-  }, [map, defaultCenter, petition]);
+  }, [defaultCenter, petition]);
 
   useEffect(() => {
-    petition?.city &&
+    if (petition?.city)
       setCenter({ lat: petition.latitude, lng: petition.longitude });
   }, [petition]);
 
@@ -133,11 +146,6 @@ export default function AppMap({
     setMap(null);
   }, []);
 
-  const isCenterDifferent = useCallback(
-    (_center) => _center.lat !== center.lat && _center.lng !== center.lng,
-    [center]
-  );
-
   const handlePlaceChanged = () => {
     if (!autocomplete) return;
     const place = autocomplete.getPlace();
@@ -147,7 +155,7 @@ export default function AppMap({
       const _center = { lat, lng };
       if (isCenterDifferent(_center)) setCenter(_center);
       setZoom(18);
-      const position = {
+      const _position = {
         address: place.address_components.find((ac) =>
           ac.types.includes("route")
         )?.short_name,
@@ -166,7 +174,12 @@ export default function AppMap({
         latitude: lat,
         longitude: lng,
       };
-      setPosition(position);
+      if (
+        _position.longitude !== position?.longitude ||
+        _position.latitude !== position?.latitude
+      ) {
+        setPosition(_position);
+      }
     }
   };
 

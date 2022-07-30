@@ -19,7 +19,7 @@ import {
   usePetitionsQuery,
 } from "../generated/graphql";
 import AppMap from "../components/AppMap";
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import { addApolloState, createApolloClient } from "../lib/apolloClient";
 import { isServer } from "../lib/isServer";
 import { Done, Face, PlaceOutlined, Search } from "@mui/icons-material";
@@ -51,16 +51,28 @@ const Home: NextPage = () => {
   // half of the distance in km covered by the bounderies of the map
   const [radius, setRadius] = useState<number>(20);
 
-  const buildVariables = useCallback(() => ({
-    search,
-    limit,
-    userId:
-      onlyCurrentUserPetitions && currentUser?.id ? currentUser?.id : undefined,
-    region:
-      center && onlyPetitionsOnMap
-        ? { latitude: center.lat, longitude: center.lng, radius }
-        : null,
-  }), [center, onlyCurrentUserPetitions, currentUser, onlyPetitionsOnMap, radius, search]);
+  const buildVariables = useCallback(
+    () => ({
+      search,
+      limit,
+      userId:
+        onlyCurrentUserPetitions && currentUser?.id
+          ? currentUser?.id
+          : undefined,
+      region:
+        center && onlyPetitionsOnMap
+          ? { latitude: center.lat, longitude: center.lng, radius }
+          : null,
+    }),
+    [
+      center,
+      onlyCurrentUserPetitions,
+      currentUser,
+      onlyPetitionsOnMap,
+      radius,
+      search,
+    ]
+  );
 
   const router = useRouter();
   const { showSuccessMessage } = useMessage();
@@ -137,8 +149,8 @@ const Home: NextPage = () => {
             defaultCenter={center ? center : undefined}
             petitions={petitions}
             height={400}
-            onCenterChange={(center) => {
-              setCenter(center);
+            onCenterChange={(c) => {
+              setCenter(c);
             }}
             onRadiusChange={(r) => {
               setRadius(r);
@@ -184,7 +196,11 @@ const Home: NextPage = () => {
           />
         </Box>
 
-        <PetitionList petitions={petitions} onMarkerClick={handleMarkerClick} onDeleteClick={handleDeleteClick} />
+        <PetitionList
+          petitions={petitions}
+          onMarkerClick={handleMarkerClick}
+          onDeleteClick={handleDeleteClick}
+        />
         <Box justifyContent={"center"} display={"flex"} pt={2}>
           <Button onClick={handleLoadMoreClick}>Load more petitions...</Button>
         </Box>
