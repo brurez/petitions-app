@@ -19,7 +19,7 @@ import {
   usePetitionsQuery,
 } from "../generated/graphql";
 import AppMap from "../components/AppMap";
-import { useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 import { addApolloState, createApolloClient } from "../lib/apolloClient";
 import { isServer } from "../lib/isServer";
 import { Done, Face, PlaceOutlined, Search } from "@mui/icons-material";
@@ -51,7 +51,7 @@ const Home: NextPage = () => {
   // half of the distance in km covered by the bounderies of the map
   const [radius, setRadius] = useState<number>(20);
 
-  const buildVariables = () => ({
+  const buildVariables = useCallback(() => ({
     search,
     limit,
     userId:
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
       center && onlyPetitionsOnMap
         ? { latitude: center.lat, longitude: center.lng, radius }
         : null,
-  });
+  }), [center, onlyCurrentUserPetitions, currentUser, onlyPetitionsOnMap, radius, search]);
 
   const router = useRouter();
   const { showSuccessMessage } = useMessage();

@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import {
   usePetitionDetailsQuery,
-  usePetitionQuery,
   usePetitionUpdateMutation,
 } from "../../../generated/graphql";
 import { CircularProgress } from "@mui/material";
