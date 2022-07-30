@@ -102,7 +102,9 @@ export default function AppMap({
 
   // Calls onChangeSomething callbacks when state changes
   useEffect(() => {
-    if (position) onPositionChange(position);
+    if (position) {
+      onPositionChange(position);
+    }
   }, [position]);
 
   useEffect(() => {
@@ -131,7 +133,7 @@ export default function AppMap({
         }
       );
     }
-  }, [defaultCenter, petition]);
+  }, []);
 
   useEffect(() => {
     if (petition?.city)
@@ -174,12 +176,8 @@ export default function AppMap({
         latitude: lat,
         longitude: lng,
       };
-      if (
-        _position.longitude !== position?.longitude ||
-        _position.latitude !== position?.latitude
-      ) {
-        setPosition(_position);
-      }
+      setPosition(_position);
+      setCenter({ lat: _position.latitude, lng: _position.longitude });
     }
   };
 
