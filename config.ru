@@ -5,12 +5,17 @@ require 'rack/cors'
 
 use Rack::Cors do
   allow do
-    origins 'https://final-project-brurez.vercel.app'
+    origins 'final-project-brurez.vercel.app'
     resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 
   allow do
-    origins 'http://localhost:3000'
+    origins 'final-project-two-opal.vercel.app'
+    resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
+  end
+
+  allow do
+    origins 'localhost:3000'
     resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end
