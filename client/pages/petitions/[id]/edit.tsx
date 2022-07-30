@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import {
+  usePetitionDetailsQuery,
   usePetitionQuery,
   usePetitionUpdateMutation,
 } from "../../../generated/graphql";
@@ -16,7 +17,7 @@ import Typography from "@mui/material/Typography";
 export default function PetitionEditPage() {
   const router = useRouter();
   const id = Number(router.query.id);
-  const { data, loading } = usePetitionQuery({
+  const { data, loading } = usePetitionDetailsQuery({
     variables: { id },
   });
   const { showErrorMessage, showSuccessMessage } = useMessage();
