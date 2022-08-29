@@ -143,21 +143,19 @@ const Home: NextPage = () => {
           Create new petition
         </Button>
       </Box>
-      <NoSsr>
-        <Paper sx={{ mt: 4, textAlign: "center" }}>
-          <AppMap
-            defaultCenter={center ? center : undefined}
-            petitions={petitions}
-            height={400}
-            onCenterChange={(c) => {
-              setCenter(c);
-            }}
-            onRadiusChange={(r) => {
-              setRadius(r);
-            }}
-          />
-        </Paper>
-      </NoSsr>
+      <Paper sx={{ mt: 4, textAlign: "center" }}>
+        <AppMap
+          defaultCenter={center ? center : undefined}
+          petitions={petitions}
+          height={400}
+          onCenterChange={(c) => {
+            setCenter(c);
+          }}
+          onRadiusChange={(r) => {
+            setRadius(r);
+          }}
+        />
+      </Paper>
       <Section sx={{ mt: 2, width: "100%", maxWidth: "inherit" }}>
         <Typography variant="h4" align="center" component={"h2"} sx={{ mb: 1 }}>
           Petitions

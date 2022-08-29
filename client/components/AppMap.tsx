@@ -15,6 +15,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import debounce from "lodash/debounce";
+import { isServer } from "../lib/isServer";
 
 export type CenterType = { lat: number; lng: number };
 
@@ -203,7 +204,9 @@ export default function AppMap({
 
   return (
     <LoadScript
-      googleMapsApiKey={String(process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY)}
+      googleMapsApiKey={
+        isServer() ? "" : String(process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY)
+      }
       libraries={libraries}
       language={"en"}
     >
