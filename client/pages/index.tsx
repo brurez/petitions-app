@@ -214,7 +214,10 @@ export default Home;
 export async function getServerSideProps(context) {
   const apolloClient = createApolloClient();
   // loads query data into the Apollo cache
-  await apolloClient.query({ query: PetitionsDocument });
+  await apolloClient.query({
+    query: PetitionsDocument,
+    variables: { limit: 10, search: "", userId: undefined, region: null },
+  });
   return addApolloState(apolloClient, {
     props: {}, // don't need any props as data was loaded into the cache
   });
