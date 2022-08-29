@@ -7,7 +7,7 @@ import { Petition, usePetitionCreateMutation } from "../../generated/graphql";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import useMessage from "../../hooks/useMessage";
 import { useRouter } from "next/router";
-import { PostAdd } from "@mui/icons-material";
+import PostAdd from "@mui/icons-material/PostAdd";
 import {
   buildPetitionFormValues,
   PetitionForm,

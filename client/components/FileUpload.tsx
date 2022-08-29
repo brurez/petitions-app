@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
-import { CloudUpload } from "@mui/icons-material";
+import CloudUpload from "@mui/icons-material/CloudUpload";
 
 // this component allows the user to upload an image by clicking with the mouse and selection a file
 // or by dragging an image

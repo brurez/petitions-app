@@ -22,7 +22,10 @@ import AppMap from "../components/AppMap";
 import { useCallback, useEffect, useState } from "react";
 import { addApolloState, createApolloClient } from "../lib/apolloClient";
 import { isServer } from "../lib/isServer";
-import { Done, Face, PlaceOutlined, Search } from "@mui/icons-material";
+import Done from "@mui/icons-material/Done";
+import Face from "@mui/icons-material/Face";
+import PlaceOutlined from "@mui/icons-material/PlaceOutlined";
+import Search from "@mui/icons-material/Search";
 import { NoSsr } from "@mui/base";
 import { Section } from "../components/Section";
 import useMessage from "../hooks/useMessage";
@@ -144,17 +147,19 @@ const Home: NextPage = () => {
         </Button>
       </Box>
       <Paper sx={{ mt: 4, textAlign: "center" }}>
-        <AppMap
-          defaultCenter={center ? center : undefined}
-          petitions={petitions}
-          height={400}
-          onCenterChange={(c) => {
-            setCenter(c);
-          }}
-          onRadiusChange={(r) => {
-            setRadius(r);
-          }}
-        />
+        <NoSsr>
+          <AppMap
+            defaultCenter={center ? center : undefined}
+            petitions={petitions}
+            height={400}
+            onCenterChange={(c) => {
+              setCenter(c);
+            }}
+            onRadiusChange={(r) => {
+              setRadius(r);
+            }}
+          />
+        </NoSsr>
       </Paper>
       <Section sx={{ mt: 2, width: "100%", maxWidth: "inherit" }}>
         <Typography variant="h4" align="center" component={"h2"} sx={{ mb: 1 }}>

@@ -6,12 +6,12 @@ import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { PetitionVotes } from "./PetitionVotes";
-import { Delete, Edit, Room } from "@mui/icons-material";
+import Delete from "@mui/icons-material/Delete";
+import Edit from "@mui/icons-material/Edit";
+import Room from "@mui/icons-material/Room";
 import {
   PetitionFieldsFragment,
-  usePetitionDeleteMutation,
 } from "../generated/graphql";
-import useMessage from "../hooks/useMessage";
 
 function PetitionItem({
   id,
