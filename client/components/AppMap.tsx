@@ -117,10 +117,6 @@ export default function AppMap({
   }, [zoom]);
 
   useEffect(() => {
-    if (defaultCenter && isCenterDifferent(defaultCenter)) {
-      setCenter(defaultCenter);
-      return;
-    }
     // Try HTML5 geolocation.
     if (!petition?.city && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -134,6 +130,13 @@ export default function AppMap({
       );
     }
   }, []);
+
+  useEffect(() => {
+    if (defaultCenter && isCenterDifferent(defaultCenter)) {
+      setCenter(defaultCenter);
+      return;
+    }
+  }, [defaultCenter]);
 
   useEffect(() => {
     if (petition?.city)
