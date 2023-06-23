@@ -15,7 +15,7 @@ export default function MyDocument(props) {
         <meta name="emotion-insertion-point" content="" />
         {emotionStyleTags}
       </Head>
-      <body>
+      <body style={{ backgroundColor: "#edf0f4" }}>
         <Main />
         <NextScript />
       </body>

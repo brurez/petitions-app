@@ -1,7 +1,9 @@
 import React from "react";
-import { Box, makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import CloudUpload from "@mui/icons-material/CloudUpload";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/system";
 
 // this component allows the user to upload an image by clicking with the mouse and selection a file
 // or by dragging an image
@@ -24,41 +26,44 @@ export type FileUploadProps = {
   onDrop: (event: React.DragEvent<HTMLElement>) => void;
 };
 
-const useStyle = makeStyles({
-  root: {
-    cursor: "pointer",
-    justifyContent: "center",
-    display: "flex",
-    "&:hover p,&:hover svg,& img": {
-      opacity: 1,
-    },
-    "& p, svg": {
-      opacity: 0.7,
-    },
-    "&:hover img": {
-      opacity: 0.5,
-    },
+// replace makeStyles with styled and define your styles as a function
+const FileUploadRoot = styled("label")({
+  cursor: "pointer",
+  justifyContent: "center",
+  display: "flex",
+  "&:hover p,&:hover svg,& img": {
+    opacity: 1,
   },
-  noMouseEvent: {
-    pointerEvents: "none",
+  "& p, svg": {
+    opacity: 0.7,
   },
-  iconText: {
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    alignItems: "center",
-    position: "absolute",
+  "&:hover img": {
+    opacity: 0.5,
   },
-  hidden: {
-    display: "none",
+});
+
+const NoMouseEventBox = styled(Box)({
+  pointerEvents: "none",
+});
+
+const IconTextBox = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  flexDirection: "column",
+  alignItems: "center",
+  position: "absolute",
+});
+
+const HiddenInput = styled("input")({
+  display: "none",
+});
+
+const OnDragOverLabel = styled(FileUploadRoot)({
+  "& img": {
+    opacity: 0.5,
   },
-  onDragOver: {
-    "& img": {
-      opacity: 0.5,
-    },
-    "& p, svg": {
-      opacity: 1,
-    },
+  "& p, svg": {
+    opacity: 1,
   },
 });
 
@@ -79,7 +84,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   onChange,
   onDrop,
 }) => {
-  const classes = useStyle();
   const [imageUrl, setImageUrl] = React.useState(url);
   const [labelText, setLabelText] = React.useState<string>(hoverLabel);
   const [isDragOver, setIsDragOver] = React.useState<boolean>(false);
@@ -129,35 +133,29 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
   return (
     <>
-      <input
+      <HiddenInput
         onChange={handleChange}
         accept={accept}
-        className={classes.hidden}
         id="file-upload"
         type="file"
       />
 
-      <label
-        htmlFor="file-upload"
-        {...dragEvents}
-        className={clsx(classes.root, isDragOver && classes.onDragOver)}
-      >
-        <Box
+      <FileUploadRoot htmlFor="file-upload" {...dragEvents}>
+        <NoMouseEventBox
           width={width}
           height={height}
           bgcolor={backgroundColor}
-          className={classes.noMouseEvent}
         >
           {(!imageButton || isDragOver || isMouseOver) && (
             <>
-              <Box height={height} width={width} className={classes.iconText}>
+              <IconTextBox height={height} width={width}>
                 <CloudUpload fontSize="large" />
                 <Typography>{labelText}</Typography>
-              </Box>
+              </IconTextBox>
             </>
           )}
-        </Box>
-      </label>
+        </NoMouseEventBox>
+      </FileUploadRoot>
     </>
   );
 };
